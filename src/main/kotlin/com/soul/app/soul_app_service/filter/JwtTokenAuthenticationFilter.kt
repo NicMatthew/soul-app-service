@@ -25,7 +25,7 @@ class JwtTokenAuthenticationFilter(
                         ?: throw RuntimeException("Invalid JWT")
 
                     val authentication =
-                        UsernamePasswordAuthenticationToken(userId.toString(), null, emptyList())
+                        UsernamePasswordAuthenticationToken(userId, null, emptyList())
 
                     SecurityContextHolder.getContext().authentication = authentication
                 }

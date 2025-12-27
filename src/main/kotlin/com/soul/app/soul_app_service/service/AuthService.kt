@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory
 @Service
 class AuthService(
     private val userRepository: UserRepository,
-    private val jwtService: JwtService
-) {
+    private val jwtService: JwtService,
+    ) {
     private val logger = LoggerFactory.getLogger(AuthService::class.java)
 
     fun login(request: LoginRequest): String {
         try {
-            val user = userRepository.getUserByEmail(request.email)
+            val user = userRepository.getUserByEmail(request.email) ?: userRepository.getUserByUsername(request.email)
             if (user != null && user.password_hash == request.password) {
                 return jwtService.generateToken(user.id)
             } else {
