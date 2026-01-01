@@ -1,6 +1,7 @@
 package com.soul.app.soul_app_service.service
 
 import com.soul.app.soul_app_service.dto.UpdateProfileRequest
+import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Service
 
@@ -29,5 +30,11 @@ class UserService(
         userRepository.updateUser(updatedUser)
 
         return "user updated"
+    }
+    fun getUserByEmail(email: String): User {
+        return (userRepository.getUserByEmail(email)?: userRepository.getUserByUsername(email))!!
+    }
+    fun getUserById(userId: Int): User? {
+        return userRepository.getUserById(userId)
     }
 }

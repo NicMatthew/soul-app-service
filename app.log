@@ -1,0 +1,21 @@
+2026-01-01T20:41:46.834+07:00  INFO 51984 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.9 with PID 51984 (/home/matthew/Documents/Code/soul-app-service/target/classes started by matthew in /home/matthew/Documents/Code/soul-app-service)
+2026-01-01T20:41:46.834+07:00  INFO 51984 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-01-01T20:41:47.153+07:00  INFO 51984 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-01-01T20:41:47.162+07:00  INFO 51984 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 0 JDBC repository interfaces.
+2026-01-01T20:41:47.327+07:00  INFO 51984 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9090 (http)
+2026-01-01T20:41:47.333+07:00  INFO 51984 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-01T20:41:47.333+07:00  INFO 51984 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-01-01T20:41:47.369+07:00  INFO 51984 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-01T20:41:47.369+07:00  INFO 51984 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 517 ms
+2026-01-01T20:41:47.499+07:00  WARN 51984 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 0d4d131b-5a07-491a-b560-a66efd808fc4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-01-01T20:41:47.596+07:00  INFO 51984 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@736b21ee, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@60deefed, org.springframework.security.web.context.SecurityContextHolderFilter@10ed037a, org.springframework.security.web.header.HeaderWriterFilter@79add732, org.springframework.security.web.authentication.logout.LogoutFilter@5bec3e0, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@217c23ce, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@23121d14, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4c635edc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@49754e74, org.springframework.security.web.access.ExceptionTranslationFilter@6d874695, org.springframework.security.web.access.intercept.AuthorizationFilter@2616b618]
+2026-01-01T20:41:47.677+07:00  INFO 51984 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-01T20:41:49.318+07:00  INFO 51984 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@75452aea
+2026-01-01T20:41:49.319+07:00  INFO 51984 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-01T20:41:49.378+07:00  INFO 51984 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9090 (http) with context path ''
+2026-01-01T20:41:49.383+07:00  INFO 51984 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 2.682 seconds (process running for 2.884)

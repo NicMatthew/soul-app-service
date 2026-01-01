@@ -2,11 +2,13 @@ package com.soul.app.soul_app_service.controller
 
 import com.soul.app.soul_app_service.dto.LoginRequest
 import com.soul.app.soul_app_service.dto.UpdateProfileRequest
+import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.service.UserService
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,5 +27,13 @@ class UserController (
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int
         return ResponseEntity.ok(userService.updateProfile(userId, request))
+    }
+
+    @GetMapping("/me")
+    fun me(
+    ): ResponseEntity<User> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+        return ResponseEntity.ok(userService.getUserById(userId))
     }
 }
