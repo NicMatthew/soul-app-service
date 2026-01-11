@@ -15,17 +15,23 @@ class JwtTokenAuthenticationFilter(
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        chain: FilterChain
+        filterChain: FilterChain
     ) {
-        val token = request.cookies?.firstOrNull { it.name == "ACCESS_TOKEN" }?.value
-        if (token != null) {
+        val authHeader = request.getHeader("Authorization")
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            val token = authHeader.substring(7)
+
             try {
                 if (jwtService.verifyToken(token)) {
                     val userId = jwtService.getUserIdFromToken(token)
                         ?: throw RuntimeException("Invalid JWT")
 
-                    val authentication =
-                        UsernamePasswordAuthenticationToken(userId, null, emptyList())
+                    val authentication = UsernamePasswordAuthenticationToken(
+                        userId,
+                        null,
+                        emptyList()
+                    )
 
                     SecurityContextHolder.getContext().authentication = authentication
                 }
@@ -35,6 +41,7 @@ class JwtTokenAuthenticationFilter(
                 return
             }
         }
-        chain.doFilter(request, response)
+
+        filterChain.doFilter(request, response)
     }
 }

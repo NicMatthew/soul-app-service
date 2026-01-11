@@ -1,6 +1,7 @@
 package com.soul.app.soul_app_service.controller
 
 import com.soul.app.soul_app_service.dto.LoginRequest
+import com.soul.app.soul_app_service.dto.LoginResponse
 import com.soul.app.soul_app_service.dto.SignUpRequest
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.service.AuthService
@@ -8,6 +9,7 @@ import com.soul.app.soul_app_service.service.UserService
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.CacheControl.maxAge
+import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -21,25 +23,15 @@ class AuthController(
     private val userService: UserService
 ) {
 
-    @PostMapping("/login")
-    fun login(
-        @RequestBody request: LoginRequest,
-        response: HttpServletResponse
-    ): ResponseEntity<User> {
+        @PostMapping("/login")
+        fun login(
+            @RequestBody request: LoginRequest,
+        ): ResponseEntity<LoginResponse> {
 
-        val token = authService.login(request)
+            val token = authService.login(request)
+            val user = userService.getUserByEmail(request.email)
 
-        val cookie = Cookie("ACCESS_TOKEN", token).apply {
-            isHttpOnly = true
-            secure = false
-            path = "/"
-            maxAge = 60 * 60 * 24 // 1 hari
-        }
-
-        response.addCookie(cookie)
-        val user = userService.getUserByEmail(request.email)
-
-        return ResponseEntity.ok(user)
+            return ResponseEntity.ok(LoginResponse(user, token))
     }
     @PostMapping("/logout")
     fun logout(response: HttpServletResponse): ResponseEntity<String> {

@@ -90,6 +90,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>soul-app-service</finalName>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 
 		<plugins>

@@ -6,25 +6,25 @@ import com.soul.app.soul_app_service.util.getConnectionOrThrows
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
-import java.lang.reflect.Array.setBoolean
-import java.sql.Date
+
 
 @Repository
 class UserRepository(private val jdbcTemplate: JdbcTemplate) {
     fun saveUser(user: User): String {
-        val query = "INSERT INTO public.users (email, password_hash, username, phone, role, profile_picture, dob, gender, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id"
+        val query = "INSERT INTO public.users (email, name,password_hash, username, phone, role, profile_picture, dob, gender, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id"
         return executePreparedStatementQuery(
             jdbcTemplate.getConnectionOrThrows(),
             query,
             {
                 setString(1, user.email)
-                setString( 2, user.password_hash)
-                setString( 3, user.username)
-                setString( 4, user.phone)
-                setString(5, user.role)
-                setString( 6, user.profile_picture)
-                setDate( 7, user.dob)
-                setString( 8, user.gender)
+                setString(2, user.name)
+                setString( 3, user.password_hash)
+                setString( 4, user.username)
+                setString( 5, user.phone)
+                setString(6, user.role)
+                setString( 7, user.profile_picture)
+                setDate( 8, user.dob)
+                setString( 9, user.gender)
             },
             RowMapper { rs, _ ->
                 val id = rs.getInt("id")
@@ -40,6 +40,7 @@ class UserRepository(private val jdbcTemplate: JdbcTemplate) {
             RowMapper { rs, _ ->
                 User(
                     id = rs.getInt("id"),
+                    name = rs.getString("name"),
                     email = rs.getString("email"),
                     password_hash = rs.getString("password_hash"),
                     username = rs.getString("username"),
@@ -60,6 +61,7 @@ class UserRepository(private val jdbcTemplate: JdbcTemplate) {
             RowMapper { rs, _ ->
                 User(
                     id = rs.getInt("id"),
+                    name = rs.getString("name"),
                     email = rs.getString("email"),
                     password_hash = rs.getString("password_hash"),
                     username = rs.getString("username"),
@@ -81,6 +83,7 @@ class UserRepository(private val jdbcTemplate: JdbcTemplate) {
             RowMapper { rs, _ ->
                 User(
                     id = rs.getInt("id"),
+                    name = rs.getString("name"),
                     email = rs.getString("email"),
                     password_hash = rs.getString("password_hash"),
                     username = rs.getString("username"),
@@ -94,6 +97,30 @@ class UserRepository(private val jdbcTemplate: JdbcTemplate) {
             id
         )
     }
+
+    fun getAllPsychologyUser(): List<User>? {
+        val query = "SELECT * FROM public.users WHERE role = ?"
+
+        return jdbcTemplate.query(
+            query,
+            RowMapper { rs, _ ->
+                User(
+                    id = rs.getInt("id"),
+                    name = rs.getString("name"),
+                    email = rs.getString("email"),
+                    password_hash = rs.getString("password_hash"),
+                    username = rs.getString("username"),
+                    phone = rs.getString("phone"),
+                    role = rs.getString("role"),
+                    profile_picture = rs.getString("profile_picture"),
+                    dob = rs.getDate("dob"),
+                    gender = rs.getString("gender")
+                )
+            },
+            "psychology"
+        )
+    }
+
 
     fun updateUser(user: User): Int {
         val sql = """
@@ -137,4 +164,5 @@ class UserRepository(private val jdbcTemplate: JdbcTemplate) {
             }
         ).first()
     }
+
 }

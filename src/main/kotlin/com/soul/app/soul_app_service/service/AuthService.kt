@@ -33,6 +33,7 @@ class AuthService(
         try {
             val user = User(
                 id = -99,
+                name = request.name,
                 email = request.email,
                 password_hash = request.password_hash,
                 username = request.username,
