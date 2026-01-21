@@ -1,140 +1,91 @@
 package com.soul.app.soul_app_service.repository
 
 import com.soul.app.soul_app_service.model.User
-import com.soul.app.soul_app_service.util.executePreparedStatementQuery
-import com.soul.app.soul_app_service.util.getConnectionOrThrows
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
 
-
 @Repository
-class UserRepository(private val jdbcTemplate: JdbcTemplate) {
-    fun saveUser(user: User): String {
-        val query = "INSERT INTO public.users (email, name,password_hash, username, phone, role, profile_picture, dob, gender, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id"
-        return executePreparedStatementQuery(
-            jdbcTemplate.getConnectionOrThrows(),
-            query,
-            {
-                setString(1, user.email)
-                setString(2, user.name)
-                setString( 3, user.password_hash)
-                setString( 4, user.username)
-                setString( 5, user.phone)
-                setString(6, user.role)
-                setString( 7, user.profile_picture)
-                setDate( 8, user.dob)
-                setString( 9, user.gender)
-            },
-            RowMapper { rs, _ ->
-                val id = rs.getInt("id")
-                return@RowMapper "$id"
-            }
-        ).first()
+class UserRepository(
+    private val jdbcTemplate: JdbcTemplate
+) {
+
+    fun saveUser(user: User): Int {
+        val sql = """
+            INSERT INTO users
+            (email, name, password_hash, username, phone, role, profile_picture, dob, gender, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            RETURNING id
+        """.trimIndent()
+
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            user.email,
+            user.name,
+            user.password_hash,
+            user.username,
+            user.phone,
+            user.role,
+            user.profile_picture,
+            user.dob,
+            user.gender
+        )!!
     }
 
     fun getUserByEmail(email: String): User? {
-        val query = "SELECT * FROM public.users WHERE email = ?"
-        return jdbcTemplate.queryForObject(
-            query,
-            RowMapper { rs, _ ->
-                User(
-                    id = rs.getInt("id"),
-                    name = rs.getString("name"),
-                    email = rs.getString("email"),
-                    password_hash = rs.getString("password_hash"),
-                    username = rs.getString("username"),
-                    phone = rs.getString("phone"),
-                    role = rs.getString("role"),
-                    profile_picture = rs.getString("profile_picture"),
-                    dob = rs.getDate("dob"),
-                    gender = rs.getString("gender")
-                )
-            },
+        val sql = "SELECT * FROM users WHERE email = ?"
+
+        return jdbcTemplate.query(
+            sql,
+            userRowMapper(),
             email
-        )
+        ).firstOrNull()
     }
+
     fun getUserByUsername(username: String): User? {
-        val query = "SELECT * FROM public.users WHERE username = ?"
-        return jdbcTemplate.queryForObject(
-            query,
-            RowMapper { rs, _ ->
-                User(
-                    id = rs.getInt("id"),
-                    name = rs.getString("name"),
-                    email = rs.getString("email"),
-                    password_hash = rs.getString("password_hash"),
-                    username = rs.getString("username"),
-                    phone = rs.getString("phone"),
-                    role = rs.getString("role"),
-                    profile_picture = rs.getString("profile_picture"),
-                    dob = rs.getDate("dob"),
-                    gender = rs.getString("gender")
-                )
-            },
+        val sql = "SELECT * FROM users WHERE username = ?"
+
+        return jdbcTemplate.query(
+            sql,
+            userRowMapper(),
             username
-        )
+        ).firstOrNull()
     }
 
     fun getUserById(id: Int): User? {
-        val query = "SELECT * FROM public.users WHERE id = ?"
-        return jdbcTemplate.queryForObject(
-            query,
-            RowMapper { rs, _ ->
-                User(
-                    id = rs.getInt("id"),
-                    name = rs.getString("name"),
-                    email = rs.getString("email"),
-                    password_hash = rs.getString("password_hash"),
-                    username = rs.getString("username"),
-                    phone = rs.getString("phone"),
-                    role = rs.getString("role"),
-                    profile_picture = rs.getString("profile_picture"),
-                    dob = rs.getDate("dob"),
-                    gender = rs.getString("gender")
-                )
-            },
-            id
-        )
-    }
-
-    fun getAllPsychologyUser(): List<User>? {
-        val query = "SELECT * FROM public.users WHERE role = ?"
+        val sql = "SELECT * FROM users WHERE id = ?"
 
         return jdbcTemplate.query(
-            query,
-            RowMapper { rs, _ ->
-                User(
-                    id = rs.getInt("id"),
-                    name = rs.getString("name"),
-                    email = rs.getString("email"),
-                    password_hash = rs.getString("password_hash"),
-                    username = rs.getString("username"),
-                    phone = rs.getString("phone"),
-                    role = rs.getString("role"),
-                    profile_picture = rs.getString("profile_picture"),
-                    dob = rs.getDate("dob"),
-                    gender = rs.getString("gender")
-                )
-            },
+            sql,
+            userRowMapper(),
+            id
+        ).firstOrNull()
+    }
+
+    fun getAllPsychologyUser(): List<User> {
+        val sql = "SELECT * FROM users WHERE role = ?"
+
+        return jdbcTemplate.query(
+            sql,
+            userRowMapper(),
             "psychology"
         )
     }
 
-
     fun updateUser(user: User): Int {
         val sql = """
-        UPDATE public.users
-        SET username = ?,
-            phone = ?,
-            dob = ?,
-            gender = ?,
-            profile_picture = ?,
-            anonymous = ?,
-            updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
-        RETURNING id
-    """.trimIndent()
+            UPDATE users
+            SET username = ?,
+                phone = ?,
+                dob = ?,
+                gender = ?,
+                profile_picture = ?,
+                anonymous = ?,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+            RETURNING id
+        """.trimIndent()
 
         return jdbcTemplate.queryForObject(
             sql,
@@ -149,20 +100,30 @@ class UserRepository(private val jdbcTemplate: JdbcTemplate) {
         )!!
     }
 
+    fun deleteUser(id: Int): Int {
+        val sql = "DELETE FROM users WHERE id = ? RETURNING id"
 
-    fun deleteUser(id: Int): String {
-        val query = "DELETE FROM public.users WHERE id = ? RETURNING id"
-        return executePreparedStatementQuery(
-            jdbcTemplate.getConnectionOrThrows(),
-            query,
-            {
-                setInt( 1, id)
-            },
-            RowMapper { rs, _ ->
-                val id = rs.getInt("id")
-                return@RowMapper "$id"
-            }
-        ).first()
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            id
+        )!!
     }
 
+    private fun userRowMapper(): RowMapper<User> =
+        RowMapper { rs, _ ->
+            User(
+                id = rs.getInt("id"),
+                name = rs.getString("name"),
+                email = rs.getString("email"),
+                password_hash = rs.getString("password_hash"),
+                username = rs.getString("username"),
+                phone = rs.getString("phone"),
+                role = rs.getString("role"),
+                profile_picture = rs.getString("profile_picture"),
+                dob = rs.getDate("dob"),
+                gender = rs.getString("gender"),
+                anonymous = rs.getBoolean("anonymous")
+            )
+        }
 }

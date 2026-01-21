@@ -1,6 +1,7 @@
 package com.soul.app.soul_app_service.service
 
-import com.soul.app.soul_app_service.dto.SignUpPsychologyRequest
+import com.soul.app.soul_app_service.dto.request.SignUpPsychologyRequest
+import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.Psychology
 import com.soul.app.soul_app_service.model.PsychologyProfile
 import com.soul.app.soul_app_service.model.User
@@ -21,15 +22,15 @@ class AdminService(
             phone = signUpPsychologyRequest.phone,
             dob = signUpPsychologyRequest.dob,
             gender = signUpPsychologyRequest.gender,
-            role = "psychology",
+            role = "psycholog",
             username = signUpPsychologyRequest.username,
             password_hash = signUpPsychologyRequest.password_hash
 
 
         ))
-        psychologyRepository.savePsychologyProfile(PsychologyProfile(
+        val profileId = psychologyRepository.savePsychologyProfile(PsychologyProfile(
             id = -99,
-            userId = userId.toInt(),
+            userId = userId,
             alumnus = signUpPsychologyRequest.alumnus,
             sipp = signUpPsychologyRequest.sipp,
             careerStartDate = signUpPsychologyRequest.careerStartDate,
@@ -40,23 +41,21 @@ class AdminService(
             rating = 0F
 
         ))
+        signUpPsychologyRequest.field_id.forEach { field ->
+            psychologyRepository.savePsychologyField(profileId, field)
+        }
+
 
         return Psychology(
-            user = userRepository.getUserById(userId.toInt())!!,
-            psychologyProfile = psychologyRepository.getPsychologyProfile(userId.toInt())!!,
+            user = userRepository.getUserById(userId)!!,
+            psychologyProfile = psychologyRepository.getPsychologyProfile(userId)!!,
+            fields = psychologyRepository.getPsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
+
         )
     }
-    fun getAllPsychologies(): List<Psychology> {
-        val users = userRepository.getAllPsychologyUser()
-        var psychologies = mutableListOf<Psychology>()
-        users?.forEach {
-            psychologies.add(
-                Psychology(
-                    it,
-                    psychologyRepository.getPsychologyProfile(it.id)!!,
-                )
-            )
-        }
-        return psychologies
+
+
+    fun getAllFields(): List<Field> {
+        return psychologyRepository.getAllFields()
     }
 }

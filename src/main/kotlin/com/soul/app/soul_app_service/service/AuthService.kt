@@ -1,11 +1,10 @@
 package com.soul.app.soul_app_service.service
 
-import com.soul.app.soul_app_service.dto.LoginRequest
-import com.soul.app.soul_app_service.dto.SignUpRequest
+import com.soul.app.soul_app_service.dto.request.LoginRequest
+import com.soul.app.soul_app_service.dto.request.SignUpRequest
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Service
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 @Service
@@ -19,7 +18,7 @@ class AuthService(
         try {
             val user = userRepository.getUserByEmail(request.email) ?: userRepository.getUserByUsername(request.email)
             if (user != null && user.password_hash == request.password) {
-                return jwtService.generateToken(user.id)
+                return jwtService.generateToken(user.id,user.role)
             } else {
                 throw RuntimeException("Invalid email or password")
             }

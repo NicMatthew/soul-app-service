@@ -1,9 +1,11 @@
 package com.soul.app.soul_app_service.config
+import com.soul.app.soul_app_service.filter.GlobalLoggingFilter
 import com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
@@ -12,7 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val jwtFilter: JwtTokenAuthenticationFilter
+    private val jwtFilter: JwtTokenAuthenticationFilter,
+    private val globalLoggingFilter: GlobalLoggingFilter
 ) {
 
     @Bean
@@ -22,21 +25,34 @@ class SecurityConfig(
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .cors {  }
+            .cors { }
             .csrf { it.disable() }
+            .sessionManagement {
+                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
             .authorizeHttpRequests {
                 it.requestMatchers(
                     "/auth/**",
                     "/swagger-ui/**",
-                    "/v3/api-docs/**"
+                    "/v3/api-docs/**",
+                    "/public/**"
                 ).permitAll()
+
+                it.requestMatchers("/psychology/**")
+                    .hasRole("psychology")
+
+                it.requestMatchers("/admin/**")
+                    .hasRole("admin")
+
                 it.anyRequest().authenticated()
             }
-
-        http.addFilterBefore(
-            jwtFilter,
-            UsernamePasswordAuthenticationFilter::class.java
-        )
+            .addFilterBefore(
+                jwtFilter,
+                UsernamePasswordAuthenticationFilter::class.java
+            ).addFilterBefore(
+                globalLoggingFilter,
+                JwtTokenAuthenticationFilter::class.java
+            )
 
         return http.build()
     }
