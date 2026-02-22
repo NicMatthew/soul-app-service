@@ -1,0 +1,9 @@
+/app.log.2026-02-19.0.gz
+/app.log.2026-02-20.0.gz
+/app.log.2026-02-21.0.gz
+/app.log
+target/
+*.log
+*.gz
+src/main/resources/application.properties
+/src/main/resources/application.properties

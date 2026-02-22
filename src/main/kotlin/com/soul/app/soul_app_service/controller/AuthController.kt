@@ -30,18 +30,6 @@ class AuthController(
 
             return ResponseEntity.ok(LoginResponse(user, token))
     }
-    @PostMapping("/logout")
-    fun logout(response: HttpServletResponse): ResponseEntity<String> {
-
-        val cookie = Cookie("ACCESS_TOKEN", "")
-        cookie.isHttpOnly = true
-        cookie.path = "/"
-        cookie.maxAge = 0   // 🔥 hapus cookie
-
-        response.addCookie(cookie)
-
-        return ResponseEntity.ok("Logout successful")
-    }
 
     @PostMapping("/sign-up")
     fun signUp(@RequestBody request: SignUpRequest): ResponseEntity<String> {

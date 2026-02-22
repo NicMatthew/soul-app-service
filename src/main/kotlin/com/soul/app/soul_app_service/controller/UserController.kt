@@ -3,6 +3,7 @@ package com.soul.app.soul_app_service.controller
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
 import com.soul.app.soul_app_service.dto.response.GetPsychologyDetailResponse
+import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.service.PsychologyService
 import com.soul.app.soul_app_service.service.UserService
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/user")
 class UserController (
     private val userService: UserService,
-    private val psychologyService: PsychologyService
 ){
     @PutMapping("/edit-profile")
     fun updateProfile(
@@ -44,10 +44,10 @@ class UserController (
     @PostMapping("/create-appointment")
     fun createAppointment(
         @RequestBody appointment: CreateAppointmentRequest
-    ){
+    ):ResponseEntity<Appointment> {
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int
-        userService.createAppointment(userId, appointment)
 
+        return ResponseEntity.ok(userService.createAppointment(userId, appointment))
     }
 }

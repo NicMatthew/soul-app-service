@@ -31,7 +31,7 @@ class PsychologyService (
     fun getPsychologyDetailByUserId(userId: Int): Psychology?{
         return Psychology(
             userRepository.getUserById(userId)!!,
-            psychologyRepository.getPsychologyProfile(userId)!!,
+            psychologyRepository.getPsychologyProfilebyUserId(userId)!!,
             psychologyRepository.getPsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
         )
     }
@@ -42,7 +42,7 @@ class PsychologyService (
             psychologies.add(
                 Psychology(
                     it,
-                    psychologyRepository.getPsychologyProfile(it.id)!!,
+                    psychologyRepository.getPsychologyProfilebyUserId(it.id)!!,
                     psychologyRepository.getPsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(it.id)!!)
                 )
             )

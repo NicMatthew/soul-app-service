@@ -15,23 +15,23 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/admin")
 class AdminController(
-    val adminService: AdminService,
-    val psychologyService: PsychologyService
+    private val adminService: AdminService,
+    private val psychologyService: PsychologyService
 ) {
 
     @PostMapping("/sign-up-psychology")
-    fun signUpPyschology(
+    private fun signUpPyschology(
         @RequestBody signUpPsychologyRequest: SignUpPsychologyRequest
     ): ResponseEntity<Psychology> {
         return ResponseEntity.ok(adminService.signUpPyschology(signUpPsychologyRequest))
     }
 
     @GetMapping("/fields")
-    fun getAllFields(): ResponseEntity<List<Field>> {
+    private fun getAllFields(): ResponseEntity<List<Field>> {
         return ResponseEntity.ok(adminService.getAllFields())
     }
     @GetMapping("/psychologies")
-    fun getAllPyschology(
+    private fun getAllPyschology(
     ): ResponseEntity<List<Psychology>> {
         return ResponseEntity.ok(psychologyService.getAllPsychologies())
     }

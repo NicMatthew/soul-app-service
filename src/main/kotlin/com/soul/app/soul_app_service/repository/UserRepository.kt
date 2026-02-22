@@ -69,7 +69,7 @@ class UserRepository(
         return jdbcTemplate.query(
             sql,
             userRowMapper(),
-            "psychology"
+            "psycholog"
         )
     }
 

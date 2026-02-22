@@ -35,7 +35,8 @@ class SecurityConfig(
                     "/auth/**",
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
-                    "/public/**"
+                    "/public/**",
+                    "/ws/**"
                 ).permitAll()
 
                 it.requestMatchers("/psychology/**")

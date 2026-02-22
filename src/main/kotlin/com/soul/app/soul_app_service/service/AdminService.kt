@@ -48,7 +48,7 @@ class AdminService(
 
         return Psychology(
             user = userRepository.getUserById(userId)!!,
-            psychologyProfile = psychologyRepository.getPsychologyProfile(userId)!!,
+            psychologyProfile = psychologyRepository.getPsychologyProfilebyUserId(userId)!!,
             fields = psychologyRepository.getPsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
 
         )

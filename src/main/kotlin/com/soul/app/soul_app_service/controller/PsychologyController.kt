@@ -35,11 +35,6 @@ class PsychologyController(
         psychologyService.createPsychologyAvailibility(availability,userId)
         return ResponseEntity.ok("created")
     }
-    @GetMapping("/psychologies")
-    fun getAllPyschology(
-    ): ResponseEntity<List<Psychology>> {
-        return ResponseEntity.ok(psychologyService.getAllPsychologies())
-    }
 
     @GetMapping("/me")
     fun me(

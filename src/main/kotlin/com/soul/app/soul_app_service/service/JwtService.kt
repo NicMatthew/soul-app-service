@@ -35,10 +35,4 @@ class JwtService {
             .build()
             .verify(token)
     }
-
-    fun getUserId(token: String): Int =
-        decode(token).subject.toInt()
-
-    fun getRole(token: String): String =
-        decode(token).getClaim("role").asString()
 }

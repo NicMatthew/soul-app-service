@@ -52,11 +52,38 @@ class PsychologyRepository(
         )!!
     }
 
-    fun getPsychologyProfile(userId: Int): PsychologyProfile? {
+    fun getPsychologyProfilebyUserId(userId: Int): PsychologyProfile? {
         val sql = """
             SELECT *
             FROM psychologist_profile
             WHERE user_id = ?
+        """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                PsychologyProfile(
+                    id = rs.getInt("id"),
+                    userId = rs.getInt("user_id"),
+                    alumnus = rs.getString("alumnus"),
+                    sipp = rs.getString("sipp"),
+                    careerStartDate = rs.getDate("career_start_date"),
+                    pricePerSession = rs.getInt("price_per_session"),
+                    education = rs.getString("education"),
+                    clinic = rs.getString("clinic"),
+                    description = rs.getString("description"),
+                    rating = rs.getFloat("rating")
+                )
+            },
+            userId
+        ).firstOrNull()
+    }
+
+    fun getPsychologyProfilebyProfileId(userId: Int): PsychologyProfile? {
+        val sql = """
+            SELECT *
+            FROM psychologist_profile
+            WHERE id = ?
         """.trimIndent()
 
         return jdbcTemplate.query(

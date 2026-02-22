@@ -4,9 +4,11 @@ import com.soul.app.soul_app_service.dto.TimeSlot
 import com.soul.app.soul_app_service.dto.TimeSlotWithStatus
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
+import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.AppointmentSlot
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.repository.AppointmentRepository
+import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Service
 import java.sql.Date
@@ -19,6 +21,8 @@ class UserService(
     private val userRepository: UserRepository,
     private val appointmentRepository: AppointmentRepository,
     private val psychologyService: PsychologyService,
+    private val psychologyRepository: PsychologyRepository,
+    private val paymentService: PaymentService,
 
     ) {
 
@@ -53,7 +57,8 @@ class UserService(
     fun createAppointment(
         userId: Int,
         request: CreateAppointmentRequest
-    ): String {
+    ): Appointment {
+        request.psychologyId = psychologyService.getPsychologyDetailByUserId(request.psychologyId)!!.psychologyProfile.id
 
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
 
@@ -83,12 +88,12 @@ class UserService(
         val appointmentId = appointmentRepository.createAppointment(
             userId = userId,
             request = request,
-            status = "PENDING",
+            status = "WAITING_PAYMENT",
         )
         appointmentRepository.createAppointmentSlot(
             AppointmentSlot(
                 id = -99,
-                psychologyId = psychologyService.getPsychologyDetailByUserId(request.psychologyId)!!.psychologyProfile.id,
+                psychologyId = request.psychologyId,
                 date = request.date,
                 startTime = request.startTime,
                 endTime = request.endTime,
@@ -98,7 +103,8 @@ class UserService(
         )
         //todo payment
 
-        return "appointment created"
+        paymentService.createPayment(appointmentId,userId)
+        return appointmentRepository.getAppointmentById(appointmentId)!!
     }
 
     fun getAvailableSlots(
