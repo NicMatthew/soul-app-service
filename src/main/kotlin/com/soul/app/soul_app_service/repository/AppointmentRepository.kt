@@ -57,6 +57,31 @@ class AppointmentRepository(
             appointmentId
         ).firstOrNull()
     }
+    fun getAppointmentByUserId(userId: Int): List<Appointment>? {
+        val sql = """
+        SELECT *
+        FROM appointments
+        WHERE client_user_id = ?
+    """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            { rs, _ ->
+                Appointment(
+                    id = rs.getInt("id"),
+                    clientUserId = rs.getInt("client_user_id"),
+                    psychologyId = rs.getInt("psychologist_id"),
+                    scheduledAt = rs.getString("scheduled_at"),
+                    startTime = rs.getString("start_time"),
+                    endTime = rs.getString("end_time"),
+                    status = rs.getString("status"),
+                    notesPsychology = rs.getString("notes_psychologist"),
+                    description = rs.getString("description"),
+                )
+            },
+            userId
+        )
+    }
 
 
     fun createAppointmentSlot(appointmentSlot: AppointmentSlot): Int {
@@ -167,5 +192,18 @@ class AppointmentRepository(
         )
     }
 
+    fun updateAppointmentStatus(appointmentId: Int, status: String): Int {
+        val sql = """
+        UPDATE appointments
+        SET status = ?
+        WHERE id = ?
+    """.trimIndent()
+
+        return jdbcTemplate.update(
+            sql,
+            status,
+            appointmentId
+        )
+    }
 
 }

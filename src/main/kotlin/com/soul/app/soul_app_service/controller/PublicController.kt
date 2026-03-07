@@ -1,6 +1,7 @@
 package com.soul.app.soul_app_service.controller
 
 import com.soul.app.soul_app_service.dto.response.GetPsychologyDetailResponse
+import com.soul.app.soul_app_service.model.Psychology
 import com.soul.app.soul_app_service.service.PsychologyService
 import com.soul.app.soul_app_service.service.UserService
 import org.springframework.http.ResponseEntity
@@ -15,7 +16,7 @@ class PublicController(
     val psychologyService: PsychologyService,
     val userService: UserService
 ) {
-    @GetMapping("/psychology-detail/{psychologyId}")
+    @GetMapping("/psychology/{psychologyId}")
     fun getPsychologyDetail(
         @PathVariable("psychologyId") psychologyId: Int
     ): ResponseEntity<GetPsychologyDetailResponse>
@@ -24,5 +25,10 @@ class PublicController(
             psychology = psychologyService.getPsychologyDetailByUserId(psychologyId)?:throw Exception("INVALID PSYCHOLOG ID"),
             slots = userService.getWeeklyAvailabilityWithStatus(psychologyId)
         ))
+    }
+    @GetMapping("/psychology")
+    private fun getAllPyschology(
+    ): ResponseEntity<List<Psychology>> {
+        return ResponseEntity.ok(psychologyService.getAllPsychologies())
     }
 }

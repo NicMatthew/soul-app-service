@@ -2,13 +2,17 @@ package com.soul.app.soul_app_service.service
 
 import com.midtrans.httpclient.error.MidtransError
 import com.midtrans.service.MidtransSnapApi
+import com.soul.app.soul_app_service.dto.PaymentStatus
 import com.soul.app.soul_app_service.model.Payment
 import com.soul.app.soul_app_service.repository.AppointmentRepository
 import com.soul.app.soul_app_service.repository.PaymentRepository
 import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.security.MessageDigest
+import java.time.LocalDateTime
 
 @Service
 class PaymentService(
@@ -16,7 +20,9 @@ class PaymentService(
     private val appointmentRepository: AppointmentRepository,
     private val psychologyRepository: PsychologyRepository,
     private val snapApi: MidtransSnapApi,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    @Value("\${midtrans.server-key}")
+    private val serverKey: String
 ) {
 
     @Transactional
@@ -41,7 +47,6 @@ class PaymentService(
             throw IllegalStateException("Invalid price")
         }
 
-        // 1️⃣ test payment (status CREATED)
         val paymentId = paymentRepository.createPayment(
             Payment(
                 id = -99,
@@ -49,7 +54,7 @@ class PaymentService(
                 payerUserId = userId,
                 price = price,
                 currency = "IDR",
-                status = "CREATED"
+                status = PaymentStatus.CREATED.name
             )
         )
 
@@ -66,7 +71,7 @@ class PaymentService(
             "customer_details" to hashMapOf(
                 "first_name" to client.name,
                 "email" to client.email
-            )
+            ),
         )
 
         try {
@@ -82,16 +87,100 @@ class PaymentService(
 
         } catch (e: MidtransError) {
 
-            // 3️⃣ Mark as FAILED if Midtrans error
             paymentRepository.updatePaymentStatus(
                 paymentId = paymentId,
-                status = "FAILED",
+                status = PaymentStatus.FAILED.name,
                 paymentMethod = null,
                 midtransTransactionId = null,
                 paidAt = null
             )
 
             throw RuntimeException("Midtrans error: ${e.message}")
+        }
+    }
+    private fun generateSignature(
+        orderId: String,
+        statusCode: String,
+        grossAmount: String
+    ): String {
+
+        val raw = orderId + statusCode + grossAmount + serverKey
+
+        val md = MessageDigest.getInstance("SHA-512")
+        val digest = md.digest(raw.toByteArray())
+
+        return digest.joinToString("") { "%02x".format(it) }
+    }
+    @Transactional
+    fun handleMidtransNotification(payload: Map<String, Any>) {
+
+        val orderId = payload["order_id"] as String
+        val transactionStatus = payload["transaction_status"] as String
+        val fraudStatus = payload["fraud_status"] as? String
+        val signatureKey = payload["signature_key"] as String
+        val grossAmount = payload["gross_amount"] as String
+
+        // 1️⃣ Verify signature
+        val expectedSignature = generateSignature(
+            orderId,
+            payload["status_code"] as String,
+            grossAmount
+        )
+
+        if (signatureKey != expectedSignature) {
+            throw IllegalArgumentException("Invalid signature")
+        }
+
+        // 2️⃣ Extract paymentId
+        val paymentId = orderId.removePrefix("PAY-").toInt()
+
+        val payment = paymentRepository.getById(paymentId)
+            ?: throw IllegalArgumentException("Payment not found")
+
+        // 3️⃣ Idempotent check
+        if (payment.status == PaymentStatus.PAID.name) {
+            return
+        }
+
+        when (transactionStatus) {
+
+            "capture", "settlement" -> {
+                if (fraudStatus == null || fraudStatus == "accept") {
+
+                    paymentRepository.updatePaymentStatus(
+                        paymentId = paymentId,
+                        status = PaymentStatus.PAID.name,
+                        paymentMethod = payload["payment_type"] as? String,
+                        midtransTransactionId = payload["transaction_id"] as? String,
+                        paidAt = LocalDateTime.now()
+                    )
+
+                    appointmentRepository.updateAppointmentStatus(
+                        payment.appointmentId,
+                        "PAID"
+                    )
+                }
+            }
+
+            "pending" -> {
+                paymentRepository.updatePaymentStatus(
+                    paymentId = paymentId,
+                    status = PaymentStatus.PENDING.name,
+                    paymentMethod = null,
+                    midtransTransactionId = null,
+                    paidAt = null
+                )
+            }
+
+            "deny", "cancel", "expire" -> {
+                paymentRepository.updatePaymentStatus(
+                    paymentId = paymentId,
+                    status = PaymentStatus.FAILED.name,
+                    paymentMethod = null,
+                    midtransTransactionId = null,
+                    paidAt = null
+                )
+            }
         }
     }
 }

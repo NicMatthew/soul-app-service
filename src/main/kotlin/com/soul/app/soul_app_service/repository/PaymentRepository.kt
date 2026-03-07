@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
 import java.sql.Timestamp
 import java.time.LocalDateTime
+import kotlin.collections.firstOrNull
 
 @Repository
 class PaymentRepository(
@@ -104,5 +105,16 @@ class PaymentRepository(
             createdAt = rs.getTimestamp("created_at")?.toString(),
             updatedAt = rs.getTimestamp("updated_at")?.toString()
         )
+    }
+    fun getPaymentByAppointmentId(appointmentId: Int): Payment? {
+        val sql = """
+            SELECT * FROM payments WHERE appointment_id = ?
+        """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            paymentRowMapper(),
+            appointmentId
+        ).firstOrNull()
     }
 }

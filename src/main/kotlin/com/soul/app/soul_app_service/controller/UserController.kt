@@ -2,11 +2,14 @@ package com.soul.app.soul_app_service.controller
 
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
+import com.soul.app.soul_app_service.dto.response.GetAppointmentDetailResponse
 import com.soul.app.soul_app_service.dto.response.GetPsychologyDetailResponse
 import com.soul.app.soul_app_service.model.Appointment
+import com.soul.app.soul_app_service.model.Payment
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.service.PsychologyService
 import com.soul.app.soul_app_service.service.UserService
+import org.springframework.data.annotation.Id
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
@@ -40,6 +43,21 @@ class UserController (
     }
 
 
+    @GetMapping("/appointment")
+    fun getAllAppointments(
+    ): ResponseEntity<List<Appointment>?> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+
+        return ResponseEntity.ok(userService.getAllAppointments(userId))
+    }
+    @GetMapping("/appointment/{appointment-id}")
+    fun getAppointmentDetail(
+        @PathVariable("appointment-id") appointmentId: String,
+    ): ResponseEntity<GetAppointmentDetailResponse> {
+        val id = appointmentId.toInt()
+        return ResponseEntity.ok(userService.getAppointmentDetail(id))
+    }
 
     @PostMapping("/create-appointment")
     fun createAppointment(
@@ -50,4 +68,5 @@ class UserController (
 
         return ResponseEntity.ok(userService.createAppointment(userId, appointment))
     }
+
 }

@@ -4,10 +4,12 @@ import com.soul.app.soul_app_service.dto.TimeSlot
 import com.soul.app.soul_app_service.dto.TimeSlotWithStatus
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
+import com.soul.app.soul_app_service.dto.response.GetAppointmentDetailResponse
 import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.AppointmentSlot
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.repository.AppointmentRepository
+import com.soul.app.soul_app_service.repository.PaymentRepository
 import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -23,6 +25,7 @@ class UserService(
     private val psychologyService: PsychologyService,
     private val psychologyRepository: PsychologyRepository,
     private val paymentService: PaymentService,
+    private val paymentRepository: PaymentRepository,
 
     ) {
 
@@ -256,6 +259,19 @@ class UserService(
 
         return result
     }
+    fun getAllAppointments(userId: Int): List<Appointment>? {
+        return appointmentRepository.getAppointmentByUserId(userId)
+    }
+
+    fun getAppointmentDetail(appointmentId: Int): GetAppointmentDetailResponse? {
+        val appointment = appointmentRepository.getAppointmentById(appointmentId) ?: throw RuntimeException("Appointment not found")
+        val payment = paymentRepository.getPaymentByAppointmentId(appointmentId) ?: throw RuntimeException("Appointment not found")
+        return GetAppointmentDetailResponse(
+            appointment = appointment,
+            payment = payment
+        )
+    }
+
 
 
 }
