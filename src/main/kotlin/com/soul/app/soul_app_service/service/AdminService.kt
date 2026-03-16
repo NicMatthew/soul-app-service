@@ -24,7 +24,7 @@ class AdminService(
             gender = signUpPsychologyRequest.gender,
             role = "psycholog",
             username = signUpPsychologyRequest.username,
-            password_hash = signUpPsychologyRequest.password_hash
+            password_hash = "password" //todo generate password
 
 
         ))
@@ -41,7 +41,7 @@ class AdminService(
             rating = 0F
 
         ))
-        signUpPsychologyRequest.field_id.forEach { field ->
+        signUpPsychologyRequest.fieldId.forEach { field ->
             psychologyRepository.savePsychologyField(profileId, field)
         }
 

@@ -41,7 +41,7 @@ class SecurityConfig(
                 ).permitAll()
 
                 it.requestMatchers("/psychology/**")
-                    .hasRole("psychology")
+                    .hasRole("psycholog")
 
                 it.requestMatchers("/admin/**")
                     .hasRole("admin")

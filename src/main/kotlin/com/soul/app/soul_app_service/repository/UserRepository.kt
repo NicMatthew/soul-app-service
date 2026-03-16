@@ -63,13 +63,20 @@ class UserRepository(
         ).firstOrNull()
     }
 
-    fun getAllPsychologyUser(): List<User> {
-        val sql = "SELECT * FROM users WHERE role = ?"
+    fun getAllPsychologyUser(search: String?): List<User> {
+
+        val sql = StringBuilder("SELECT * FROM users WHERE role = ?")
+        val params = mutableListOf<Any>("psycholog")
+
+        if (!search.isNullOrBlank()) {
+            sql.append(" AND name ILIKE ?")
+            params.add("%$search%")
+        }
 
         return jdbcTemplate.query(
-            sql,
+            sql.toString(),
             userRowMapper(),
-            "psycholog"
+            *params.toTypedArray()
         )
     }
 

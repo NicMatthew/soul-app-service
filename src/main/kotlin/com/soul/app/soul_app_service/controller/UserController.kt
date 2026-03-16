@@ -1,15 +1,15 @@
 package com.soul.app.soul_app_service.controller
 
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
+import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
 import com.soul.app.soul_app_service.dto.response.GetAppointmentDetailResponse
-import com.soul.app.soul_app_service.dto.response.GetPsychologyDetailResponse
 import com.soul.app.soul_app_service.model.Appointment
-import com.soul.app.soul_app_service.model.Payment
 import com.soul.app.soul_app_service.model.User
-import com.soul.app.soul_app_service.service.PsychologyService
+import com.soul.app.soul_app_service.service.AppointmentService
 import com.soul.app.soul_app_service.service.UserService
-import org.springframework.data.annotation.Id
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,10 +22,18 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/user")
+@Tag(
+    name = "User Controller",
+)
+
 class UserController (
     private val userService: UserService,
+    private val appointmentService: AppointmentService,
 ){
     @PutMapping("/edit-profile")
+    @Operation(
+        summary = "Edit User Profile",
+    )
     fun updateProfile(
         @RequestBody request: UpdateProfileRequest
     ): ResponseEntity<String> {
@@ -44,14 +52,20 @@ class UserController (
 
 
     @GetMapping("/appointment")
+    @Operation(
+        summary = "Get User's All Appointment",
+    )
     fun getAllAppointments(
     ): ResponseEntity<List<Appointment>?> {
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int
 
-        return ResponseEntity.ok(userService.getAllAppointments(userId))
+        return ResponseEntity.ok(appointmentService.getAllUserAppointments(userId))
     }
     @GetMapping("/appointment/{appointment-id}")
+    @Operation(
+        summary = "Get User's Appointment Detail",
+    )
     fun getAppointmentDetail(
         @PathVariable("appointment-id") appointmentId: String,
     ): ResponseEntity<GetAppointmentDetailResponse> {
@@ -60,13 +74,30 @@ class UserController (
     }
 
     @PostMapping("/create-appointment")
+    @Operation(
+        summary = "Create Appointment",
+    )
     fun createAppointment(
         @RequestBody appointment: CreateAppointmentRequest
     ):ResponseEntity<Appointment> {
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int
 
-        return ResponseEntity.ok(userService.createAppointment(userId, appointment))
+        return ResponseEntity.ok(appointmentService.createAppointment(userId, appointment))
     }
+
+    @PostMapping("/rate-appointment/{appointment-id}")
+    @Operation(
+        summary = "Rating Appointment",
+    )
+    fun rateAppointment(
+        @RequestBody request: RatingAppointmentRequest, @PathVariable("appointment-id") appointmentId: Int
+    ):ResponseEntity<String> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+
+        return ResponseEntity.ok(appointmentService.rateAppointment(userId,request,appointmentId))
+    }
+
 
 }

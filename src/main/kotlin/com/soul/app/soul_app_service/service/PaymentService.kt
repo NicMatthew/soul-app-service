@@ -2,6 +2,7 @@ package com.soul.app.soul_app_service.service
 
 import com.midtrans.httpclient.error.MidtransError
 import com.midtrans.service.MidtransSnapApi
+import com.soul.app.soul_app_service.dto.AppointmentStatus
 import com.soul.app.soul_app_service.dto.PaymentStatus
 import com.soul.app.soul_app_service.model.Payment
 import com.soul.app.soul_app_service.repository.AppointmentRepository
@@ -120,7 +121,6 @@ class PaymentService(
         val signatureKey = payload["signature_key"] as String
         val grossAmount = payload["gross_amount"] as String
 
-        // 1️⃣ Verify signature
         val expectedSignature = generateSignature(
             orderId,
             payload["status_code"] as String,
@@ -131,19 +131,16 @@ class PaymentService(
             throw IllegalArgumentException("Invalid signature")
         }
 
-        // 2️⃣ Extract paymentId
         val paymentId = orderId.removePrefix("PAY-").toInt()
 
         val payment = paymentRepository.getById(paymentId)
             ?: throw IllegalArgumentException("Payment not found")
 
-        // 3️⃣ Idempotent check
         if (payment.status == PaymentStatus.PAID.name) {
             return
         }
 
         when (transactionStatus) {
-
             "capture", "settlement" -> {
                 if (fraudStatus == null || fraudStatus == "accept") {
 
@@ -157,7 +154,7 @@ class PaymentService(
 
                     appointmentRepository.updateAppointmentStatus(
                         payment.appointmentId,
-                        "PAID"
+                        AppointmentStatus.PAID.name,
                     )
                 }
             }

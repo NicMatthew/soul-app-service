@@ -8,6 +8,6 @@ data class Appointment(
     val startTime : String,
     val endTime : String,
     val status : String,
-    val notesPsychology: String? = null,
-    val description : String? = null,
+    val finalDiagnose: String? = null,
+    val medicalNotes : String? = null,
 )

@@ -34,7 +34,35 @@ class PsychologyRepository(
             profile.clinic,
             profile.description,
             profile.rating
-        )!!
+        )
+    }
+    fun updatePsychologyProfile(profile: PsychologyProfile): Int {
+        val sql = """
+        UPDATE psychologist_profile
+        SET
+            alumnus = ?,
+            sipp = ?,
+            career_start_date = ?,
+            price_per_session = ?,
+            education = ?,
+            clinic = ?,
+            description = ?,
+            rating = ?
+        WHERE user_id = ?
+    """.trimIndent()
+
+        return jdbcTemplate.update(
+            sql,
+            profile.alumnus,
+            profile.sipp,
+            profile.careerStartDate,
+            profile.pricePerSession,
+            profile.education,
+            profile.clinic,
+            profile.description,
+            profile.rating,
+            profile.userId
+        )
     }
 
     fun savePsychologyField(psychologyId: Int, fieldId: Int): Int {
@@ -211,5 +239,27 @@ class PsychologyRepository(
             psychologyId
         )
     }
+    fun replacePsychologyFields(psychologyId: Int, fieldIds: List<Field>) {
+        val deleteSql = """
+        DELETE FROM psychologist_field
+        WHERE psychologist_id = ?
+    """.trimIndent()
+
+        jdbcTemplate.update(deleteSql, psychologyId)
+        val insertSql = """
+        INSERT INTO psychologist_field (psychologist_id, field_id)
+        VALUES (?, ?)
+    """.trimIndent()
+
+        fieldIds.forEach {
+            jdbcTemplate.update(
+                insertSql,
+                psychologyId,
+                it.fieldId
+            )
+        }
+    }
+
+
 
 }

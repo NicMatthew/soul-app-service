@@ -1,6 +1,8 @@
 package com.soul.app.soul_app_service.repository
 
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
+import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
+import com.soul.app.soul_app_service.dto.request.addAppointmentNotesRequest
 import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.AppointmentSlot
 import com.soul.app.soul_app_service.model.PsychologyAvailability
@@ -17,7 +19,7 @@ class AppointmentRepository(
     fun createAppointment(userId:Int,request: CreateAppointmentRequest,status: String): Int {
         val sql = """
             INSERT INTO appointments
-            (client_user_id, psychologist_id, status, start_time, end_time)
+            (client_user_id, psychologist_id, status, start_time, end_time,date)
             VALUES (?, ?, ?, ?, ?)
             RETURNING id
         """.trimIndent()
@@ -29,7 +31,8 @@ class AppointmentRepository(
             request.psychologyId,
             status,
             request.startTime,
-            request.endTime
+            request.endTime,
+            request.date
         )
     }
     fun getAppointmentById(appointmentId: Int): Appointment? {
@@ -50,14 +53,14 @@ class AppointmentRepository(
                     startTime = rs.getString("start_time"),
                     endTime = rs.getString("end_time"),
                     status = rs.getString("status"),
-                    notesPsychology = rs.getString("notes_psychologist"),
-                    description = rs.getString("description"),
+                    medicalNotes = rs.getString("medical_notes"),
+                    finalDiagnose = rs.getString("final_diagnose"),
                 )
             },
             appointmentId
         ).firstOrNull()
     }
-    fun getAppointmentByUserId(userId: Int): List<Appointment>? {
+    fun getAppointmentsByUserId(userId: Int): List<Appointment>? {
         val sql = """
         SELECT *
         FROM appointments
@@ -75,13 +78,15 @@ class AppointmentRepository(
                     startTime = rs.getString("start_time"),
                     endTime = rs.getString("end_time"),
                     status = rs.getString("status"),
-                    notesPsychology = rs.getString("notes_psychologist"),
-                    description = rs.getString("description"),
+                    medicalNotes = rs.getString("medical_notes"),
+                    finalDiagnose = rs.getString("final_diagnose"),
                 )
             },
             userId
         )
     }
+
+
 
 
     fun createAppointmentSlot(appointmentSlot: AppointmentSlot): Int {
@@ -121,7 +126,7 @@ class AppointmentRepository(
             appointmentSlot.startTime,
             appointmentSlot.endTime,
             appointmentSlot.appointmentId
-        )!!
+        )
     }
     fun getAppointmentSlotByDate(psychologyId :Int,date: Date): List<AppointmentSlot> {
         val sql = """
@@ -205,5 +210,46 @@ class AppointmentRepository(
             appointmentId
         )
     }
+
+    fun addAppointmentNotes (appointmentId: Int, request: addAppointmentNotesRequest): Int {
+        val sql = """
+        UPDATE appointments
+        SET medical_notes = ? AND final_diagnoses = ?
+        WHERE id = ?
+    """.trimIndent()
+
+        return jdbcTemplate.update(
+            sql,
+            request.medicalNotes,
+            request.finalDiagnose,
+            appointmentId
+        )
+    }
+
+    fun addAppointmentRating(userId: Int,request: RatingAppointmentRequest,appointmentId: Int,psychologyId: Int): Int{
+        val sql = """
+            INSERT INTO rating (
+                psychologist_id,
+                client_user_id,
+                appointment_id,
+                rate,
+                description)
+            VALUES (
+                ?, ?, ?, ?, ?
+            );
+        """.trimIndent()
+
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            psychologyId,
+            userId,
+            appointmentId,
+            request.rate,
+            request.description
+        )
+    }
+
+
 
 }
