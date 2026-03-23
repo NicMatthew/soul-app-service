@@ -7,4 +7,5 @@ enum class AppointmentStatus {
     CANCELLED,
     ONGOING,
     FINISHED,
+    NOT_STARTED
 }

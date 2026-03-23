@@ -21,7 +21,7 @@ class GlobalExceptionHandler {
             .body(
                 mapOf(
                     "error" to (if (status == 500) "Internal Server Error" else "Bad Request"),
-                    "message" to (ex.message ?: "Unexpected error")
+                    "message" to (ex.message ?: ex.localizedMessage ?: ex.stackTraceToString())
                 )
             )
     }

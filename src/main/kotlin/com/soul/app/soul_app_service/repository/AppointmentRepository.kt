@@ -20,8 +20,8 @@ class AppointmentRepository(
     fun createAppointment(userId:Int,request: CreateAppointmentRequest,status: String): Int {
         val sql = """
             INSERT INTO appointments
-            (client_user_id, psychologist_id, status, start_time, end_time,date)
-            VALUES (?, ?, ?, ?, ?)
+            (client_user_id, psychologist_id, status, start_time, end_time,date,scheduled_at)
+            VALUES (?, ?, ?, ?, ?,?,NOW())
             RETURNING id
         """.trimIndent()
 
@@ -61,7 +61,7 @@ class AppointmentRepository(
             appointmentId
         ).firstOrNull()
     }
-    fun getAppointmentsByUserId(userId: Int): List<Appointment>? {
+    fun getAppointmentsByUserId(userId: Int): List<Appointment?>? {
         val sql = """
         SELECT *
         FROM appointments
@@ -96,28 +96,15 @@ class AppointmentRepository(
             val params = mutableListOf<Any>(userId)
 
             if (!status.isNullOrBlank()) {
-                when (status) {
-                    "C" -> {
-                        sql.append(" AND a.status = ?")
-                        params.add(AppointmentStatus.FINISHED.name)
-                    }
+                if (status == AppointmentStatus.NOT_STARTED.name){
+                    sql.append(" AND a.status IN (?, ?, ?)")
+                    params.add(AppointmentStatus.WAITING_PAYMENT.name)
+                    params.add(AppointmentStatus.PAID.name)
+                    params.add(AppointmentStatus.CREATED.name)
+                }else {
+                    sql.append(" AND a.status = ?")
+                    params.add(status)
 
-                    "IP" -> {
-                        sql.append(" AND a.status = ?")
-                        params.add(AppointmentStatus.ONGOING.name)
-                    }
-
-                    "CA" -> {
-                        sql.append(" AND a.status = ?")
-                        params.add(AppointmentStatus.CANCELLED.name)
-                    }
-
-                    else -> {
-                        sql.append(" AND a.status IN (?, ?, ?)")
-                        params.add(AppointmentStatus.WAITING_PAYMENT.name)
-                        params.add(AppointmentStatus.PAID.name)
-                        params.add(AppointmentStatus.CREATED.name)
-                    }
                 }
             }
             // 🔍 FILTER DATE

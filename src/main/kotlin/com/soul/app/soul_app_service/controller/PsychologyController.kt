@@ -86,9 +86,9 @@ class PsychologyController(
         summary = "Get Psychology's All Appointment",
     )
     fun getAllAppointments(
-        @RequestParam(value = "status", required = false) status: String,
-        @RequestParam(value = "date", required = false) date: Date,
-        @RequestParam(value = "order", required = false) order: String,
+        @RequestParam(value = "status", required = false) status: String?,
+        @RequestParam(value = "date", required = false) date: Date?,
+        @RequestParam(value = "order", required = false) order: String?,
     ): ResponseEntity<List<GetPsychologAppointmentResponse>?> {
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int

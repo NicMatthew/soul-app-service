@@ -243,14 +243,13 @@ class AppointmentService(
     fun updateAppointmentStatusByUserId(userId: Int) {
 
         val appointments = appointmentRepository.getAppointmentsByUserId(userId)
-            ?: throw IllegalStateException("No appointment with user id $userId")
-
+        if (appointments.isNullOrEmpty()) return
         val now = LocalDateTime.now()
 
         appointments.forEach { appointment ->
 
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
-            val dateTime = LocalDateTime.parse(appointment.scheduledAt, formatter)
+            val dateTime = LocalDateTime.parse(appointment!!.scheduledAt, formatter)
 
             val date = dateTime.toLocalDate()
             val startTime = LocalTime.parse(appointment.startTime)
@@ -282,7 +281,7 @@ class AppointmentService(
         val response = mutableListOf<GetUserAppointmentResponse>()
         appointmentRepository.getAppointmentsByUserId(userId)?.forEach { appointment ->
             response.add(GetUserAppointmentResponse(
-                appointment,
+                appointment!!,
                 psychologyService.getPsychologyDetailByUserId(psychologyService.getUserIdFromPscyhologProfileId(appointment.psychologyId)!!)!!.user.name
             ))
         }
