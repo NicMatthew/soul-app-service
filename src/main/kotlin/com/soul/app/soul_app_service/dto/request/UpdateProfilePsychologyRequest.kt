@@ -9,11 +9,9 @@ data class UpdateProfilePsychologyRequest (
     val password_hash: String,
     val username: String,
     val phone: String,
-    val role: String,
     val dob: Date,
     val gender: String,
     val profile_picture: String? = null,
-    val anonymous: Boolean? = false,
     val alumnus : String,
     val sipp: String,
     val careerStartDate: Date,
@@ -21,7 +19,5 @@ data class UpdateProfilePsychologyRequest (
     val education: String,
     val clinic: String,
     val description :String,
-    val rating : Float,
     val fields :List<Field>
-
 )

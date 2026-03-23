@@ -1,6 +1,8 @@
 package com.soul.app.soul_app_service.config
+
 import com.soul.app.soul_app_service.filter.GlobalLoggingFilter
 import com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -48,10 +50,28 @@ class SecurityConfig(
 
                 it.anyRequest().authenticated()
             }
+            .exceptionHandling {
+                it.authenticationEntryPoint { _, response, ex ->
+                    response.status = HttpServletResponse.SC_UNAUTHORIZED
+                    response.contentType = "application/json"
+                    response.writer.write(
+                        """{"error":"Unauthorized","message":"${ex.message}"}"""
+                    )
+                }
+
+                it.accessDeniedHandler { _, response, ex ->
+                    response.status = HttpServletResponse.SC_FORBIDDEN
+                    response.contentType = "application/json"
+                    response.writer.write(
+                        """{"error":"Forbidden","message":"${ex.message}"}"""
+                    )
+                }
+            }
             .addFilterBefore(
                 jwtFilter,
                 UsernamePasswordAuthenticationFilter::class.java
-            ).addFilterBefore(
+            )
+            .addFilterBefore(
                 globalLoggingFilter,
                 JwtTokenAuthenticationFilter::class.java
             )

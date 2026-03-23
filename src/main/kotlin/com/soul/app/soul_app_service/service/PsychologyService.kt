@@ -24,7 +24,7 @@ class PsychologyService (
     private val userService: UserService,
     private val appointmentRepository: AppointmentRepository
 ){
-    fun createPsychologyAvailibility(psychologyAvailability: List<CreatePsychologyAvailabilityRequest>, userId: Int){
+    fun createPsychologyAvailibility(psychologyAvailability: List<CreatePsychologyAvailabilityRequest>, userId: Int):List<PsychologyAvailability>{
         val psychologyId = psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!
         psychologyAvailability.forEach {
             psychologyRepository.savePsychologyAvailability(
@@ -36,6 +36,7 @@ class PsychologyService (
                 psychologyId
             )
         }
+        return getPsychologyAvailibility(userId)!!
     }
     fun getPsychologyAvailibility(userId: Int): List<PsychologyAvailability>?{
         return psychologyRepository.getPsychologyAvailability(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
@@ -47,6 +48,8 @@ class PsychologyService (
             psychologyRepository.getPsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
         )
     }
+
+
     fun getAllPsychologies(search : String?): List<Psychology> {
         val users = userRepository.getAllPsychologyUser(search)
         var psychologies = mutableListOf<Psychology>()
@@ -61,14 +64,14 @@ class PsychologyService (
         }
         return psychologies
     }
-    fun updateProfile(userId: Int, request: UpdateProfilePsychologyRequest): String{
+    fun updateProfile(userId: Int, request: UpdateProfilePsychologyRequest): Psychology{
         userService.updateProfile(userId, UpdateProfileRequest(
             username = request.username,
             phone = request.phone,
             dob = request.dob,
             gender = request.gender,
             profilePicture = request.profile_picture,
-            anonymous = request.anonymous
+            anonymous = false
         ))
         psychologyRepository.updatePsychologyProfile(PsychologyProfile(
             userId = userId,
@@ -80,11 +83,13 @@ class PsychologyService (
             education = request.education,
             clinic = request.clinic,
             description = request.description,
-            rating = request.rating,
         ))
         psychologyRepository.replacePsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!, request.fields)
-        return "Psycholog Profile Edited"
+        return getPsychologyDetailByUserId(userId)!!
     }
 
+    fun getUserIdFromPscyhologProfileId(psycholgProfileId : Int) : Int?{
+        return psychologyRepository.getUserIdFromPscyhologProfileId(psycholgProfileId)
+    }
 
 }

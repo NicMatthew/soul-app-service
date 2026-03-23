@@ -3,6 +3,7 @@ package com.soul.app.soul_app_service.controller
 import com.soul.app.soul_app_service.dto.request.LoginRequest
 import com.soul.app.soul_app_service.dto.request.LoginResponse
 import com.soul.app.soul_app_service.dto.request.SignUpRequest
+import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.service.AuthService
 import com.soul.app.soul_app_service.service.UserService
 import io.swagger.v3.oas.annotations.Operation
@@ -43,7 +44,7 @@ class AuthController(
     @Operation(
         summary = "User Sign Up",
     )
-    fun signUp(@RequestBody request: SignUpRequest): ResponseEntity<String> {
+    fun signUp(@RequestBody request: SignUpRequest): ResponseEntity<User> {
         return ResponseEntity.ok(authService.signUp(request))
     }
 }

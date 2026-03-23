@@ -47,7 +47,6 @@ class PsychologyRepository(
             education = ?,
             clinic = ?,
             description = ?,
-            rating = ?
         WHERE user_id = ?
     """.trimIndent()
 
@@ -60,7 +59,6 @@ class PsychologyRepository(
             profile.education,
             profile.clinic,
             profile.description,
-            profile.rating,
             profile.userId
         )
     }
@@ -179,6 +177,20 @@ class PsychologyRepository(
             sql,
             Int::class.java,
             userId
+        )
+    }
+
+    fun getUserIdFromPscyhologProfileId(psychologProfileId: Int): Int? {
+        val sql = """
+            SELECT user_id
+            FROM psychologist_profile
+            WHERE id = ?
+        """.trimIndent()
+
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            psychologProfileId
         )
     }
 

@@ -14,5 +14,5 @@ data class User(
     val dob: Date,
     val gender: String,
     val profile_picture: String? = null,
-    val anonymous: Boolean? = false,
+    val anonymous: Boolean,
 )

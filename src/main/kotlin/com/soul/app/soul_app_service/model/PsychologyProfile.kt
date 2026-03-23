@@ -12,5 +12,5 @@ data class PsychologyProfile(
     val education: String,
     val clinic: String,
     val description :String,
-    val rating : Float
+    val rating : Float? = 0F
 )

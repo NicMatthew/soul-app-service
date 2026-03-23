@@ -7,6 +7,7 @@ import com.soul.app.soul_app_service.model.PsychologyProfile
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
@@ -24,9 +25,8 @@ class AdminService(
             gender = signUpPsychologyRequest.gender,
             role = "psycholog",
             username = signUpPsychologyRequest.username,
-            password_hash = "password" //todo generate password
-
-
+            password_hash = "password",
+            anonymous = false //todo generate password
         ))
         val profileId = psychologyRepository.savePsychologyProfile(PsychologyProfile(
             id = -99,
@@ -57,5 +57,9 @@ class AdminService(
 
     fun getAllFields(): List<Field> {
         return psychologyRepository.getAllFields()
+    }
+    fun deletePsychologyAccount(userId: Int): String {
+        userRepository.deleteUser(userId)
+        return "Psychology with id ${userId} deleted successfully"
     }
 }

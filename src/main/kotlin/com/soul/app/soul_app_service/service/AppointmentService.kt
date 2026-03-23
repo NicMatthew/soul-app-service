@@ -6,6 +6,8 @@ import com.soul.app.soul_app_service.dto.TimeSlotWithStatus
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.addAppointmentNotesRequest
+import com.soul.app.soul_app_service.dto.response.GetPsychologAppointmentResponse
+import com.soul.app.soul_app_service.dto.response.GetUserAppointmentResponse
 import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.AppointmentSlot
 import com.soul.app.soul_app_service.repository.AppointmentRepository
@@ -21,6 +23,7 @@ class AppointmentService(
     private val appointmentRepository: AppointmentRepository,
     private val psychologyService: PsychologyService,
     private val paymentService: PaymentService,
+    private val userService: UserService,
 ) {
     fun createAppointment(
         userId: Int,
@@ -224,14 +227,14 @@ class AppointmentService(
         return result
     }
 
-    fun addAppointmentNotes(request: addAppointmentNotesRequest, appointmentId: Int): String {
+    fun addAppointmentNotes(request: addAppointmentNotesRequest, appointmentId: Int): Appointment {
         val appointment = appointmentRepository.getAppointmentById(appointmentId) ?: throw IllegalStateException("No appointment with id $appointmentId")
 
         if (appointment.status != AppointmentStatus.FINISHED.name) throw IllegalStateException("Appointment Still not finished yet with id $appointmentId")
 
         appointmentRepository.addAppointmentNotes(appointmentId,request)
 
-        return "Success add notes"
+        return appointmentRepository.getAppointmentById(appointmentId)!!
 
     }
 
@@ -246,7 +249,10 @@ class AppointmentService(
 
         appointments.forEach { appointment ->
 
-            val date = LocalDate.parse(appointment.scheduledAt)
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
+            val dateTime = LocalDateTime.parse(appointment.scheduledAt, formatter)
+
+            val date = dateTime.toLocalDate()
             val startTime = LocalTime.parse(appointment.startTime)
             val endTime = LocalTime.parse(appointment.endTime)
 
@@ -271,9 +277,49 @@ class AppointmentService(
             }
         }
     }
-    fun getAllUserAppointments(userId: Int): List<Appointment>? {
+    fun getAllUserAppointments(userId: Int): List<GetUserAppointmentResponse>? {
         updateAppointmentStatusByUserId(userId)
-        return appointmentRepository.getAppointmentsByUserId(userId)
+        val response = mutableListOf<GetUserAppointmentResponse>()
+        appointmentRepository.getAppointmentsByUserId(userId)?.forEach { appointment ->
+            response.add(GetUserAppointmentResponse(
+                appointment,
+                psychologyService.getPsychologyDetailByUserId(psychologyService.getUserIdFromPscyhologProfileId(appointment.psychologyId)!!)!!.user.name
+            ))
+        }
+        return response
+    }
+    fun getAllPsychologAppointments(userId: Int,status: String?, date: Date?,order:String?): List<GetPsychologAppointmentResponse>? {
+        updateAppointmentStatusByUserId(userId)
+
+        val appointments = appointmentRepository.getPsychologAppointmentsByPyschologyId(userId,status,date,order)
+        val response = mutableListOf<GetPsychologAppointmentResponse>()
+        appointments?.forEach { appointment ->
+            val client = userService.getUserById(appointment.clientUserId)!!
+            val name  = if (client.anonymous == true) "Anonymous" else client.name
+            response.add(GetPsychologAppointmentResponse(
+                appointment,
+                client.anonymous,
+                name
+
+            ))
+        }
+        return response
+    }
+
+    fun getPatientsHistory(clientId: Int,psychologyId: Int): List<GetPsychologAppointmentResponse>? {
+        val appointments = appointmentRepository.getPatientsAppointmentsByPyschologyIdAndClientId(clientId,psychologyId)
+        val response = mutableListOf<GetPsychologAppointmentResponse>()
+        appointments?.forEach { appointment ->
+            val client = userService.getUserById(appointment.clientUserId)!!
+            val name  = if (client.anonymous == true) "Anonymous" else client.name
+            response.add(GetPsychologAppointmentResponse(
+                appointment,
+                client.anonymous,
+                name
+
+            ))
+        }
+        return response
     }
 
     fun rateAppointment(userId: Int,request: RatingAppointmentRequest, appointmentId: Int) : String{

@@ -1,5 +1,6 @@
 package com.soul.app.soul_app_service.repository
 
+import com.soul.app.soul_app_service.dto.AppointmentStatus
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.addAppointmentNotesRequest
@@ -85,6 +86,103 @@ class AppointmentRepository(
             userId
         )
     }
+    fun getPsychologAppointmentsByPyschologyId(userId: Int, status: String?, date: Date?, order:String?): List<Appointment>? {
+            val sql = StringBuilder("""
+            SELECT *
+            FROM appointments a left join psychologist_profile p on p.id = a.psychologist_id
+            WHERE p.user_id = ?
+        """)
+
+            val params = mutableListOf<Any>(userId)
+
+            if (!status.isNullOrBlank()) {
+                when (status) {
+                    "C" -> {
+                        sql.append(" AND a.status = ?")
+                        params.add(AppointmentStatus.FINISHED.name)
+                    }
+
+                    "IP" -> {
+                        sql.append(" AND a.status = ?")
+                        params.add(AppointmentStatus.ONGOING.name)
+                    }
+
+                    "CA" -> {
+                        sql.append(" AND a.status = ?")
+                        params.add(AppointmentStatus.CANCELLED.name)
+                    }
+
+                    else -> {
+                        sql.append(" AND a.status IN (?, ?, ?)")
+                        params.add(AppointmentStatus.WAITING_PAYMENT.name)
+                        params.add(AppointmentStatus.PAID.name)
+                        params.add(AppointmentStatus.CREATED.name)
+                    }
+                }
+            }
+            // 🔍 FILTER DATE
+            if (date != null) {
+                sql.append(" AND DATE(a.scheduled_at) = ?")
+                params.add(date)
+            }
+
+            // 🔃 ORDERING
+            if (!order.isNullOrBlank()) {
+                when (order.lowercase()) {
+                    "asc" -> sql.append(" ORDER BY a.scheduled_at ASC")
+                    "desc" -> sql.append(" ORDER BY a.scheduled_at DESC")
+                }
+            } else {
+                sql.append(" ORDER BY a.scheduled_at DESC")
+            }
+
+            return jdbcTemplate.query(
+                sql.toString(),
+                { rs, _ ->
+                    Appointment(
+                        id = rs.getInt("id"),
+                        clientUserId = rs.getInt("client_user_id"),
+                        psychologyId = rs.getInt("psychologist_id"),
+                        scheduledAt = rs.getString("scheduled_at"),
+                        startTime = rs.getString("start_time"),
+                        endTime = rs.getString("end_time"),
+                        status = rs.getString("status"),
+                        medicalNotes = rs.getString("medical_notes"),
+                        finalDiagnose = rs.getString("final_diagnose"),
+                    )
+                },
+                *params.toTypedArray()
+            )
+    }
+
+    fun getPatientsAppointmentsByPyschologyIdAndClientId(clientId: Int,psychologyid: Int): List<Appointment>? {
+        val sql = """
+        SELECT *
+        FROM appointments a left join psychologist_profile p on p.id = a.psychologist_id
+        WHERE a.client_user_id = ? AND p.user_id = ?
+    """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            { rs, _ ->
+                Appointment(
+                    id = rs.getInt("id"),
+                    clientUserId = rs.getInt("client_user_id"),
+                    psychologyId = rs.getInt("psychologist_id"),
+                    scheduledAt = rs.getString("scheduled_at"),
+                    startTime = rs.getString("start_time"),
+                    endTime = rs.getString("end_time"),
+                    status = rs.getString("status"),
+                    medicalNotes = rs.getString("medical_notes"),
+                    finalDiagnose = rs.getString("final_diagnose"),
+                )
+            },
+            clientId,
+            psychologyid
+        )
+    }
+
+
 
 
 

@@ -3,7 +3,8 @@ package com.soul.app.soul_app_service.controller
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
-import com.soul.app.soul_app_service.dto.response.GetAppointmentDetailResponse
+import com.soul.app.soul_app_service.dto.response.GetUserAppointmentDetailResponse
+import com.soul.app.soul_app_service.dto.response.GetUserAppointmentResponse
 import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.service.AppointmentService
@@ -36,7 +37,7 @@ class UserController (
     )
     fun updateProfile(
         @RequestBody request: UpdateProfileRequest
-    ): ResponseEntity<String> {
+    ): ResponseEntity<User> {
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int
         return ResponseEntity.ok(userService.updateProfile(userId, request))
@@ -56,7 +57,7 @@ class UserController (
         summary = "Get User's All Appointment",
     )
     fun getAllAppointments(
-    ): ResponseEntity<List<Appointment>?> {
+    ): ResponseEntity<List<GetUserAppointmentResponse>?> {
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int
 
@@ -68,7 +69,7 @@ class UserController (
     )
     fun getAppointmentDetail(
         @PathVariable("appointment-id") appointmentId: String,
-    ): ResponseEntity<GetAppointmentDetailResponse> {
+    ): ResponseEntity<GetUserAppointmentDetailResponse> {
         val id = appointmentId.toInt()
         return ResponseEntity.ok(userService.getAppointmentDetail(id))
     }

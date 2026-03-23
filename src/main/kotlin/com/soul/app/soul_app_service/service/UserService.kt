@@ -1,11 +1,11 @@
 package com.soul.app.soul_app_service.service
 
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
-import com.soul.app.soul_app_service.dto.response.GetAppointmentDetailResponse
-import com.soul.app.soul_app_service.model.Appointment
+import com.soul.app.soul_app_service.dto.response.GetUserAppointmentDetailResponse
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.repository.AppointmentRepository
 import com.soul.app.soul_app_service.repository.PaymentRepository
+import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Service
 
@@ -14,13 +14,14 @@ class UserService(
     private val userRepository: UserRepository,
     private val appointmentRepository: AppointmentRepository,
     private val paymentRepository: PaymentRepository,
+    private val psychologyRepository: PsychologyRepository,
 
     ) {
 
     fun updateProfile(
         userId: Int,
         request: UpdateProfileRequest
-    ): String {
+    ): User {
 
         val user = userRepository.getUserById(userId)
             ?: throw IllegalArgumentException("User not found")
@@ -34,9 +35,9 @@ class UserService(
             anonymous = request.anonymous ?: user.anonymous
         )
 
-        userRepository.updateUser(updatedUser)
 
-        return "user updated"
+
+        return userRepository.getUserById(userRepository.updateUser(updatedUser))!!
     }
     fun getUserByEmail(email: String): User {
         return (userRepository.getUserByEmail(email)?: userRepository.getUserByUsername(email))!!
@@ -47,12 +48,13 @@ class UserService(
 
 
 
-    fun getAppointmentDetail(appointmentId: Int): GetAppointmentDetailResponse? {
+    fun getAppointmentDetail(appointmentId: Int): GetUserAppointmentDetailResponse? {
         val appointment = appointmentRepository.getAppointmentById(appointmentId) ?: throw RuntimeException("Appointment not found")
-        val payment = paymentRepository.getPaymentByAppointmentId(appointmentId) ?: throw RuntimeException("Appointment not found")
-        return GetAppointmentDetailResponse(
+        val payment = paymentRepository.getPaymentByAppointmentId(appointmentId) ?: throw RuntimeException("Payment not found")
+        return GetUserAppointmentDetailResponse(
             appointment = appointment,
-            payment = payment
+            payment = payment,
+            psychologName = userRepository.getUserById(psychologyRepository.getUserIdFromPscyhologProfileId(appointment.psychologyId)!!)!!.name
         )
     }
 

@@ -8,6 +8,7 @@ import com.soul.app.soul_app_service.service.PsychologyService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -50,5 +51,14 @@ class AdminController(
         @RequestParam(name = "search") search: String?
     ): ResponseEntity<List<Psychology>> {
         return ResponseEntity.ok(psychologyService.getAllPsychologies(search))
+    }
+    @DeleteMapping("/delete-psychology")
+    @Operation(
+        summary = "Delete psychology Account",
+    )
+    private fun deletePsychology(
+        @RequestBody userId: Int
+    ):ResponseEntity<String> {
+        return ResponseEntity.ok(adminService.deletePsychologyAccount(userId))
     }
 }
