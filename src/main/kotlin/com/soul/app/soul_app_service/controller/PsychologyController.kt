@@ -5,6 +5,7 @@ import com.soul.app.soul_app_service.dto.request.UpdateProfilePsychologyRequest
 import com.soul.app.soul_app_service.dto.request.addAppointmentNotesRequest
 import com.soul.app.soul_app_service.dto.response.GetPsychologAppointmentResponse
 import com.soul.app.soul_app_service.model.Appointment
+import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.Psychology
 import com.soul.app.soul_app_service.model.PsychologyAvailability
 import com.soul.app.soul_app_service.service.AppointmentService
@@ -117,12 +118,12 @@ class PsychologyController(
         val userId = authentication.principal as Int
         return ResponseEntity.ok(psychologyService.getPsychologyDetailByUserId(userId))
     }
-
-
-
-
-
-
-
+    @GetMapping("/fields")
+    @Operation(
+        summary = "Get fields for add psycholog account",
+    )
+    private fun getAllFields(): ResponseEntity<List<Field>> {
+        return ResponseEntity.ok(psychologyService.getAllFields())
+    }
 
 }

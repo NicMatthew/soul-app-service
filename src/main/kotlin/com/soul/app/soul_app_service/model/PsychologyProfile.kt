@@ -9,6 +9,7 @@ data class PsychologyProfile(
     val sipp: String,
     val careerStartDate: Date,
     val pricePerSession: Int,
+    val religion: String,
     val education: String,
     val clinic: String,
     val description :String,

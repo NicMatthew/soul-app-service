@@ -1,9 +1,11 @@
 package com.soul.app.soul_app_service.repository
 
+import com.soul.app.soul_app_service.dto.request.AddPsychologyCertificateRequest
 import com.soul.app.soul_app_service.dto.request.CreatePsychologyAvailabilityRequest
 import com.soul.app.soul_app_service.dto.request.UpdatePsychologyAvailabilityRequest
 import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.PsychologyAvailability
+import com.soul.app.soul_app_service.model.PsychologyCertificate
 import com.soul.app.soul_app_service.model.PsychologyProfile
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
@@ -17,8 +19,8 @@ class PsychologyRepository(
     fun savePsychologyProfile(profile: PsychologyProfile): Int {
         val sql = """
             INSERT INTO psychologist_profile
-            (user_id, alumnus, sipp, career_start_date, price_per_session, education, clinic, description, rating)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (user_id, alumnus, sipp, career_start_date, price_per_session, education, clinic, description, rating, religion)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             RETURNING id
         """.trimIndent()
 
@@ -33,7 +35,8 @@ class PsychologyRepository(
             profile.education,
             profile.clinic,
             profile.description,
-            profile.rating
+            profile.rating,
+            profile.religion,
         )
     }
     fun updatePsychologyProfile(profile: PsychologyProfile): Int {
@@ -47,6 +50,7 @@ class PsychologyRepository(
             education = ?,
             clinic = ?,
             description = ?,
+            religion = ?,
         WHERE user_id = ?
     """.trimIndent()
 
@@ -59,6 +63,7 @@ class PsychologyRepository(
             profile.education,
             profile.clinic,
             profile.description,
+            profile.religion,
             profile.userId
         )
     }
@@ -98,7 +103,8 @@ class PsychologyRepository(
                     education = rs.getString("education"),
                     clinic = rs.getString("clinic"),
                     description = rs.getString("description"),
-                    rating = rs.getFloat("rating")
+                    rating = rs.getFloat("rating"),
+                    religion = rs.getString("religion"),
                 )
             },
             userId
@@ -125,7 +131,8 @@ class PsychologyRepository(
                     education = rs.getString("education"),
                     clinic = rs.getString("clinic"),
                     description = rs.getString("description"),
-                    rating = rs.getFloat("rating")
+                    rating = rs.getFloat("rating"),
+                    religion = rs.getString("religion"),
                 )
             },
             userId
@@ -251,6 +258,15 @@ class PsychologyRepository(
             psychologyId
         )
     }
+
+fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
+        val deleteSql = """
+        DELETE FROM psychologist_availability
+        WHERE psychologist_id = ?
+    """.trimIndent()
+
+        return jdbcTemplate.update(deleteSql, psychologyId)
+    }
     fun replacePsychologyFields(psychologyId: Int, fieldIds: List<Field>) {
         val deleteSql = """
         DELETE FROM psychologist_field
@@ -270,6 +286,68 @@ class PsychologyRepository(
                 it.fieldId
             )
         }
+
+    }
+
+    fun savePsychologyCertificate(certificates: AddPsychologyCertificateRequest) : Int{
+        val sql = """
+            INSERT INTO psychologist_certificates (psychologist_id, path,created_at)
+            VALUES (?, ?, NOW())
+            RETURNING id
+        """.trimIndent()
+
+        return jdbcTemplate.update(
+            sql,
+            certificates.psychologyId,
+            certificates.path
+        )
+    }
+        fun deletePsychologyCertificate(psychologyId: Int,certificateId: Int): Int {
+        val deleteSql = """
+        DELETE FROM psychologist_certificates
+        WHERE psychologist_id = ?,id = ?
+    """.trimIndent()
+
+        return jdbcTemplate.update(deleteSql, psychologyId,certificateId)
+    }
+    fun getPsychologyCertificatesByPsychologyCertificateId(psychologyCertificateId: Int): PsychologyCertificate? {
+        val sql = """
+            SELECT *
+            FROM psychologist_certificates
+            WHERE id = ?
+        """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                PsychologyCertificate(
+                    id = rs.getInt("id"),
+                    psychologyId = rs.getInt("psychologist_id"),
+                    path = rs.getString("path"),
+                )
+            },
+            psychologyCertificateId
+        ).firstOrNull()
+    }
+
+    fun getPsychologyCertificatesByPsychologyProfileId(psychologyId: Int): List<PsychologyCertificate>? {
+        val sql = """
+            SELECT *
+            FROM psychologist_certificates
+            WHERE psychologist_id = ?
+        """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                PsychologyCertificate(
+                    id = rs.getInt("id"),
+                    psychologyId = rs.getInt("psychologist_id"),
+                    path = rs.getString("path"),
+                )
+            },
+            psychologyId
+        )
     }
 
 

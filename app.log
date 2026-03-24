@@ -996,3 +996,171 @@ This generated password is for development use only. Your security configuration
 2026-03-24T17:42:46.886+07:00  INFO 15060 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-03-24T17:42:46.886+07:00  INFO 15060 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
 2026-03-24T17:42:47.595+07:00  INFO 15060 --- [http-nio-0.0.0.0-11001-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 538 ms
+2026-03-24T18:57:33.644+07:00  INFO 15060 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-24T18:57:33.644+07:00  INFO 15060 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-24T19:01:40.301+07:00  INFO 19960 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 19960 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-03-24T19:01:40.301+07:00  INFO 19960 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-03-24T19:01:40.782+07:00  INFO 19960 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-03-24T19:01:40.801+07:00  INFO 19960 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2026-03-24T19:01:41.033+07:00  INFO 19960 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-03-24T19:01:41.038+07:00  INFO 19960 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-24T19:01:41.038+07:00  INFO 19960 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-03-24T19:01:41.082+07:00  INFO 19960 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-03-24T19:01:41.082+07:00  INFO 19960 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 754 ms
+2026-03-24T19:01:41.282+07:00  WARN 19960 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 4d177aa8-273e-4b12-94cd-d30b29dfaf9a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-24T19:01:41.389+07:00  INFO 19960 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@65d9e72a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1f7e52d1, org.springframework.security.web.context.SecurityContextHolderFilter@51fe7f15, org.springframework.security.web.header.HeaderWriterFilter@2bb31455, org.springframework.web.filter.CorsFilter@e01a26b, org.springframework.security.web.authentication.logout.LogoutFilter@4e3283f6, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@5a0e0886, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@684372d0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7574d4ad, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7604198a, org.springframework.security.web.session.SessionManagementFilter@1b1252c8, org.springframework.security.web.access.ExceptionTranslationFilter@643ecfef, org.springframework.security.web.access.intercept.AuthorizationFilter@1c7cd434]
+2026-03-24T19:01:41.497+07:00  INFO 19960 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-24T19:01:43.025+07:00  INFO 19960 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76134b9b
+2026-03-24T19:01:43.025+07:00  INFO 19960 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-24T19:01:43.106+07:00  INFO 19960 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-03-24T19:01:43.106+07:00  INFO 19960 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 3.018 seconds (process running for 3.321)
+2026-03-24T20:23:00.469+07:00  INFO 19960 --- [http-nio-0.0.0.0-11001-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-24T20:23:00.470+07:00  INFO 19960 --- [http-nio-0.0.0.0-11001-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-24T20:23:00.470+07:00  INFO 19960 --- [http-nio-0.0.0.0-11001-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-03-24T20:23:01.180+07:00  INFO 19960 --- [http-nio-0.0.0.0-11001-exec-10] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 549 ms
+2026-03-24T20:54:27.488+07:00  INFO 19960 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-24T20:54:27.492+07:00  INFO 19960 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-24T20:54:32.343+07:00  INFO 19948 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 19948 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-03-24T20:54:32.345+07:00  INFO 19948 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-03-24T20:54:32.796+07:00 ERROR 19948 --- [main] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.IllegalStateException: Error processing condition on org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration.propertySourcesPlaceholderConfigurer
+	at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:60) ~[spring-boot-autoconfigure-3.1.12.jar:3.1.12]
+	at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:108) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForBeanMethod(ConfigurationClassBeanDefinitionReader.java:183) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:144) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:120) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:427) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:287) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:344) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:115) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:778) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:739) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:441) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:325) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1327) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1316) ~[spring-boot-3.1.12.jar:3.1.12]
+	at com.soul.app.soul_app_service.SoulAppServiceApplicationKt.main(SoulAppServiceApplication.kt:13) ~[classes/:na]
+Caused by: java.lang.IllegalStateException: Failed to introspect Class [com.soul.app.soul_app_service.config.FilterConfig] from ClassLoader [jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:483) ~[spring-core-6.0.21.jar:6.0.21]
+	at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:360) ~[spring-core-6.0.21.jar:6.0.21]
+	at org.springframework.util.ReflectionUtils.getUniqueDeclaredMethods(ReflectionUtils.java:417) ~[spring-core-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.lambda$getTypeForFactoryMethod$1(AbstractAutowireCapableBeanFactory.java:746) ~[spring-beans-6.0.21.jar:6.0.21]
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1708) ~[na:na]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryMethod(AbstractAutowireCapableBeanFactory.java:745) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineTargetType(AbstractAutowireCapableBeanFactory.java:678) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.predictBeanType(AbstractAutowireCapableBeanFactory.java:649) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.isFactoryBean(AbstractBeanFactory.java:1639) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doGetBeanNamesForType(DefaultListableBeanFactory.java:560) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanNamesForType(DefaultListableBeanFactory.java:532) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.collectBeanNamesForType(OnBeanCondition.java:247) ~[spring-boot-autoconfigure-3.1.12.jar:3.1.12]
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getBeanNamesForType(OnBeanCondition.java:240) ~[spring-boot-autoconfigure-3.1.12.jar:3.1.12]
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getBeanNamesForType(OnBeanCondition.java:230) ~[spring-boot-autoconfigure-3.1.12.jar:3.1.12]
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getMatchingBeans(OnBeanCondition.java:183) ~[spring-boot-autoconfigure-3.1.12.jar:3.1.12]
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getMatchOutcome(OnBeanCondition.java:158) ~[spring-boot-autoconfigure-3.1.12.jar:3.1.12]
+	at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:47) ~[spring-boot-autoconfigure-3.1.12.jar:3.1.12]
+	... 17 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: com/soul/app/soul_app_service/filter/JwtTokenAuthenticationFilter
+	at java.base/java.lang.Class.getDeclaredMethods0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.privateGetDeclaredMethods(Class.java:3578) ~[na:na]
+	at java.base/java.lang.Class.getDeclaredMethods(Class.java:2676) ~[na:na]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:465) ~[spring-core-6.0.21.jar:6.0.21]
+	... 33 common frames omitted
+Caused by: java.lang.ClassNotFoundException: com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[na:na]
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[na:na]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526) ~[na:na]
+	... 37 common frames omitted
+
+2026-03-24T20:54:32.806+07:00  WARN 19948 --- [main] o.s.boot.SpringApplication               : Unable to close ApplicationContext
+
+java.lang.IllegalStateException: Failed to introspect Class [com.soul.app.soul_app_service.config.FilterConfig] from ClassLoader [jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:483) ~[spring-core-6.0.21.jar:6.0.21]
+	at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:360) ~[spring-core-6.0.21.jar:6.0.21]
+	at org.springframework.util.ReflectionUtils.getUniqueDeclaredMethods(ReflectionUtils.java:417) ~[spring-core-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.lambda$getTypeForFactoryMethod$1(AbstractAutowireCapableBeanFactory.java:746) ~[spring-beans-6.0.21.jar:6.0.21]
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1708) ~[na:na]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryMethod(AbstractAutowireCapableBeanFactory.java:745) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineTargetType(AbstractAutowireCapableBeanFactory.java:678) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.predictBeanType(AbstractAutowireCapableBeanFactory.java:649) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.isFactoryBean(AbstractBeanFactory.java:1639) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doGetBeanNamesForType(DefaultListableBeanFactory.java:560) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanNamesForType(DefaultListableBeanFactory.java:532) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeansOfType(DefaultListableBeanFactory.java:659) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeansOfType(DefaultListableBeanFactory.java:651) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.context.support.AbstractApplicationContext.getBeansOfType(AbstractApplicationContext.java:1314) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.boot.SpringApplication.getExitCodeFromMappedException(SpringApplication.java:888) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.getExitCodeFromException(SpringApplication.java:876) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.handleExitCode(SpringApplication.java:863) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.handleRunFailure(SpringApplication.java:793) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1327) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1316) ~[spring-boot-3.1.12.jar:3.1.12]
+	at com.soul.app.soul_app_service.SoulAppServiceApplicationKt.main(SoulAppServiceApplication.kt:13) ~[classes/:na]
+Caused by: java.lang.NoClassDefFoundError: com/soul/app/soul_app_service/filter/JwtTokenAuthenticationFilter
+	at java.base/java.lang.Class.getDeclaredMethods0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.privateGetDeclaredMethods(Class.java:3578) ~[na:na]
+	at java.base/java.lang.Class.getDeclaredMethods(Class.java:2676) ~[na:na]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:465) ~[spring-core-6.0.21.jar:6.0.21]
+	... 21 common frames omitted
+Caused by: java.lang.ClassNotFoundException: com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[na:na]
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[na:na]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526) ~[na:na]
+	... 25 common frames omitted
+
+2026-03-24T20:54:47.127+07:00  INFO 15104 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 15104 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-03-24T20:54:47.128+07:00  INFO 15104 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-03-24T20:54:47.636+07:00  INFO 15104 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-03-24T20:54:47.649+07:00  INFO 15104 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 JDBC repository interfaces.
+2026-03-24T20:54:47.888+07:00  INFO 15104 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-03-24T20:54:47.892+07:00  INFO 15104 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-24T20:54:47.892+07:00  INFO 15104 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-03-24T20:54:47.936+07:00  INFO 15104 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-03-24T20:54:47.937+07:00  INFO 15104 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 780 ms
+2026-03-24T20:54:48.147+07:00  WARN 15104 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 0176b9c9-ff5b-4dbf-a7aa-af8fed5d27ee
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-24T20:54:48.253+07:00  INFO 15104 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@59d6642a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@365cef67, org.springframework.security.web.context.SecurityContextHolderFilter@1af677f8, org.springframework.security.web.header.HeaderWriterFilter@1b1252c8, org.springframework.web.filter.CorsFilter@27df5806, org.springframework.security.web.authentication.logout.LogoutFilter@13004dd8, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@262a1fad, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a3cf878, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5c53c235, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@69bc9584, org.springframework.security.web.session.SessionManagementFilter@6060146b, org.springframework.security.web.access.ExceptionTranslationFilter@41a16eb3, org.springframework.security.web.access.intercept.AuthorizationFilter@2049e582]
+2026-03-24T20:54:48.370+07:00  INFO 15104 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-24T20:54:49.482+07:00  INFO 15104 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1acc873b
+2026-03-24T20:54:49.483+07:00  INFO 15104 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-24T20:54:49.549+07:00  INFO 15104 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-03-24T20:54:49.553+07:00  INFO 15104 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 2.642 seconds (process running for 3.049)
+2026-03-24T21:01:24.495+07:00  INFO 15104 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-24T21:01:24.499+07:00  INFO 15104 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-24T21:05:35.991+07:00  INFO 7916 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 7916 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-03-24T21:05:35.992+07:00  INFO 7916 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-03-24T21:05:36.516+07:00  INFO 7916 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-03-24T21:05:36.530+07:00  INFO 7916 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 JDBC repository interfaces.
+2026-03-24T21:05:36.764+07:00  INFO 7916 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-03-24T21:05:36.768+07:00  INFO 7916 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-24T21:05:36.768+07:00  INFO 7916 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-03-24T21:05:36.817+07:00  INFO 7916 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-03-24T21:05:36.817+07:00  INFO 7916 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 796 ms
+2026-03-24T21:05:37.054+07:00  WARN 7916 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 6062ebcc-43ba-430e-9705-b86a241510a2
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-24T21:05:37.171+07:00  INFO 7916 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1d2d8846, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@34cd65ac, org.springframework.security.web.context.SecurityContextHolderFilter@216f01, org.springframework.security.web.header.HeaderWriterFilter@19ae36f4, org.springframework.web.filter.CorsFilter@61911947, org.springframework.security.web.authentication.logout.LogoutFilter@5873f3f0, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@4e245739, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1e721583, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@8b41ad, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5c53c235, org.springframework.security.web.session.SessionManagementFilter@1ccc1026, org.springframework.security.web.access.ExceptionTranslationFilter@6bd92538, org.springframework.security.web.access.intercept.AuthorizationFilter@1af677f8]
+2026-03-24T21:05:37.279+07:00  INFO 7916 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-24T21:05:38.456+07:00  INFO 7916 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@9f2376f
+2026-03-24T21:05:38.457+07:00  INFO 7916 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-24T21:05:38.529+07:00  INFO 7916 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-03-24T21:05:38.534+07:00  INFO 7916 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 2.754 seconds (process running for 3.075)
+2026-03-24T21:06:11.164+07:00  INFO 7916 --- [http-nio-0.0.0.0-11001-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-24T21:06:11.165+07:00  INFO 7916 --- [http-nio-0.0.0.0-11001-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-24T21:06:11.165+07:00  INFO 7916 --- [http-nio-0.0.0.0-11001-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-03-24T21:06:11.897+07:00  INFO 7916 --- [http-nio-0.0.0.0-11001-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 550 ms

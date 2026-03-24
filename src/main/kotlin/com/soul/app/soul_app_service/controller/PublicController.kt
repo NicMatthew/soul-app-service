@@ -33,7 +33,7 @@ class PublicController(
     {
         return ResponseEntity.ok(GetPsychologyDetailResponse(
             psychology = psychologyService.getPsychologyDetailByUserId(psychologyId)?:throw Exception("INVALID PSYCHOLOG ID"),
-            slots = appointmentService.getWeeklyAvailabilityWithStatus(psychologyId)
+            slots = appointmentService.getWeeklyAvailabilityWithStatus(psychologyId),
         ))
     }
     @GetMapping("/psychology")

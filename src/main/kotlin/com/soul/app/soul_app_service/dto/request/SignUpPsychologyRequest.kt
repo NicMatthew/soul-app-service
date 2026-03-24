@@ -9,6 +9,7 @@ data class SignUpPsychologyRequest(
     val phone: String,
     val dob: Date,
     val gender: String,
+    val religion: String,
 
 
     val alumnus : String,

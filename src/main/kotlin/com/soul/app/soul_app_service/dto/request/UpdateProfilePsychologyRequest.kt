@@ -19,5 +19,6 @@ data class UpdateProfilePsychologyRequest (
     val education: String,
     val clinic: String,
     val description :String,
+    val religion :String,
     val fields :List<Field>
 )

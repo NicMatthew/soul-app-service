@@ -1,8 +1,11 @@
 package com.soul.app.soul_app_service.controller
 
+import com.soul.app.soul_app_service.dto.request.AddPsychologyCertificateRequest
+import com.soul.app.soul_app_service.dto.request.DeletePsychologyCertificateRequest
 import com.soul.app.soul_app_service.dto.request.SignUpPsychologyRequest
 import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.Psychology
+import com.soul.app.soul_app_service.model.PsychologyCertificate
 import com.soul.app.soul_app_service.service.AdminService
 import com.soul.app.soul_app_service.service.PsychologyService
 import io.swagger.v3.oas.annotations.Operation
@@ -42,7 +45,7 @@ class AdminController(
         summary = "Get fields for add psycholog account",
     )
     private fun getAllFields(): ResponseEntity<List<Field>> {
-        return ResponseEntity.ok(adminService.getAllFields())
+        return ResponseEntity.ok(psychologyService.getAllFields())
     }
     @GetMapping("/psychologies")
     @Operation(
@@ -61,5 +64,24 @@ class AdminController(
         @RequestBody userId: Int
     ):ResponseEntity<String> {
         return ResponseEntity.ok(adminService.deletePsychologyAccount(userId))
+    }
+    @PostMapping("/add-certificate")
+    @Operation(
+        summary = "Add certificate for psychology account",
+    )
+    private fun addCertificate(
+        @RequestBody certificate : AddPsychologyCertificateRequest
+    ): ResponseEntity<PsychologyCertificate> {
+        return ResponseEntity.ok(adminService.addCertificate(certificate))
+    }
+
+    @DeleteMapping("/delete-certificate")
+    @Operation(
+        summary = "Delete certificate for psychology account",
+    )
+    private fun deleteCertificate(
+        @RequestBody certificate : DeletePsychologyCertificateRequest
+    ): ResponseEntity<String> {
+        return ResponseEntity.ok(adminService.deleteCertificate(certificate))
     }
 }

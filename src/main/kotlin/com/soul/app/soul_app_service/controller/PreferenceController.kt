@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/public/preferences")
+@RequestMapping("/preferences")
 @Tag(
     name = "Preference Controller",
 )

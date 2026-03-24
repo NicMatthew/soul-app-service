@@ -5,6 +5,7 @@ import com.soul.app.soul_app_service.dto.TimeSlotWithStatus
 import com.soul.app.soul_app_service.dto.request.CreatePsychologyAvailabilityRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfilePsychologyRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
+import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.Psychology
 import com.soul.app.soul_app_service.model.PsychologyAvailability
 import com.soul.app.soul_app_service.model.PsychologyProfile
@@ -22,10 +23,10 @@ class PsychologyService (
     private val psychologyRepository: PsychologyRepository,
     private val userRepository: UserRepository,
     private val userService: UserService,
-    private val appointmentRepository: AppointmentRepository
 ){
     fun createPsychologyAvailibility(psychologyAvailability: List<CreatePsychologyAvailabilityRequest>, userId: Int):List<PsychologyAvailability>{
         val psychologyId = psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!
+        psychologyRepository.deleteAllPsychologyAvailability(psychologyId)
         psychologyAvailability.forEach {
             psychologyRepository.savePsychologyAvailability(
                 CreatePsychologyAvailabilityRequest(
@@ -42,23 +43,28 @@ class PsychologyService (
         return psychologyRepository.getPsychologyAvailability(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
     }
     fun getPsychologyDetailByUserId(userId: Int): Psychology?{
+        val profileId = psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!
         return Psychology(
             userRepository.getUserById(userId)!!,
             psychologyRepository.getPsychologyProfilebyUserId(userId)!!,
-            psychologyRepository.getPsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
+            psychologyRepository.getPsychologyFields(profileId),
+            certificates = psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId)
         )
     }
 
 
     fun getAllPsychologies(search : String?): List<Psychology> {
         val users = userRepository.getAllPsychologyUser(search)
+
         var psychologies = mutableListOf<Psychology>()
         users.forEach {
+            val profileId = psychologyRepository.getPsychologyProfileIdFromUserId(it.id)!!
             psychologies.add(
                 Psychology(
                     it,
                     psychologyRepository.getPsychologyProfilebyUserId(it.id)!!,
-                    psychologyRepository.getPsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(it.id)!!)
+                    psychologyRepository.getPsychologyFields(profileId),
+                    psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId)
                 )
             )
         }
@@ -83,6 +89,7 @@ class PsychologyService (
             education = request.education,
             clinic = request.clinic,
             description = request.description,
+            religion = request.religion
         ))
         psychologyRepository.replacePsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!, request.fields)
         return getPsychologyDetailByUserId(userId)!!
@@ -90,6 +97,9 @@ class PsychologyService (
 
     fun getUserIdFromPscyhologProfileId(psycholgProfileId : Int) : Int?{
         return psychologyRepository.getUserIdFromPscyhologProfileId(psycholgProfileId)
+    }
+    fun getAllFields(): List<Field> {
+        return psychologyRepository.getAllFields()
     }
 
 }
