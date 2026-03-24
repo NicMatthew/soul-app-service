@@ -101,12 +101,13 @@ class PsychologyController(
         summary = "Get Patient's All Appointment history",
     )
     fun getPatientsHistory(
-        @PathVariable clientUserId: String
+        @PathVariable clientUserId: String,
+        @RequestParam(value = "order", required = false) order: String?
     ): ResponseEntity<List<GetPsychologAppointmentResponse>?> {
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int
 
-        return ResponseEntity.ok(appointmentService.getPatientsHistory(clientUserId.toInt(),userId))
+        return ResponseEntity.ok(appointmentService.getPatientsHistory(clientUserId.toInt(),userId,order))
     }
 
     @GetMapping("/me")

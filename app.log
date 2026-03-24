@@ -797,3 +797,202 @@ Status  : 200
 Time    : 371 ms
 Headers : {Vary=Origin}
 Body    : [{"appointment":{"id":22,"clientUserId":22,"psychologyId":4,"scheduledAt":"2026-03-23 17:26:50.075891","startTime":"13:00","endTime":"14:00","status":"WAITING_PAYMENT","finalDiagnose":null,"medicalNotes":null},"anonymous":false,"clientName":"Jeanisa S.Psi"}]
+2026-03-24T02:25:04.429+07:00  INFO 16344 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-24T02:25:04.432+07:00  INFO 16344 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-24T02:25:08.365+07:00  INFO 10076 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 10076 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-03-24T02:25:08.366+07:00  INFO 10076 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-03-24T02:25:08.924+07:00  INFO 10076 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-03-24T02:25:08.938+07:00  INFO 10076 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2026-03-24T02:25:09.207+07:00  INFO 10076 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-03-24T02:25:09.212+07:00  INFO 10076 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-24T02:25:09.213+07:00  INFO 10076 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-03-24T02:25:09.264+07:00  INFO 10076 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-03-24T02:25:09.265+07:00  INFO 10076 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 868 ms
+2026-03-24T02:25:09.275+07:00 ERROR 10076 --- [main] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'filterConfig' defined in file [C:\Users\Matthew\Documents\code\soul-app-service\target\classes\com\soul\app\soul_app_service\config\FilterConfig.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jwtService' defined in file [C:\Users\Matthew\Documents\code\soul-app-service\target\classes\com\soul\app\soul_app_service\service\JwtService.class]: Failed to instantiate [com.soul.app.soul_app_service.service.JwtService]: Constructor threw exception
+2026-03-24T02:25:09.289+07:00  INFO 10076 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-03-24T02:25:09.294+07:00  WARN 10076 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-03-24T02:25:09.298+07:00  INFO 10076 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-03-24T02:25:09.307+07:00 ERROR 10076 --- [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:609) ~[spring-context-6.0.21.jar:6.0.21]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:739) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:441) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:325) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1327) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1316) ~[spring-boot-3.1.12.jar:3.1.12]
+	at com.soul.app.soul_app_service.SoulAppServiceApplicationKt.main(SoulAppServiceApplication.kt:13) ~[classes/:na]
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:142) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:104) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:489) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:211) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:183) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161) ~[spring-boot-3.1.12.jar:3.1.12]
+	... 8 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'filterConfig' defined in file [C:\Users\Matthew\Documents\code\soul-app-service\target\classes\com\soul\app\soul_app_service\config\FilterConfig.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jwtService' defined in file [C:\Users\Matthew\Documents\code\soul-app-service\target\classes\com\soul\app\soul_app_service\service\JwtService.class]: Failed to instantiate [com.soul.app.soul_app_service.service.JwtService]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:794) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:236) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1350) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1187) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:558) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:518) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:408) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1330) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1160) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:558) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:518) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:210) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:173) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:168) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:153) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:86) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:261) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:235) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52) ~[spring-boot-3.1.12.jar:3.1.12]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4414) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:772) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:203) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:415) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:874) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:437) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:123) ~[spring-boot-3.1.12.jar:3.1.12]
+	... 13 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jwtService' defined in file [C:\Users\Matthew\Documents\code\soul-app-service\target\classes\com\soul\app\soul_app_service\service\JwtService.class]: Failed to instantiate [com.soul.app.soul_app_service.service.JwtService]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:317) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:185) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1350) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1187) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:558) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:518) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:903) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:781) ~[spring-beans-6.0.21.jar:6.0.21]
+	... 63 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.soul.app.soul_app_service.service.JwtService]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:225) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:110) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:314) ~[spring-beans-6.0.21.jar:6.0.21]
+	... 77 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: com/soul/app/soul_app_service/service/JwtService$algorithm$2
+	at com.soul.app.soul_app_service.service.JwtService.<init>(JwtService.kt:18) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62) ~[na:na]
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502) ~[na:na]
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486) ~[na:na]
+	at kotlin.reflect.jvm.internal.calls.CallerImpl$Constructor.call(CallerImpl.kt:41) ~[kotlin-reflect-1.9.0.jar:1.9.0-release-358]
+	at kotlin.reflect.jvm.internal.KCallableImpl.call(KCallableImpl.kt:108) ~[kotlin-reflect-1.9.0.jar:1.9.0-release-358]
+	at org.springframework.beans.BeanUtils$KotlinDelegate.instantiateClass(BeanUtils.java:898) ~[spring-beans-6.0.21.jar:6.0.21]
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:193) ~[spring-beans-6.0.21.jar:6.0.21]
+	... 79 common frames omitted
+Caused by: java.lang.ClassNotFoundException: com.soul.app.soul_app_service.service.JwtService$algorithm$2
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[na:na]
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[na:na]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526) ~[na:na]
+	... 87 common frames omitted
+
+2026-03-24T17:38:15.955+07:00  INFO 21848 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 21848 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-03-24T17:38:15.956+07:00  INFO 21848 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-03-24T17:38:16.468+07:00  INFO 21848 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-03-24T17:38:16.481+07:00  INFO 21848 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2026-03-24T17:38:16.711+07:00  INFO 21848 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-03-24T17:38:16.716+07:00  INFO 21848 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-24T17:38:16.716+07:00  INFO 21848 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-03-24T17:38:16.759+07:00  INFO 21848 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-03-24T17:38:16.760+07:00  INFO 21848 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 774 ms
+2026-03-24T17:38:16.966+07:00  WARN 21848 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 66c85340-9db8-4f68-b9d8-926024086c2d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-24T17:38:17.071+07:00  INFO 21848 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@19ae36f4, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6735f210, org.springframework.security.web.context.SecurityContextHolderFilter@da09250, org.springframework.security.web.header.HeaderWriterFilter@ee96866, org.springframework.web.filter.CorsFilter@4567fb2b, org.springframework.security.web.authentication.logout.LogoutFilter@2fbd390, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@750ed637, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@587f4f63, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2f4d01b6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@372954e1, org.springframework.security.web.session.SessionManagementFilter@34aa8b61, org.springframework.security.web.access.ExceptionTranslationFilter@71369e1a, org.springframework.security.web.access.intercept.AuthorizationFilter@6fb22ae3]
+2026-03-24T17:38:17.176+07:00  INFO 21848 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-24T17:38:18.952+07:00  INFO 21848 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6de610c6
+2026-03-24T17:38:18.953+07:00  INFO 21848 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-24T17:38:19.026+07:00  INFO 21848 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-03-24T17:38:19.030+07:00  INFO 21848 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 3.291 seconds (process running for 3.63)
+2026-03-24T17:41:17.635+07:00  INFO 21848 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-24T17:41:17.638+07:00  INFO 21848 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-24T17:41:21.131+07:00  INFO 4148 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 4148 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-03-24T17:41:21.132+07:00  INFO 4148 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-03-24T17:41:21.614+07:00  INFO 4148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-03-24T17:41:21.626+07:00  INFO 4148 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 JDBC repository interfaces.
+2026-03-24T17:41:21.849+07:00  INFO 4148 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-03-24T17:41:21.854+07:00  INFO 4148 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-24T17:41:21.854+07:00  INFO 4148 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-03-24T17:41:21.895+07:00  INFO 4148 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-03-24T17:41:21.895+07:00  INFO 4148 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 734 ms
+2026-03-24T17:41:22.097+07:00  WARN 4148 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: c9c7520f-aabb-4cff-8528-1b714275005b
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-24T17:41:22.206+07:00  INFO 4148 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@389a5022, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@bb8ead8, org.springframework.security.web.context.SecurityContextHolderFilter@5e68be2, org.springframework.security.web.header.HeaderWriterFilter@13ca16bf, org.springframework.web.filter.CorsFilter@5b44318, org.springframework.security.web.authentication.logout.LogoutFilter@1a497286, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@7d4d8579, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@f18b738, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@f017dd0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6e807e2, org.springframework.security.web.session.SessionManagementFilter@1e191150, org.springframework.security.web.access.ExceptionTranslationFilter@32e5af53, org.springframework.security.web.access.intercept.AuthorizationFilter@2bb31455]
+2026-03-24T17:41:22.306+07:00  INFO 4148 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-24T17:41:23.612+07:00  INFO 4148 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3caf5c96
+2026-03-24T17:41:23.612+07:00  INFO 4148 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-24T17:41:23.676+07:00  INFO 4148 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-03-24T17:41:23.686+07:00  INFO 4148 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 2.757 seconds (process running for 3.066)
+2026-03-24T17:42:35.316+07:00  INFO 4148 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-24T17:42:35.320+07:00  INFO 4148 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-24T17:42:37.832+07:00  INFO 15060 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 15060 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-03-24T17:42:37.832+07:00  INFO 15060 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-03-24T17:42:38.401+07:00  INFO 15060 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-03-24T17:42:38.414+07:00  INFO 15060 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 JDBC repository interfaces.
+2026-03-24T17:42:38.643+07:00  INFO 15060 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-03-24T17:42:38.647+07:00  INFO 15060 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-24T17:42:38.648+07:00  INFO 15060 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-03-24T17:42:38.691+07:00  INFO 15060 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-03-24T17:42:38.691+07:00  INFO 15060 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 826 ms
+2026-03-24T17:42:38.899+07:00  WARN 15060 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: bd34c0e9-5db6-45ad-b209-b3271401b4e4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-24T17:42:39.005+07:00  INFO 15060 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e0a9b1d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@52f9e8bb, org.springframework.security.web.context.SecurityContextHolderFilter@77fc19cf, org.springframework.security.web.header.HeaderWriterFilter@7c901203, org.springframework.web.filter.CorsFilter@2035d65b, org.springframework.security.web.authentication.logout.LogoutFilter@61911947, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@422ab737, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1b31af02, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@389a5022, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@240a2619, org.springframework.security.web.session.SessionManagementFilter@4a9b3956, org.springframework.security.web.access.ExceptionTranslationFilter@7de35070, org.springframework.security.web.access.intercept.AuthorizationFilter@74431b9c]
+2026-03-24T17:42:39.113+07:00  INFO 15060 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-24T17:42:40.587+07:00  INFO 15060 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7f53fc38
+2026-03-24T17:42:40.589+07:00  INFO 15060 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-24T17:42:40.655+07:00  INFO 15060 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-03-24T17:42:40.660+07:00  INFO 15060 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 3.037 seconds (process running for 3.362)
+2026-03-24T17:42:46.886+07:00  INFO 15060 --- [http-nio-0.0.0.0-11001-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-24T17:42:46.886+07:00  INFO 15060 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-24T17:42:46.886+07:00  INFO 15060 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-03-24T17:42:47.595+07:00  INFO 15060 --- [http-nio-0.0.0.0-11001-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 538 ms

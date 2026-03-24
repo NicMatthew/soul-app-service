@@ -142,15 +142,24 @@ class AppointmentRepository(
             )
     }
 
-    fun getPatientsAppointmentsByPyschologyIdAndClientId(clientId: Int,psychologyid: Int): List<Appointment>? {
-        val sql = """
+    fun getPatientsAppointmentsByPyschologyIdAndClientId(clientId: Int,psychologyid: Int,order: String?): List<Appointment>? {
+        val sql = StringBuilder( """
         SELECT *
         FROM appointments a left join psychologist_profile p on p.id = a.psychologist_id
         WHERE a.client_user_id = ? AND p.user_id = ?
-    """.trimIndent()
+        """)
+
+        if (!order.isNullOrBlank()) {
+            when (order.lowercase()) {
+                "asc" -> sql.append(" ORDER BY a.scheduled_at ASC")
+                "desc" -> sql.append(" ORDER BY a.scheduled_at DESC")
+            }
+        } else {
+            sql.append(" ORDER BY a.scheduled_at DESC")
+        }
 
         return jdbcTemplate.query(
-            sql,
+            sql.toString(),
             { rs, _ ->
                 Appointment(
                     id = rs.getInt("id"),
@@ -299,7 +308,7 @@ class AppointmentRepository(
     fun addAppointmentNotes (appointmentId: Int, request: addAppointmentNotesRequest): Int {
         val sql = """
         UPDATE appointments
-        SET medical_notes = ? AND final_diagnoses = ?
+        SET medical_notes = ?, final_diagnose = ?
         WHERE id = ?
     """.trimIndent()
 

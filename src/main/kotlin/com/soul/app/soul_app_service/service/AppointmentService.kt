@@ -305,8 +305,8 @@ class AppointmentService(
         return response
     }
 
-    fun getPatientsHistory(clientId: Int,psychologyId: Int): List<GetPsychologAppointmentResponse>? {
-        val appointments = appointmentRepository.getPatientsAppointmentsByPyschologyIdAndClientId(clientId,psychologyId)
+    fun getPatientsHistory(clientId: Int,psychologyId: Int,order: String?): List<GetPsychologAppointmentResponse>? {
+        val appointments = appointmentRepository.getPatientsAppointmentsByPyschologyIdAndClientId(clientId,psychologyId,order)
         val response = mutableListOf<GetPsychologAppointmentResponse>()
         appointments?.forEach { appointment ->
             val client = userService.getUserById(appointment.clientUserId)!!

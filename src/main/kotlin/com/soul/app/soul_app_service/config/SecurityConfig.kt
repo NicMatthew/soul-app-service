@@ -1,6 +1,6 @@
 package com.soul.app.soul_app_service.config
 
-import com.soul.app.soul_app_service.filter.GlobalLoggingFilter
+//import com.soul.app.soul_app_service.filter.GlobalLoggingFilter
 import com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Bean
@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 class SecurityConfig(
     private val jwtFilter: JwtTokenAuthenticationFilter,
-    private val globalLoggingFilter: GlobalLoggingFilter
+//    private val globalLoggingFilter: GlobalLoggingFilter
 ) {
 
     @Bean
@@ -71,10 +71,10 @@ class SecurityConfig(
                 jwtFilter,
                 UsernamePasswordAuthenticationFilter::class.java
             )
-            .addFilterBefore(
-                globalLoggingFilter,
-                JwtTokenAuthenticationFilter::class.java
-            )
+//            .addFilterBefore(
+//                globalLoggingFilter,
+//                JwtTokenAuthenticationFilter::class.java
+//            )
 
         return http.build()
     }
