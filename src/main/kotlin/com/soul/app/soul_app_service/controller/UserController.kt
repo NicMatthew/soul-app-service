@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.sql.Date
 
 @RestController
 @RequestMapping("/user")
@@ -57,11 +59,14 @@ class UserController (
         summary = "Get User's All Appointment",
     )
     fun getAllAppointments(
+        @RequestParam(value = "status", required = false) status: String?,
+        @RequestParam(value = "date", required = false) date: Date?,
+        @RequestParam(value = "order", required = false) order: String?,
     ): ResponseEntity<List<GetUserAppointmentResponse>?> {
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int
 
-        return ResponseEntity.ok(appointmentService.getAllUserAppointments(userId))
+        return ResponseEntity.ok(appointmentService.getAllUserAppointments(userId,status,date,order))
     }
     @GetMapping("/appointment/{appointment-id}")
     @Operation(

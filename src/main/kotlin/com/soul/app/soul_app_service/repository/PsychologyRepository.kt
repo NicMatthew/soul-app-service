@@ -50,7 +50,7 @@ class PsychologyRepository(
             education = ?,
             clinic = ?,
             description = ?,
-            religion = ?,
+            religion = ?
         WHERE user_id = ?
     """.trimIndent()
 

@@ -242,7 +242,7 @@ class AppointmentService(
 
     fun updateAppointmentStatusByUserId(userId: Int) {
 
-        val appointments = appointmentRepository.getAppointmentsByUserId(userId)
+        val appointments = appointmentRepository.getAppointmentsByUserId(userId,null,null,null)
         if (appointments.isNullOrEmpty()) return
         val now = LocalDateTime.now()
 
@@ -276,10 +276,10 @@ class AppointmentService(
             }
         }
     }
-    fun getAllUserAppointments(userId: Int): List<GetUserAppointmentResponse>? {
+    fun getAllUserAppointments(userId: Int,status: String?,date: Date?,order: String?): List<GetUserAppointmentResponse>? {
         updateAppointmentStatusByUserId(userId)
         val response = mutableListOf<GetUserAppointmentResponse>()
-        appointmentRepository.getAppointmentsByUserId(userId)?.forEach { appointment ->
+        appointmentRepository.getAppointmentsByUserId(userId,status,date,order)?.forEach { appointment ->
             response.add(GetUserAppointmentResponse(
                 appointment!!,
                 psychologyService.getPsychologyDetailByUserId(psychologyService.getUserIdFromPscyhologProfileId(appointment.psychologyId)!!)!!.user.name

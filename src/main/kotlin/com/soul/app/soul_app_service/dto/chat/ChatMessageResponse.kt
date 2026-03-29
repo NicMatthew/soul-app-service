@@ -5,5 +5,7 @@ data class ChatMessageResponse(
     val conversationId: Int,
     val senderId: Int,
     val content: String,
-    val createdAt: String
+    val createdAt: String,
+    val isRead: Boolean = false,
+    val readAt: String? = null
 )

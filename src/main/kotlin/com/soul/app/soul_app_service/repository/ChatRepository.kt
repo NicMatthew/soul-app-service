@@ -48,13 +48,6 @@ class ChatRepository(
         jdbcTemplate.update(sql, conversationId)
     }
 
-    /**
-     * Ambil 2 participant dari appointment:
-     * - client_user_id (langsung user id)
-     * - psychologist_id (ini profile id, jadi join ke psychologist_profile dulu ambil user_id)
-     *
-     * Return: [clientUserId, psychologistUserId]
-     */
     fun getConversationParticipants(conversationId: Int): List<Int>? {
         val sql = """
             SELECT 
@@ -117,5 +110,87 @@ class ChatRepository(
             },
             conversationId
         )
+    }
+    fun markMessagesAsRead(conversationId: Int, readerUserId: Int): Int {
+        val sql = """
+        UPDATE messages 
+        SET is_read = TRUE, read_at = NOW()
+        WHERE conversation_id = ?
+          AND sender_user_id != ?
+          AND is_read = FALSE
+    """
+        return jdbcTemplate.update(sql, conversationId, readerUserId)
+    }
+
+    fun getUnreadCount(conversationId: Int, userId: Int): Int {
+        val sql = """
+        SELECT COUNT(*) FROM messages
+        WHERE conversation_id = ?
+          AND sender_user_id != ?
+          AND is_read = FALSE
+    """
+        return jdbcTemplate.queryForObject(sql, Int::class.java, conversationId, userId) ?: 0
+    }
+    fun getConversationsByUserId(userId: Int): List<Conversation> {
+        val sql = """
+        SELECT c.*
+        FROM conversations c
+        JOIN appointments a ON a.id = c.appointment_id
+        JOIN psychologist_profile pp ON pp.id = a.psychologist_id
+        WHERE a.client_user_id = ? OR pp.user_id = ?
+        ORDER BY c.last_message_at DESC NULLS LAST
+    """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                Conversation(
+                    id = rs.getInt("id"),
+                    appointmentId = rs.getInt("appointment_id"),
+                    createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
+                    lastMessageAt = rs.getTimestamp("last_message_at")?.toLocalDateTime()
+                )
+            },
+            userId, userId
+        )
+    }
+
+    fun getLastMessage(conversationId: Int): Message? {
+        val sql = """
+        SELECT * FROM messages
+        WHERE conversation_id = ?
+        ORDER BY sent_at DESC
+        LIMIT 1
+    """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                Message(
+                    id = rs.getInt("id"),
+                    conversationId = rs.getInt("conversation_id"),
+                    senderUserId = rs.getInt("sender_user_id"),
+                    messageText = rs.getString("message_text"),
+                    sentAt = rs.getTimestamp("sent_at").toLocalDateTime()
+                )
+            },
+            conversationId
+        ).firstOrNull()
+    }
+
+    fun getOtherUserId(conversationId: Int, userId: Int): Int? {
+        val sql = """
+        SELECT 
+            CASE 
+                WHEN a.client_user_id = ? THEN pp.user_id
+                ELSE a.client_user_id
+            END AS other_user_id
+        FROM conversations c
+        JOIN appointments a ON a.id = c.appointment_id
+        JOIN psychologist_profile pp ON pp.id = a.psychologist_id
+        WHERE c.id = ?
+    """.trimIndent()
+
+        return jdbcTemplate.queryForObject(sql, Int::class.java, userId, conversationId)
     }
 }

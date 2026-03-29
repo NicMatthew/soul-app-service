@@ -14,11 +14,13 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocket
 class WebSocketConfig(
-    private val chatHandler: ChatWebSocketHandler
+    private val chatHandler: ChatWebSocketHandler,
+    private val jwtHandshakeInterceptor: JwtHandshakeInterceptor
 ) : WebSocketConfigurer {
 
     override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
         registry.addHandler(chatHandler, "/ws")
+            .addInterceptors(jwtHandshakeInterceptor)
             .setAllowedOriginPatterns("*")
     }
 }

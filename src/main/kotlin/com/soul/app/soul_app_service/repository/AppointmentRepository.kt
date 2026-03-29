@@ -61,15 +61,44 @@ class AppointmentRepository(
             appointmentId
         ).firstOrNull()
     }
-    fun getAppointmentsByUserId(userId: Int): List<Appointment?>? {
-        val sql = """
-        SELECT *
-        FROM appointments
-        WHERE client_user_id = ?
-    """.trimIndent()
+    fun getAppointmentsByUserId(userId: Int,status: String?,date: Date?,order: String?): List<Appointment?>? {
+        val sql = StringBuilder("""
+            SELECT *
+            FROM appointments a
+            WHERE a.client_user_id = ?
+    """)
+        val params = mutableListOf<Any>(userId)
+
+        if (!status.isNullOrBlank()) {
+            if (status == AppointmentStatus.NOT_STARTED.name){
+                sql.append(" AND a.status IN (?, ?, ?)")
+                params.add(AppointmentStatus.WAITING_PAYMENT.name)
+                params.add(AppointmentStatus.PAID.name)
+                params.add(AppointmentStatus.CREATED.name)
+            }else {
+                sql.append(" AND a.status = ?")
+                params.add(status)
+
+            }
+        }
+        // 🔍 FILTER DATE
+        if (date != null) {
+            sql.append(" AND DATE(a.scheduled_at) = ?")
+            params.add(date)
+        }
+
+        // 🔃 ORDERING
+        if (!order.isNullOrBlank()) {
+            when (order.lowercase()) {
+                "asc" -> sql.append(" ORDER BY a.scheduled_at ASC")
+                "desc" -> sql.append(" ORDER BY a.scheduled_at DESC")
+            }
+        } else {
+            sql.append(" ORDER BY a.scheduled_at DESC")
+        }
 
         return jdbcTemplate.query(
-            sql,
+            sql.toString(),
             { rs, _ ->
                 Appointment(
                     id = rs.getInt("id"),
