@@ -9,6 +9,7 @@ import com.soul.app.soul_app_service.model.PsychologyCertificate
 import com.soul.app.soul_app_service.model.PsychologyProfile
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
+import org.springframework.jdbc.core.queryForObject
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -289,15 +290,16 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
 
     }
 
-    fun savePsychologyCertificate(certificates: AddPsychologyCertificateRequest) : Int{
+    fun savePsychologyCertificate(certificates: AddPsychologyCertificateRequest): Int {
         val sql = """
-            INSERT INTO psychologist_certificates (psychologist_id, path,created_at)
-            VALUES (?, ?, NOW())
-            RETURNING id
-        """.trimIndent()
+        INSERT INTO psychologist_certificates (psychologist_id, path, created_at)
+        VALUES (?, ?, NOW())
+        RETURNING id
+    """.trimIndent()
 
-        return jdbcTemplate.update(
+        return jdbcTemplate.queryForObject(
             sql,
+            Int::class.java,
             certificates.psychologyId,
             certificates.path
         )
@@ -305,7 +307,7 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
         fun deletePsychologyCertificate(psychologyId: Int,certificateId: Int): Int {
         val deleteSql = """
         DELETE FROM psychologist_certificates
-        WHERE psychologist_id = ?,id = ?
+        WHERE psychologist_id = ? AND id = ?
     """.trimIndent()
 
         return jdbcTemplate.update(deleteSql, psychologyId,certificateId)
