@@ -1,5 +1,6 @@
 package com.soul.app.soul_app_service.service
 
+import com.soul.app.soul_app_service.dto.request.RatingAppRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
 import com.soul.app.soul_app_service.dto.response.GetUserAppointmentDetailResponse
 import com.soul.app.soul_app_service.model.User
@@ -45,18 +46,17 @@ class UserService(
     fun getUserById(userId: Int): User? {
         return userRepository.getUserById(userId)
     }
-
-
-
-    fun getAppointmentDetail(appointmentId: Int): GetUserAppointmentDetailResponse? {
-        val appointment = appointmentRepository.getAppointmentById(appointmentId) ?: throw RuntimeException("Appointment not found")
-        val payment = paymentRepository.getPaymentByAppointmentId(appointmentId) ?: throw RuntimeException("Payment not found")
-        return GetUserAppointmentDetailResponse(
-            appointment = appointment,
-            payment = payment,
-            psychologName = userRepository.getUserById(psychologyRepository.getUserIdFromPscyhologProfileId(appointment.psychologyId)!!)!!.name
-        )
+    fun submitRatingApp(
+        userId: Int,
+        request : RatingAppRequest
+    ): String{
+        userRepository.submitRatingApp(userId, request)
+        return "OK"
     }
+
+
+
+
 
 
 

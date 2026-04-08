@@ -1,5 +1,7 @@
 package com.soul.app.soul_app_service.repository
 
+import com.soul.app.soul_app_service.dto.request.RatingAppRequest
+import com.soul.app.soul_app_service.model.RatingApp
 import com.soul.app.soul_app_service.model.User
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
@@ -30,8 +32,40 @@ class UserRepository(
             user.profile_picture,
             user.dob,
             user.gender
-        )!!
+        )
     }
+
+    fun submitRatingApp(userId: Int,request: RatingAppRequest): Int {
+        val sql = """
+            INSERT INTO rating_app
+            (rate,description,client_user_id)
+            VALUES (?, ?, ?)
+            RETURNING id
+        """.trimIndent()
+
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            request.rate,
+            request.description,
+            userId
+        )
+    }
+    fun getAllRatingApp(): List<RatingApp> {
+        val sql = "SELECT * FROM rating_app"
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                RatingApp(
+                    userId = rs.getInt("client_user_id"),
+                    rate = rs.getInt("rate"),
+                    description = rs.getString("description"),
+                )
+            },
+        )
+    }
+
 
     fun getUserByEmail(email: String): User? {
         val sql = "SELECT * FROM users WHERE email = ?"

@@ -7,10 +7,14 @@ import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.addAppointmentNotesRequest
 import com.soul.app.soul_app_service.dto.response.GetPsychologAppointmentResponse
+import com.soul.app.soul_app_service.dto.response.GetUserAppointmentDetailResponse
 import com.soul.app.soul_app_service.dto.response.GetUserAppointmentResponse
 import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.AppointmentSlot
 import com.soul.app.soul_app_service.repository.AppointmentRepository
+import com.soul.app.soul_app_service.repository.PaymentRepository
+import com.soul.app.soul_app_service.repository.PsychologyRepository
+import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Service
 import java.sql.Date
 import java.time.LocalDate
@@ -24,6 +28,9 @@ class AppointmentService(
     private val psychologyService: PsychologyService,
     private val paymentService: PaymentService,
     private val userService: UserService,
+    private val paymentRepository: PaymentRepository,
+    private val userRepository: UserRepository,
+    private val psychologyRepository: PsychologyRepository,
 ) {
     fun createAppointment(
         userId: Int,
@@ -141,7 +148,7 @@ class AppointmentService(
 
         return result
     }
-    fun getWeeklyAvailabilityWithStatus(
+    fun getMonthlyAvailabilityWithStatus(
         userId: Int
     ): Map<LocalDate, List<TimeSlotWithStatus>> {
         val psychology = psychologyService.getPsychologyDetailByUserId(userId)
@@ -156,7 +163,7 @@ class AppointmentService(
 
         val result = linkedMapOf<LocalDate, List<TimeSlotWithStatus>>()
 
-        for (i in 0..6) {
+        for (i in 0..59) {
             val date = today.plusDays(i.toLong())
             val dayOfWeek = date.dayOfWeek.value
 
@@ -282,10 +289,21 @@ class AppointmentService(
         appointmentRepository.getAppointmentsByUserId(userId,status,date,order)?.forEach { appointment ->
             response.add(GetUserAppointmentResponse(
                 appointment!!,
-                psychologyService.getPsychologyDetailByUserId(psychologyService.getUserIdFromPscyhologProfileId(appointment.psychologyId)!!)!!.user.name
+                psychologyService.getPsychologyDetailByUserId(psychologyService.getUserIdFromPscyhologProfileId(appointment.psychologyId)!!)!!.user.name,
+                appointmentRepository.getRatingAppointmentByUserIdAndAppointmentId(userId,appointment.id)
             ))
         }
         return response
+    }
+    fun getAppointmentDetail(appointmentId: Int): GetUserAppointmentDetailResponse? {
+        val appointment = appointmentRepository.getAppointmentById(appointmentId) ?: throw RuntimeException("Appointment not found")
+        val payment = paymentRepository.getPaymentByAppointmentId(appointmentId) ?: throw RuntimeException("Payment not found")
+        return GetUserAppointmentDetailResponse(
+            appointment = appointment,
+            payment = payment,
+            psychologName = userRepository.getUserById(psychologyRepository.getUserIdFromPscyhologProfileId(appointment.psychologyId)!!)!!.name,
+            rating = appointmentRepository.getRatingAppointmentByAppointmentId(appointmentId)
+        )
     }
     fun getAllPsychologAppointments(userId: Int,status: String?, date: Date?,order:String?): List<GetPsychologAppointmentResponse>? {
         updateAppointmentStatusByUserId(userId)

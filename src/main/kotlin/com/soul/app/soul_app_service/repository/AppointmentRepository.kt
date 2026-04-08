@@ -4,6 +4,7 @@ import com.soul.app.soul_app_service.dto.AppointmentStatus
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.addAppointmentNotesRequest
+import com.soul.app.soul_app_service.dto.response.RatingResponse
 import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.AppointmentSlot
 import com.soul.app.soul_app_service.model.PsychologyAvailability
@@ -359,7 +360,7 @@ class AppointmentRepository(
                 description)
             VALUES (
                 ?, ?, ?, ?, ?
-            );
+            ) RETURNING id;
         """.trimIndent()
 
         return jdbcTemplate.queryForObject(
@@ -371,6 +372,41 @@ class AppointmentRepository(
             request.rate,
             request.description
         )
+    }
+
+    fun getRatingAppointmentByUserIdAndAppointmentId(userId: Int, appointmentId: Int): Int?{
+        val sql = """
+            SELECT * 
+            FROM rating 
+            WHERE client_user_id = ? AND appointment_id = ?
+        """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+               rs.getInt("rate")
+            },
+            userId,
+            appointmentId
+        ).firstOrNull()
+    }
+    fun getRatingAppointmentByAppointmentId(appointmentId: Int): RatingResponse?{
+        val sql = """
+            SELECT rate, description
+            FROM rating 
+            WHERE appointment_id = ?
+        """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                RatingResponse(
+                    rs.getInt("rate"),
+                    rs.getString("description"),
+                )
+            },
+            appointmentId
+        ).firstOrNull()
     }
 
 

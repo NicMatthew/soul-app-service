@@ -5,5 +5,5 @@ data class Psychology(
     val psychologyProfile: PsychologyProfile,
     val fields :List<Field>,
     val certificates: List<PsychologyCertificate>?,
-
+    val ratings: List<RatingAppointment>?
     )

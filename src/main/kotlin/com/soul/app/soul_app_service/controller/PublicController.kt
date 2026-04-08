@@ -1,9 +1,11 @@
 package com.soul.app.soul_app_service.controller
 
 import com.soul.app.soul_app_service.dto.response.GetPsychologyDetailResponse
+import com.soul.app.soul_app_service.dto.response.RatingAppResponse
 import com.soul.app.soul_app_service.model.Psychology
 import com.soul.app.soul_app_service.service.AppointmentService
 import com.soul.app.soul_app_service.service.PsychologyService
+import com.soul.app.soul_app_service.service.RatingAppService
 import com.soul.app.soul_app_service.service.UserService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -21,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController
 )
 class PublicController(
     val psychologyService: PsychologyService,
-    private val appointmentService: AppointmentService
+    private val appointmentService: AppointmentService,
+    private val userService: UserService,
+    private val ratingAppService: RatingAppService
 ) {
     @GetMapping("/psychology/{psychologyId}")
     @Operation(
@@ -33,7 +37,7 @@ class PublicController(
     {
         return ResponseEntity.ok(GetPsychologyDetailResponse(
             psychology = psychologyService.getPsychologyDetailByUserId(psychologyId)?:throw Exception("INVALID PSYCHOLOG ID"),
-            slots = appointmentService.getWeeklyAvailabilityWithStatus(psychologyId),
+            slots = appointmentService.getMonthlyAvailabilityWithStatus(psychologyId),
         ))
     }
     @GetMapping("/psychology")
@@ -45,4 +49,26 @@ class PublicController(
     ): ResponseEntity<List<Psychology>> {
         return ResponseEntity.ok(psychologyService.getAllPsychologies(search))
     }
+
+    @GetMapping("/helper")
+    @Operation(
+        summary = "Get All Psycholog",
+    )
+    private fun getPsychologDetails(
+        @RequestParam(name = "userId") userId: Int?,
+        @RequestParam(name = "profileId") profileId: Int?
+    ): ResponseEntity<Psychology?> {
+        return ResponseEntity.ok(psychologyService.helper(userId, profileId))
+    }
+
+    @GetMapping("/rating-app")
+    @Operation(
+        summary = "Get All App Rating",
+    )
+    private fun getAllRatingApp(
+    ): ResponseEntity<List<RatingAppResponse?>?> {
+        return ResponseEntity.ok(ratingAppService.getAllRatingApp())
+    }
+
+
 }

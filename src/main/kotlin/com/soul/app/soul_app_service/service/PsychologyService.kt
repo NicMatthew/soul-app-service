@@ -12,6 +12,7 @@ import com.soul.app.soul_app_service.model.PsychologyProfile
 import com.soul.app.soul_app_service.repository.AppointmentRepository
 import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
+import org.springframework.data.relational.core.sql.In
 import org.springframework.stereotype.Service
 import java.sql.Date
 import java.time.LocalDate
@@ -48,7 +49,9 @@ class PsychologyService (
             userRepository.getUserById(userId)!!,
             psychologyRepository.getPsychologyProfilebyUserId(userId)!!,
             psychologyRepository.getPsychologyFields(profileId),
-            certificates = psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId)
+            certificates = psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId),
+            ratings = psychologyRepository.getPsychologyRating(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
+
         )
     }
 
@@ -64,7 +67,10 @@ class PsychologyService (
                     it,
                     psychologyRepository.getPsychologyProfilebyUserId(it.id)!!,
                     psychologyRepository.getPsychologyFields(profileId),
-                    psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId)
+                    psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId),
+                    ratings = psychologyRepository.getPsychologyRating(profileId)
+
+
                 )
             )
         }
@@ -100,6 +106,31 @@ class PsychologyService (
     }
     fun getAllFields(): List<Field> {
         return psychologyRepository.getAllFields()
+    }
+    fun helper(userId : Int?,profileId: Int?) : Psychology? {
+        if (userId != null){
+            return Psychology(
+                userRepository.getUserById(userId)!!,
+                psychologyRepository.getPsychologyProfilebyUserId(userId)!!,
+                psychologyRepository.getPsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!),
+                certificates = psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!),
+                ratings = psychologyRepository.getPsychologyRating(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
+
+            )
+        }
+
+        if (profileId != null){
+
+            return Psychology(
+                userRepository.getUserById(psychologyRepository.getUserIdFromPscyhologProfileId(profileId)!!)!!,
+                psychologyRepository.getPsychologyProfilebyUserId(psychologyRepository.getUserIdFromPscyhologProfileId(profileId)!!)!!,
+                psychologyRepository.getPsychologyFields(profileId),
+                certificates = psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId),
+                ratings = psychologyRepository.getPsychologyRating(profileId)
+
+            )
+        }
+        return null
     }
 
 }

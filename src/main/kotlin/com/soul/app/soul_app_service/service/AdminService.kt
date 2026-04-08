@@ -56,7 +56,8 @@ class AdminService(
             user = userRepository.getUserById(userId)!!,
             psychologyProfile = psychologyRepository.getPsychologyProfilebyUserId(userId)!!,
             fields = psychologyRepository.getPsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!),
-            certificates = psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
+            certificates = psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!),
+            ratings = psychologyRepository.getPsychologyRating(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
 
         )
     }

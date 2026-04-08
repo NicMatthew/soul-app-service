@@ -39,7 +39,7 @@ class SecurityConfig(
                     "/v3/api-docs/**",
                     "/public/**",
                     "/payment/**",
-                    "/ws/**"
+                    "/ws/**",
                 ).permitAll()
 
                 it.requestMatchers("/psychology/**")

@@ -1,6 +1,8 @@
 package com.soul.app.soul_app_service.controller
 
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
+import com.soul.app.soul_app_service.dto.request.CreatePsychologyAvailabilityRequest
+import com.soul.app.soul_app_service.dto.request.RatingAppRequest
 import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
 import com.soul.app.soul_app_service.dto.response.GetUserAppointmentDetailResponse
@@ -76,7 +78,7 @@ class UserController (
         @PathVariable("appointment-id") appointmentId: String,
     ): ResponseEntity<GetUserAppointmentDetailResponse> {
         val id = appointmentId.toInt()
-        return ResponseEntity.ok(userService.getAppointmentDetail(id))
+        return ResponseEntity.ok(appointmentService.getAppointmentDetail(id))
     }
 
     @PostMapping("/create-appointment")
@@ -103,6 +105,18 @@ class UserController (
         val userId = authentication.principal as Int
 
         return ResponseEntity.ok(appointmentService.rateAppointment(userId,request,appointmentId))
+    }
+    @PostMapping("rate-app")
+    @Operation(
+        summary = "Submit Rating App",
+    )
+    fun submitRatingApp(
+        @RequestBody request: RatingAppRequest
+    ): ResponseEntity<String> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+
+        return ResponseEntity.ok(userService.submitRatingApp(userId,request))
     }
 
 

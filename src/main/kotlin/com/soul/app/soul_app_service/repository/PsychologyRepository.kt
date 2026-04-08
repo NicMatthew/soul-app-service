@@ -7,6 +7,7 @@ import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.PsychologyAvailability
 import com.soul.app.soul_app_service.model.PsychologyCertificate
 import com.soul.app.soul_app_service.model.PsychologyProfile
+import com.soul.app.soul_app_service.model.RatingAppointment
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.queryForObject
@@ -346,6 +347,32 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
                     id = rs.getInt("id"),
                     psychologyId = rs.getInt("psychologist_id"),
                     path = rs.getString("path"),
+                )
+            },
+            psychologyId
+        )
+    }
+    fun getAllPsychologyProfileId(): List<Int> {
+        return jdbcTemplate.query(
+            "SELECT id FROM psychologist_profile",
+            { rs, _ -> rs.getInt("id") }
+        )
+    }
+
+    fun getPsychologyRating(psychologyId: Int):List<RatingAppointment>{
+        val sql = """
+            SELECT * from rating where psychologist_id = ?
+        """.trimIndent()
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                RatingAppointment(
+                    id = rs.getInt("id"),
+                    psychologyId = rs.getInt("psychologist_id"),
+                    appointmentId = rs.getInt("appointment_id"),
+                    userId = rs.getInt("client_user_id"),
+                    rate = rs.getInt("rate"),
+                    description = rs.getString("description"),
                 )
             },
             psychologyId
