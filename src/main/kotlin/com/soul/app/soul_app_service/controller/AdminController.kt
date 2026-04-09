@@ -54,7 +54,7 @@ class AdminController(
     private fun getAllPyschology(
         @RequestParam(name = "search") search: String?
     ): ResponseEntity<List<Psychology>> {
-        return ResponseEntity.ok(psychologyService.getAllPsychologies(search))
+        return ResponseEntity.ok(psychologyService.getAllPsychologies(search,null,null,null))
     }
     @DeleteMapping("/delete-psychology")
     @Operation(

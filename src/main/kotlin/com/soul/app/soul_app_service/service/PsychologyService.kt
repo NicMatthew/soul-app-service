@@ -56,25 +56,30 @@ class PsychologyService (
     }
 
 
-    fun getAllPsychologies(search : String?): List<Psychology> {
-        val users = userRepository.getAllPsychologyUser(search)
+    fun getAllPsychologies(
+        search: String?,
+        rate: String?,
+        price: String?,
+        experience: String?
+    ): List<Psychology> {
 
-        var psychologies = mutableListOf<Psychology>()
-        users.forEach {
-            val profileId = psychologyRepository.getPsychologyProfileIdFromUserId(it.id)!!
-            psychologies.add(
-                Psychology(
-                    it,
-                    psychologyRepository.getPsychologyProfilebyUserId(it.id)!!,
-                    psychologyRepository.getPsychologyFields(profileId),
-                    psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId),
-                    ratings = psychologyRepository.getPsychologyRating(profileId)
+        val rows = psychologyRepository.getPsychologyBase(search, rate, price, experience)
 
+        return rows.mapNotNull { row ->
+            val userId = row["id"] as Int
+            val profileId = row["profile_id"] as Int
 
-                )
+            val user = userRepository.getUserById(userId) ?: return@mapNotNull null
+            val profile = psychologyRepository.getPsychologyProfilebyUserId(userId) ?: return@mapNotNull null
+
+            Psychology(
+                user,
+                profile,
+                psychologyRepository.getPsychologyFields(profileId),
+                psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId),
+                ratings = psychologyRepository.getPsychologyRating(profileId)
             )
         }
-        return psychologies
     }
     fun updateProfile(userId: Int, request: UpdateProfilePsychologyRequest): Psychology{
         userService.updateProfile(userId, UpdateProfileRequest(

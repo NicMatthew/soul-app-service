@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController
 class PublicController(
     val psychologyService: PsychologyService,
     private val appointmentService: AppointmentService,
-    private val userService: UserService,
     private val ratingAppService: RatingAppService
 ) {
     @GetMapping("/psychology/{psychologyId}")
@@ -45,9 +44,12 @@ class PublicController(
         summary = "Get All Psycholog",
     )
     private fun getAllPyschology(
-        @RequestParam(name = "search") search: String?
+        @RequestParam(name = "search") search: String?,
+        @RequestParam(name = "rate") rate: String?,
+        @RequestParam(name = "career") career: String?,
+        @RequestParam(name = "price") price: String?
     ): ResponseEntity<List<Psychology>> {
-        return ResponseEntity.ok(psychologyService.getAllPsychologies(search))
+        return ResponseEntity.ok(psychologyService.getAllPsychologies(search,rate,career,price))
     }
 
     @GetMapping("/helper")

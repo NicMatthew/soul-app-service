@@ -358,6 +358,61 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
             { rs, _ -> rs.getInt("id") }
         )
     }
+    fun getPsychologyBase(
+        search: String?,
+        rate: String?,
+        price: String?,
+        experience: String?
+    ): List<Map<String, Any>> {
+
+        val sql = StringBuilder("""
+            SELECT 
+                u.id,
+                u.name,
+                u.email,
+                p.id as profile_id,
+                p.price_per_session,
+                p.career_start_date,
+                COALESCE(r.avg_rating, 0) as avg_rating
+            FROM users u
+            JOIN psychologist_profile p ON p.user_id = u.id
+            LEFT JOIN (
+                SELECT psychologist_id, AVG(rate) as avg_rating
+                FROM rating
+                GROUP BY psychologist_id
+            ) r ON r.psychologist_id = p.id
+            WHERE u.role = ?
+            """)
+
+        val params = mutableListOf<Any>("psycholog")
+
+        if (!search.isNullOrBlank()) {
+            sql.append(" AND u.name ILIKE ?")
+            params.add("%$search%")
+        }
+
+            val orderClauses = mutableListOf<String>()
+
+        if (!rate.isNullOrBlank()) {
+            orderClauses.add("r.avg_rating ${if (rate.equals("desc", true)) "DESC" else "ASC"}")
+        }
+
+        if (!price.isNullOrBlank()) {
+            orderClauses.add("p.price_per_session ${if (price.equals("desc", true)) "DESC" else "ASC"}")
+        }
+
+        if (!experience.isNullOrBlank()) {
+            orderClauses.add("p.career_start_date ${if (experience.equals("desc", true)) "DESC" else "ASC"}")
+        }
+
+        if (orderClauses.isEmpty()) {
+            orderClauses.add("avg_rating DESC")
+        }
+
+        sql.append(" ORDER BY ${orderClauses.joinToString(", ")} ")
+
+        return jdbcTemplate.queryForList(sql.toString(), *params.toTypedArray())
+    }
 
     fun getPsychologyRating(psychologyId: Int):List<RatingAppointment>{
         val sql = """
