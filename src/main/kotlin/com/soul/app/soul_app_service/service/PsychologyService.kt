@@ -64,20 +64,7 @@ class PsychologyService (
         experience: String?
     ): List<GetAllPsychologyResponse> {
 
-        val rows = psychologyRepository.getPsychologyBase(search, rate, price, experience)
-
-        return rows.mapNotNull { row ->
-            val userId = row["id"] as Int
-            val profileId = row["profile_id"] as Int
-
-            val user = userRepository.getUserById(userId) ?: return@mapNotNull null
-            val profile = psychologyRepository.getPsychologyProfilebyUserId(userId) ?: return@mapNotNull null
-
-            GetAllPsychologyResponse(
-                id = row["id"] as Int,
-                user
-            )
-        }
+        return psychologyRepository.getPsychologyBase(search, rate, price, experience)
     }
     fun updateProfile(userId: Int, request: UpdateProfilePsychologyRequest): Psychology{
         userService.updateProfile(userId, UpdateProfileRequest(
@@ -98,7 +85,8 @@ class PsychologyService (
             education = request.education,
             clinic = request.clinic,
             description = request.description,
-            religion = request.religion
+            religion = request.religion,
+            rating = 0F
         ))
         psychologyRepository.replacePsychologyFields(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!, request.fields)
         return getPsychologyDetailByUserId(userId)!!

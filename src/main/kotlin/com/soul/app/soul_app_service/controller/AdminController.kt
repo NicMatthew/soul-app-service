@@ -3,6 +3,7 @@ package com.soul.app.soul_app_service.controller
 import com.soul.app.soul_app_service.dto.request.AddPsychologyCertificateRequest
 import com.soul.app.soul_app_service.dto.request.DeletePsychologyCertificateRequest
 import com.soul.app.soul_app_service.dto.request.SignUpPsychologyRequest
+import com.soul.app.soul_app_service.dto.response.GetAllPsychologyResponse
 import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.Psychology
 import com.soul.app.soul_app_service.model.PsychologyCertificate
@@ -53,7 +54,7 @@ class AdminController(
     )
     private fun getAllPyschology(
         @RequestParam(name = "search") search: String?
-    ): ResponseEntity<List<Psychology>> {
+    ): ResponseEntity<List<GetAllPsychologyResponse>> {
         return ResponseEntity.ok(psychologyService.getAllPsychologies(search,null,null,null))
     }
     @DeleteMapping("/delete-psychology")

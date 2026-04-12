@@ -3,6 +3,7 @@ package com.soul.app.soul_app_service.repository
 import com.soul.app.soul_app_service.dto.request.AddPsychologyCertificateRequest
 import com.soul.app.soul_app_service.dto.request.CreatePsychologyAvailabilityRequest
 import com.soul.app.soul_app_service.dto.request.UpdatePsychologyAvailabilityRequest
+import com.soul.app.soul_app_service.dto.response.GetAllPsychologyResponse
 import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.PsychologyAvailability
 import com.soul.app.soul_app_service.model.PsychologyCertificate
@@ -105,6 +106,7 @@ class PsychologyRepository(
                     clinic = rs.getString("clinic"),
                     description = rs.getString("description"),
                     religion = rs.getString("religion"),
+                    rating = rs.getFloat("rating")
                 )
             },
             userId
@@ -132,6 +134,7 @@ class PsychologyRepository(
                     clinic = rs.getString("clinic"),
                     description = rs.getString("description"),
                     religion = rs.getString("religion"),
+                    rating = rs.getFloat("rating")
                 )
             },
             userId
@@ -360,14 +363,14 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
         rate: String?,
         price: String?,
         experience: String?
-    ): List<Map<String, Any>> {
+    ): List<GetAllPsychologyResponse> {
 
         val sql = StringBuilder("""
             SELECT 
-                u.id,
+                p.id,
                 u.name,
-                u.email,
                 p.id as profile_id,
+                p.description,
                 p.price_per_session,
                 p.career_start_date,
                 p.rating
@@ -400,7 +403,21 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
 
         sql.append(" ORDER BY ${orderClauses.joinToString(", ")} ")
 
-        return jdbcTemplate.queryForList(sql.toString(), *params.toTypedArray())
+        return jdbcTemplate.query(
+            sql.toString(),
+            params.toTypedArray()
+        ) { rs, _ ->
+            GetAllPsychologyResponse(
+                profileId = rs.getInt("id"),
+                userId = rs.getInt("user_id"),
+                name = rs.getString("name"),
+                profilePicture = rs.getString("profile_picture"),
+                rating = rs.getFloat("rating"),
+                careerStartDate = rs.getDate("career_start_date"),
+                description = rs.getString("description"),
+                pricePerSession = rs.getInt("price_per_session")
+            )
+        }
     }
 
     fun getPsychologyRating(psychologyId: Int):List<RatingAppointment>{

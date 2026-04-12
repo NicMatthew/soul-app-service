@@ -129,7 +129,7 @@ class PreferenceRepository(
         jdbcTemplate.update("DELETE FROM recommendations WHERE user_id = ?", userId)
 
         val sql = """
-            INSERT INTO recommendations (user_id, psychologist_id, score, reasons, recommended_at)
+            INSERT INTO recommendations (user_id, psychologist_id, score, reasons, created_at)
             VALUES (?, ?, ?, ?, NOW())
         """.trimIndent()
 

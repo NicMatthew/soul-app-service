@@ -1,5 +1,6 @@
 package com.soul.app.soul_app_service.controller
 
+import com.soul.app.soul_app_service.dto.response.GetAllPsychologyResponse
 import com.soul.app.soul_app_service.dto.response.GetPsychologyDetailResponse
 import com.soul.app.soul_app_service.dto.response.RatingAppResponse
 import com.soul.app.soul_app_service.model.Psychology
@@ -48,7 +49,7 @@ class PublicController(
         @RequestParam(name = "rate") rate: String?,
         @RequestParam(name = "career") career: String?,
         @RequestParam(name = "price") price: String?
-    ): ResponseEntity<List<Psychology>> {
+    ): ResponseEntity<List<GetAllPsychologyResponse>> {
         return ResponseEntity.ok(psychologyService.getAllPsychologies(search,rate,career,price))
     }
 
