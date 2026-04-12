@@ -21,7 +21,7 @@ class PsychologyRepository(
     fun savePsychologyProfile(profile: PsychologyProfile): Int {
         val sql = """
             INSERT INTO psychologist_profile
-            (user_id, alumnus, sipp, career_start_date, price_per_session, education, clinic, description, rating, religion)
+            (user_id, alumnus, sipp, career_start_date, price_per_session, education, clinic, description, religion)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             RETURNING id
         """.trimIndent()
@@ -37,7 +37,6 @@ class PsychologyRepository(
             profile.education,
             profile.clinic,
             profile.description,
-            profile.rating,
             profile.religion,
         )
     }
@@ -105,7 +104,6 @@ class PsychologyRepository(
                     education = rs.getString("education"),
                     clinic = rs.getString("clinic"),
                     description = rs.getString("description"),
-                    rating = rs.getFloat("rating"),
                     religion = rs.getString("religion"),
                 )
             },
@@ -133,7 +131,6 @@ class PsychologyRepository(
                     education = rs.getString("education"),
                     clinic = rs.getString("clinic"),
                     description = rs.getString("description"),
-                    rating = rs.getFloat("rating"),
                     religion = rs.getString("religion"),
                 )
             },
@@ -373,14 +370,9 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
                 p.id as profile_id,
                 p.price_per_session,
                 p.career_start_date,
-                COALESCE(r.avg_rating, 0) as avg_rating
+                p.rating
             FROM users u
             JOIN psychologist_profile p ON p.user_id = u.id
-            LEFT JOIN (
-                SELECT psychologist_id, AVG(rate) as avg_rating
-                FROM rating
-                GROUP BY psychologist_id
-            ) r ON r.psychologist_id = p.id
             WHERE u.role = ?
             """)
 
@@ -394,7 +386,7 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
             val orderClauses = mutableListOf<String>()
 
         if (!rate.isNullOrBlank()) {
-            orderClauses.add("r.avg_rating ${if (rate.equals("desc", true)) "DESC" else "ASC"}")
+            orderClauses.add("p.rating ${if (rate.equals("desc", true)) "DESC" else "ASC"}")
         }
 
         if (!price.isNullOrBlank()) {
@@ -405,9 +397,6 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
             orderClauses.add("p.career_start_date ${if (experience.equals("desc", true)) "DESC" else "ASC"}")
         }
 
-        if (orderClauses.isEmpty()) {
-            orderClauses.add("avg_rating DESC")
-        }
 
         sql.append(" ORDER BY ${orderClauses.joinToString(", ")} ")
 

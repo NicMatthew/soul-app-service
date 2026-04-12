@@ -5,6 +5,7 @@ import com.soul.app.soul_app_service.dto.TimeSlotWithStatus
 import com.soul.app.soul_app_service.dto.request.CreatePsychologyAvailabilityRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfilePsychologyRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
+import com.soul.app.soul_app_service.dto.response.GetAllPsychologyResponse
 import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.Psychology
 import com.soul.app.soul_app_service.model.PsychologyAvailability
@@ -61,7 +62,7 @@ class PsychologyService (
         rate: String?,
         price: String?,
         experience: String?
-    ): List<Psychology> {
+    ): List<GetAllPsychologyResponse> {
 
         val rows = psychologyRepository.getPsychologyBase(search, rate, price, experience)
 
@@ -72,12 +73,9 @@ class PsychologyService (
             val user = userRepository.getUserById(userId) ?: return@mapNotNull null
             val profile = psychologyRepository.getPsychologyProfilebyUserId(userId) ?: return@mapNotNull null
 
-            Psychology(
-                user,
-                profile,
-                psychologyRepository.getPsychologyFields(profileId),
-                psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId),
-                ratings = psychologyRepository.getPsychologyRating(profileId)
+            GetAllPsychologyResponse(
+                id = row["id"] as Int,
+                user
             )
         }
     }
