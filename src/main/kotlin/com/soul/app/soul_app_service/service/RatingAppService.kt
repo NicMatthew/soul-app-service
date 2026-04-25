@@ -15,7 +15,7 @@ class RatingAppService(private val userRepository: UserRepository) {
                     rate = it.rate,
                     description = it.description,
                     userName = userRepository.getUserById(it.userId)?.name!!,
-                    userProfile = userRepository.getUserById(it.userId)?.profile_picture!!,
+                    userProfile = userRepository.getUserById(it.userId)?.profile_picture,
                 )
             )
         }

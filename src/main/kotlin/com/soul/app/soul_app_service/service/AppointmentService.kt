@@ -1,9 +1,11 @@
 package com.soul.app.soul_app_service.service
 
 import com.soul.app.soul_app_service.dto.AppointmentStatus
+import com.soul.app.soul_app_service.dto.NotificationType
 import com.soul.app.soul_app_service.dto.TimeSlot
 import com.soul.app.soul_app_service.dto.TimeSlotWithStatus
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
+import com.soul.app.soul_app_service.dto.request.DayOffRequest
 import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.addAppointmentNotesRequest
 import com.soul.app.soul_app_service.dto.response.GetPsychologAppointmentResponse
@@ -11,15 +13,18 @@ import com.soul.app.soul_app_service.dto.response.GetUserAppointmentDetailRespon
 import com.soul.app.soul_app_service.dto.response.GetUserAppointmentResponse
 import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.AppointmentSlot
+import com.soul.app.soul_app_service.model.Notification
 import com.soul.app.soul_app_service.repository.AppointmentRepository
 import com.soul.app.soul_app_service.repository.PaymentRepository
 import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Service
 import java.sql.Date
+import java.sql.Time
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Service
@@ -27,10 +32,10 @@ class AppointmentService(
     private val appointmentRepository: AppointmentRepository,
     private val psychologyService: PsychologyService,
     private val paymentService: PaymentService,
-    private val userService: UserService,
     private val paymentRepository: PaymentRepository,
     private val userRepository: UserRepository,
     private val psychologyRepository: PsychologyRepository,
+    private val notificationService: NotificationService,
 ) {
     fun createAppointment(
         userId: Int,
@@ -81,6 +86,15 @@ class AppointmentService(
             )
         )
         paymentService.createPayment(appointmentId,userId)
+        val psychologistUserId = appointmentRepository.getPsychologistUserIdByAppointmentId(appointmentId)!!
+        val psychologistUser = userRepository.getUserById(psychologistUserId)!!
+        notificationService.sendNotification(userId, Notification(
+            userId = userId,
+            type = NotificationType.PAYMENT_REMINDER.name  ,
+            title = "Pengingat Pembayaran",
+            description = " Pembayaran untuk Jadwal bersama ${psychologistUser.name} di ${request.date}",
+            redirectUrl = "https://soulapp.my.id/payment/${appointmentId}",
+        ))
         return appointmentRepository.getAppointmentById(appointmentId)!!
     }
     fun getAvailableSlots(
@@ -249,24 +263,27 @@ class AppointmentService(
 
     fun updateAppointmentStatusByUserId(userId: Int) {
 
-        val appointments = appointmentRepository.getAppointmentsByUserId(userId,null,null,null)
+        val appointments = appointmentRepository.getAppointmentsByUserId(userId, null, null, null)
         if (appointments.isNullOrEmpty()) return
+
         val now = LocalDateTime.now()
 
         appointments.forEach { appointment ->
 
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
-            val dateTime = LocalDateTime.parse(appointment!!.scheduledAt, formatter)
+            val localDate = appointment!!.date.toLocalDate()
 
-            val date = dateTime.toLocalDate()
             val startTime = LocalTime.parse(appointment.startTime)
             val endTime = LocalTime.parse(appointment.endTime)
 
-            val startDateTime = LocalDateTime.of(date, startTime)
-            val endDateTime = LocalDateTime.of(date, endTime)
+            val startDateTime = LocalDateTime.of(localDate, startTime)
+
+            val endDateTime = if (endTime.isBefore(startTime)) {
+                LocalDateTime.of(localDate.plusDays(1), endTime)
+            } else {
+                LocalDateTime.of(localDate, endTime)
+            }
 
             when {
-
                 now.isAfter(startDateTime) && now.isBefore(endDateTime) -> {
                     appointmentRepository.updateAppointmentStatus(
                         appointment.id,
@@ -311,7 +328,7 @@ class AppointmentService(
         val appointments = appointmentRepository.getPsychologAppointmentsByPyschologyId(userId,status,date,order)
         val response = mutableListOf<GetPsychologAppointmentResponse>()
         appointments?.forEach { appointment ->
-            val client = userService.getUserById(appointment.clientUserId)!!
+            val client = userRepository.getUserById(appointment.clientUserId)!!
             val name  = if (client.anonymous == true) "Anonymous" else client.name
             response.add(GetPsychologAppointmentResponse(
                 appointment,
@@ -327,7 +344,7 @@ class AppointmentService(
         val appointments = appointmentRepository.getPatientsAppointmentsByPyschologyIdAndClientId(clientId,psychologyId,order)
         val response = mutableListOf<GetPsychologAppointmentResponse>()
         appointments?.forEach { appointment ->
-            val client = userService.getUserById(appointment.clientUserId)!!
+            val client = userRepository.getUserById(appointment.clientUserId)!!
             val name  = if (client.anonymous == true) "Anonymous" else client.name
             response.add(GetPsychologAppointmentResponse(
                 appointment,
@@ -350,5 +367,15 @@ class AppointmentService(
         }
 
         return "Rating Added"
+    }
+    fun addDayOff(userId: Int, request: DayOffRequest){
+        appointmentRepository.addDayOff(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!,request)
+    }
+
+    fun deleteDayOff(userId: Int, dayOffId: Int){
+        appointmentRepository.deleteDayOff(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!,dayOffId)
+    }
+    fun getAllDayoff(userId: Int): List<AppointmentSlot>?{
+        return appointmentRepository.getAllDayOff(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
     }
 }

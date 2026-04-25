@@ -1,6 +1,7 @@
 package com.soul.app.soul_app_service.handler
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.soul.app.soul_app_service.dto.ChannelType
 import com.soul.app.soul_app_service.dto.chat.ChatSendMessageRequest
 import com.soul.app.soul_app_service.registry.OnlineUserRegistry
 import com.soul.app.soul_app_service.service.ChatService
@@ -27,7 +28,7 @@ class ChatWebSocketHandler(
             session.close(CloseStatus.POLICY_VIOLATION)
             return
         }
-        onlineUserRegistry.register(userId, session)
+        onlineUserRegistry.register(userId, session, ChannelType.CHAT)
         log.info("User online | userId={} | sessionId={}", userId, session.id)
     }
     override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
@@ -66,7 +67,12 @@ class ChatWebSocketHandler(
 
     override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
         val userId = session.getUserId()
-        onlineUserRegistry.remove(session)
+        if (userId == null) {
+            log.warn("No userId in session attributes | sessionId={}", session.id)
+            session.close(CloseStatus.POLICY_VIOLATION)
+            return
+        }
+        onlineUserRegistry.remove(userId,session)
         log.info("User offline | userId={} | sessionId={} | status={}", userId, session.id, status)
     }
 

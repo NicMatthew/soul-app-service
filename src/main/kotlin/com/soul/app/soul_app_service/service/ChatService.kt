@@ -1,11 +1,13 @@
 package com.soul.app.soul_app_service.service
 
+import com.soul.app.soul_app_service.dto.NotificationType
 import com.soul.app.soul_app_service.dto.chat.ChatMessageResponse
 import com.soul.app.soul_app_service.dto.chat.ChatSendMessageRequest
 import com.soul.app.soul_app_service.dto.chat.ReadMessageResponse
 import com.soul.app.soul_app_service.dto.response.GetAllConversationResponse
 import com.soul.app.soul_app_service.model.Conversation
 import com.soul.app.soul_app_service.model.Message
+import com.soul.app.soul_app_service.model.Notification
 import com.soul.app.soul_app_service.registry.OnlineUserRegistry
 import com.soul.app.soul_app_service.repository.ChatRepository
 import com.soul.app.soul_app_service.repository.UserRepository
@@ -18,6 +20,7 @@ class ChatService(
     private val chatRepository: ChatRepository,
     private val onlineUserRegistry: OnlineUserRegistry,
     private val userRepository: UserRepository,
+    private val notificationService: NotificationService,
 ) {
     private val log = LoggerFactory.getLogger(ChatService::class.java)
 
@@ -44,6 +47,21 @@ class ChatService(
                 sentAt = now
             )
         )
+        participants.forEach {
+            if(it != req.senderId){
+                val senderUser = userRepository.getUserById(req.senderId)!!
+                notificationService.sendNotification(it,
+                    Notification(
+                        userId = it,
+                        type = NotificationType.UNREAD_MESSAGE.name,
+                        title = "Chat",
+                        description = "Pesan dari ${senderUser.name} belum dibaca",
+                        redirectUrl = "https://soulapp.my.id/chat",
+                    )
+                )
+            }
+        }
+
 
         return ChatMessageResponse(
             id = savedId,

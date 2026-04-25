@@ -29,8 +29,6 @@ class AdminController(
     private val adminService: AdminService,
     private val psychologyService: PsychologyService
 ) {
-    private val uploadDir = "/var/www/assets/certificates/"
-
     @PostMapping("/add-psychology")
     @Operation(
         summary = "Admin add psycholog account",

@@ -1,23 +1,31 @@
-2026-04-12T00:49:50.668+07:00  INFO 24016 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 24016 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
-2026-04-12T00:49:50.674+07:00  INFO 24016 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
-2026-04-12T00:49:51.341+07:00  INFO 24016 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
-2026-04-12T00:49:51.358+07:00  INFO 24016 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 0 JDBC repository interfaces.
-2026-04-12T00:49:51.652+07:00  INFO 24016 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
-2026-04-12T00:49:51.658+07:00  INFO 24016 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-04-12T00:49:51.658+07:00  INFO 24016 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
-2026-04-12T00:49:51.710+07:00  INFO 24016 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
-2026-04-12T00:49:51.710+07:00  INFO 24016 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1000 ms
-2026-04-12T00:49:51.970+07:00  WARN 24016 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+2026-04-23T00:10:51.451+07:00  INFO 27260 --- [http-nio-0.0.0.0-11001-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-23T00:10:51.455+07:00  INFO 27260 --- [http-nio-0.0.0.0-11001-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-23T00:10:51.457+07:00  INFO 27260 --- [http-nio-0.0.0.0-11001-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-04-23T00:13:09.729+07:00  INFO 27260 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-23T00:13:09.732+07:00  INFO 27260 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-23T00:13:14.732+07:00  INFO 19268 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 19268 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-04-23T00:13:14.733+07:00  INFO 19268 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-04-23T00:13:15.268+07:00  INFO 19268 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-04-23T00:13:15.282+07:00  INFO 19268 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2026-04-23T00:13:15.523+07:00  INFO 19268 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-04-23T00:13:15.527+07:00  INFO 19268 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-23T00:13:15.528+07:00  INFO 19268 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-04-23T00:13:15.575+07:00  INFO 19268 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-04-23T00:13:15.576+07:00  INFO 19268 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 815 ms
+2026-04-23T00:13:15.818+07:00  WARN 19268 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: edffadb9-069a-44af-adf0-d71b167d4cc7
+Using generated security password: 028cd696-ca42-4347-9192-79b8f6c9f2b5
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2026-04-12T00:49:52.112+07:00  INFO 24016 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@27df5806, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@69bc9584, org.springframework.security.web.context.SecurityContextHolderFilter@5a3cf878, org.springframework.security.web.header.HeaderWriterFilter@53cb0bcb, org.springframework.web.filter.CorsFilter@3214bad, org.springframework.security.web.authentication.logout.LogoutFilter@65d9e72a, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@27f3f512, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@34cd65ac, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7272ee51, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@52d7ab79, org.springframework.security.web.session.SessionManagementFilter@27bc1d44, org.springframework.security.web.access.ExceptionTranslationFilter@1b1252c8, org.springframework.security.web.access.intercept.AuthorizationFilter@2c99c8d]
-2026-04-12T00:49:52.249+07:00  INFO 24016 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-04-12T00:49:53.491+07:00  INFO 24016 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1acc873b
-2026-04-12T00:49:53.492+07:00  INFO 24016 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-04-12T00:49:53.577+07:00  INFO 24016 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
-2026-04-12T00:49:53.582+07:00  INFO 24016 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 3.184 seconds (process running for 3.593)
-2026-04-12T02:30:07.211+07:00  INFO 24016 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-04-12T02:30:07.214+07:00  INFO 24016 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-23T00:13:15.930+07:00  INFO 19268 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e52ed5d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6a96d639, org.springframework.security.web.context.SecurityContextHolderFilter@2035d65b, org.springframework.security.web.header.HeaderWriterFilter@5c53c235, org.springframework.web.filter.CorsFilter@28e94c2, org.springframework.security.web.authentication.logout.LogoutFilter@288728e, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@33d60b7e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4e3283f6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@72224107, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3d40498a, org.springframework.security.web.session.SessionManagementFilter@1883871b, org.springframework.security.web.access.ExceptionTranslationFilter@34cd65ac, org.springframework.security.web.access.intercept.AuthorizationFilter@5170bc02]
+2026-04-23T00:13:16.041+07:00  INFO 19268 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-23T00:13:17.205+07:00  INFO 19268 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@29aa4bc9
+2026-04-23T00:13:17.207+07:00  INFO 19268 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-23T00:13:17.283+07:00  INFO 19268 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-04-23T00:13:17.288+07:00  INFO 19268 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 2.77 seconds (process running for 3.094)
+2026-04-23T00:13:19.015+07:00  INFO 19268 --- [http-nio-0.0.0.0-11001-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-23T00:13:19.015+07:00  INFO 19268 --- [http-nio-0.0.0.0-11001-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-23T00:13:19.017+07:00  INFO 19268 --- [http-nio-0.0.0.0-11001-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-04-23T00:24:38.231+07:00  INFO 19268 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-23T00:24:38.240+07:00  INFO 19268 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

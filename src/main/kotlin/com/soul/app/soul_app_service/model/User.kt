@@ -15,4 +15,5 @@ data class User(
     val gender: String,
     val profile_picture: String? = null,
     val anonymous: Boolean,
+    val isOnline: Boolean? = null,
 )

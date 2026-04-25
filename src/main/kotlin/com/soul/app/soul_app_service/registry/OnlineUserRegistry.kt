@@ -1,26 +1,42 @@
 package com.soul.app.soul_app_service.registry
 
+import com.soul.app.soul_app_service.dto.ChannelType
+import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.WebSocketSession
 import java.util.concurrent.ConcurrentHashMap
 
 @Component
-class OnlineUserRegistry {
+class OnlineUserRegistry(private val userRepository: UserRepository) {
 
-    private val onlineUsers = ConcurrentHashMap<Int, MutableSet<WebSocketSession>>()
+    private val sessions = ConcurrentHashMap<Int, MutableMap<ChannelType, MutableSet<WebSocketSession>>>()
 
-    fun register(userId: Int, session: WebSocketSession) {
-        onlineUsers.computeIfAbsent(userId) { ConcurrentHashMap.newKeySet() }.add(session)
+    fun register(userId: Int, session: WebSocketSession, type: ChannelType) {
+        userRepository.updateUserOnlineStatus(userId,true)
+        sessions
+            .computeIfAbsent(userId) { ConcurrentHashMap() }
+            .computeIfAbsent(type) { ConcurrentHashMap.newKeySet() }
+            .add(session)
     }
 
-    fun remove(session: WebSocketSession) {
-        onlineUsers.values.forEach { it.remove(session) }
-        onlineUsers.entries.removeIf { it.value.isEmpty() }
+    fun get(userId: Int, type: ChannelType): Set<WebSocketSession> =
+        sessions[userId]?.get(type) ?: emptySet()
+
+    fun remove(userId:Int,session: WebSocketSession) {
+        userRepository.updateUserOnlineStatus(userId,false)
+        sessions.forEach { (_, typeMap) ->
+            typeMap.values.forEach { it.remove(session) }
+        }
     }
+    fun getSessionsForUsers(userIds: List<Int>, type: ChannelType? = null): List<WebSocketSession> {
+        return userIds.flatMap { userId ->
+            val userSessions = sessions[userId] ?: return@flatMap emptyList()
 
-    fun getSessionsForUsers(userIds: List<Int>): List<WebSocketSession> =
-        userIds.flatMap { onlineUsers[it] ?: emptySet() }
-
-    fun getOnlineUserIds(fromUserIds: List<Int>): List<Int> =
-        fromUserIds.filter { onlineUsers.containsKey(it) }
+            if (type != null) {
+                userSessions[type]?.toList() ?: emptyList()
+            } else {
+                userSessions.values.flatten()
+            }
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.soul.app.soul_app_service.repository
 
 import com.soul.app.soul_app_service.dto.AppointmentStatus
 import com.soul.app.soul_app_service.dto.request.CreateAppointmentRequest
+import com.soul.app.soul_app_service.dto.request.DayOffRequest
 import com.soul.app.soul_app_service.dto.request.RatingAppointmentRequest
 import com.soul.app.soul_app_service.dto.request.addAppointmentNotesRequest
 import com.soul.app.soul_app_service.dto.response.RatingResponse
@@ -57,6 +58,7 @@ class AppointmentRepository(
                     status = rs.getString("status"),
                     medicalNotes = rs.getString("medical_notes"),
                     finalDiagnose = rs.getString("final_diagnose"),
+                    date = rs.getDate("date"),
                 )
             },
             appointmentId
@@ -100,6 +102,7 @@ class AppointmentRepository(
 
         return jdbcTemplate.query(
             sql.toString(),
+            params.toTypedArray())
             { rs, _ ->
                 Appointment(
                     id = rs.getInt("id"),
@@ -111,10 +114,11 @@ class AppointmentRepository(
                     status = rs.getString("status"),
                     medicalNotes = rs.getString("medical_notes"),
                     finalDiagnose = rs.getString("final_diagnose"),
-                )
-            },
-            userId
-        )
+                    date = rs.getDate("date"),
+
+                    )
+            }
+
     }
     fun getPsychologAppointmentsByPyschologyId(userId: Int, status: String?, date: Date?, order:String?): List<Appointment>? {
             val sql = StringBuilder("""
@@ -166,7 +170,9 @@ class AppointmentRepository(
                         status = rs.getString("status"),
                         medicalNotes = rs.getString("medical_notes"),
                         finalDiagnose = rs.getString("final_diagnose"),
-                    )
+                        date = rs.getDate("date"),
+
+                        )
                 },
                 *params.toTypedArray()
             )
@@ -201,7 +207,8 @@ class AppointmentRepository(
                     status = rs.getString("status"),
                     medicalNotes = rs.getString("medical_notes"),
                     finalDiagnose = rs.getString("final_diagnose"),
-                )
+                    date = rs.getDate("date"),
+                    )
             },
             clientId,
             psychologyid
@@ -233,25 +240,7 @@ class AppointmentRepository(
         )!!
     }
 
-    fun createPayment(appointmentSlot: AppointmentSlot): Int {
-        val sql = """
-            INSERT INTO appointment_slots
-            ( psychologist_id, date,status, start_time, end_time,appointment_id)
-            VALUES (?, ?, ?, ?, ?,?)
-            RETURNING id
-        """.trimIndent()
 
-        return jdbcTemplate.queryForObject(
-            sql,
-            Int::class.java,
-            appointmentSlot.psychologyId,
-            appointmentSlot.date,
-            appointmentSlot.status,
-            appointmentSlot.startTime,
-            appointmentSlot.endTime,
-            appointmentSlot.appointmentId
-        )
-    }
     fun getAppointmentSlotByDate(psychologyId :Int,date: Date): List<AppointmentSlot> {
         val sql = """
             SELECT *
@@ -269,11 +258,37 @@ class AppointmentRepository(
                     startTime = rs.getString("start_time"),
                     endTime = rs.getString("end_time"),
                     status = rs.getString("status"),
-                )
+                    createdAt = rs.getTimestamp("created_at"),
+                    )
             },
             date,
             psychologyId
         )
+    }
+
+    fun getAppointmentSlotByAppointmentId(appointmentId: Int): AppointmentSlot? {
+        val sql = """
+            SELECT *
+            FROM appointment_slots
+            WHERE appointment_id = ?
+        """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                AppointmentSlot(
+                    id = rs.getInt("id"),
+                    psychologyId = rs.getInt("psychologist_id"),
+                    date = rs.getDate("date"),
+                    startTime = rs.getString("start_time"),
+                    endTime = rs.getString("end_time"),
+                    status = rs.getString("status"),
+                    createdAt = rs.getTimestamp("created_at"),
+
+                    )
+            },
+            appointmentId,
+        ).firstOrNull()
     }
 
     fun getPsychologyAvailabilityByDay(psychologyid: Int,dayOfWeek: Int): List<PsychologyAvailability>? {
@@ -390,10 +405,36 @@ class AppointmentRepository(
             appointmentId
         ).firstOrNull()
     }
+
+    fun getClientUserIdByAppointmentId(appointmentId: Int): Int?{
+        val sql = """
+            select client_user_id from appointments where id = ?
+        """.trimIndent()
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                rs.getInt("client_user_id")
+            },
+            appointmentId,
+        ).firstOrNull()
+    }
+
+    fun getPsychologistUserIdByAppointmentId(appointmentId: Int): Int?{
+        val sql = """
+            select p.user_id from appointments a left join psychologist_profile p on p.id = a.psychologist_id where a.id = ?
+        """.trimIndent()
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                rs.getInt("user_id")
+            },
+            appointmentId,
+        ).firstOrNull()
+    }
     fun getRatingAppointmentByAppointmentId(appointmentId: Int): RatingResponse?{
         val sql = """
-            SELECT rate, description
-            FROM rating 
+            SELECT *
+            FROM rating r left join users u on u.id = r.client_user_id 
             WHERE appointment_id = ?
         """.trimIndent()
 
@@ -401,13 +442,77 @@ class AppointmentRepository(
             sql,
             RowMapper { rs, _ ->
                 RatingResponse(
-                    rs.getInt("rate"),
-                    rs.getString("description"),
+                    rate = rs.getInt("rate"),
+                    description = rs.getString("description"),
+                    userProfilePicture = rs.getString("profile_picture"),
+                    userName = rs.getString("name"),
+                    createdAt = rs.getTimestamp("created_at"),
                 )
             },
             appointmentId
         ).firstOrNull()
     }
+    fun addDayOff(profileId: Int,request: DayOffRequest): Int {
+        val sql = """
+            INSERT INTO appointment_slots
+            ( psychologist_id, date,status, start_time, end_time)
+            VALUES (?, ?, ?, ?, ?)
+            RETURNING id
+        """.trimIndent()
+
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            profileId,
+            request.date,
+            "DAY_OFF",
+            request.startTime,
+            request.endTime,
+        )!!
+    }
+
+
+    fun deleteDayOff(profileId: Int,dayOffId: Int): Int {
+        val sql = """
+            DELETE FROM appointment_slots WHERE psychologist_id = ? AND id = ? AND status = ?
+        """.trimIndent()
+
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            profileId,
+            dayOffId,
+            "DAY_OFF",
+        )!!
+    }
+
+    fun getAllDayOff(profileId: Int): List<AppointmentSlot>? {
+        val sql = """
+        SELECT * 
+        FROM appointment_slots 
+        WHERE psychologist_id = ?
+          AND status = ?
+          AND date >= CURRENT_DATE
+    """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                AppointmentSlot(
+                    id = rs.getInt("id"),
+                    psychologyId = rs.getInt("psychologist_id"),
+                    date = rs.getDate("date"),
+                    startTime = rs.getString("start_time"),
+                    endTime = rs.getString("end_time"),
+                    status = rs.getString("status"),
+                    createdAt = rs.getTimestamp("created_at"),
+                )
+            },
+            profileId,
+            "DAY_OFF"
+        )
+    }
+
 
 
 

@@ -5,6 +5,7 @@ import com.soul.app.soul_app_service.dto.UserAnswer
 import com.soul.app.soul_app_service.dto.request.PreferenceAnswerRequest
 import com.soul.app.soul_app_service.dto.response.PreferenceOptionResponse
 import com.soul.app.soul_app_service.dto.response.PreferenceQuestionResponse
+import com.soul.app.soul_app_service.dto.response.RecommendationResultResponse
 import com.soul.app.soul_app_service.repository.PreferenceRepository
 import com.soul.app.soul_app_service.repository.PsychologyRepository
 import org.springframework.stereotype.Service
@@ -69,22 +70,37 @@ class PreferenceService(
             )
         }
     }
-    fun getRecommendations(userId: Int): List<RecommendationResult> {
+    fun getRecommendations(userId: Int): List<RecommendationResultResponse> {
         val recommendation = preferenceRepository.getUserRecommendation(userId)
         if (!recommendation.isNullOrEmpty()) {
-            return recommendation
+            var response = mutableListOf<RecommendationResultResponse>()
+            recommendation.forEach { recommendation ->
+                val base = psychologyRepository.getPsychologyBaseByProfileId(recommendation.psychologistId)!!
+                response.add(RecommendationResultResponse(
+                    profileId = recommendation.psychologistId,
+                    userId = base.userId,
+                    name = base.name,
+                    profilePicture = base.profilePicture,
+                    rating = base.rating,
+                    careerStartDate = base.careerStartDate,
+                    description = base.description,
+                    pricePerSession = base.pricePerSession,
+                    score = recommendation.score,
+                    reasons = recommendation.reasons
+                ))
+
+            }
+            return response
         }
         return calculateAndCache(userId)
     }
 
-    fun calculateAndCache(userId: Int): List<RecommendationResult> {
-        // 1. Ambil jawaban user
+    fun calculateAndCache(userId: Int): List<RecommendationResultResponse> {
         val userAnswers = preferenceRepository.getUserAnswers(userId)
         if (userAnswers.isEmpty()) {
-            throw IllegalArgumentException("Please submiot user answers first")
+            throw IllegalArgumentException("Please submit user answers first")
         }
 
-        // 2. Ambil semua psikolog
         val psychologists = psychologyRepository.getAllPsychologyProfileId()
         if (psychologists.isEmpty()) return emptyList()
 
@@ -101,7 +117,7 @@ class PreferenceService(
         }
 
         preferenceRepository.saveRecommendation(userId, normalizedScores)
-        return preferenceRepository.getUserRecommendation(userId)!!
+        return getRecommendations(userId)!!
     }
 
     private fun calculateScore(

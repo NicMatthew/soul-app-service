@@ -2,8 +2,11 @@ package com.soul.app.soul_app_service.repository
 
 import com.soul.app.soul_app_service.dto.request.AddPsychologyCertificateRequest
 import com.soul.app.soul_app_service.dto.request.CreatePsychologyAvailabilityRequest
+import com.soul.app.soul_app_service.dto.request.DayOffRequest
 import com.soul.app.soul_app_service.dto.request.UpdatePsychologyAvailabilityRequest
 import com.soul.app.soul_app_service.dto.response.GetAllPsychologyResponse
+import com.soul.app.soul_app_service.dto.response.RatingResponse
+import com.soul.app.soul_app_service.model.AppointmentSlot
 import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.PsychologyAvailability
 import com.soul.app.soul_app_service.model.PsychologyCertificate
@@ -238,28 +241,6 @@ class PsychologyRepository(
             psychologyid
         )
     }
-    fun updatePsychologyAvailability(
-        psychologyId: Int,
-        psychologyAvailability: UpdatePsychologyAvailabilityRequest
-    ): Int {
-        val sql = """
-        UPDATE psychologist_availability
-        SET day_of_week = ?,
-            start_time = ?,
-            end_time = ?
-        WHERE id = ?
-          AND psychologist_id = ?
-    """.trimIndent()
-
-        return jdbcTemplate.update(
-            sql,
-            psychologyAvailability.dayOfWeek,
-            psychologyAvailability.startTime,
-            psychologyAvailability.endTime,
-            psychologyAvailability.id,
-            psychologyId
-        )
-    }
 
 fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
         val deleteSql = """
@@ -366,27 +347,30 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
     ): List<GetAllPsychologyResponse> {
 
         val sql = StringBuilder("""
-            SELECT 
-                p.id,
-                u.name,
-                p.id as profile_id,
-                p.description,
-                p.price_per_session,
-                p.career_start_date,
-                p.rating
-            FROM users u
-            JOIN psychologist_profile p ON p.user_id = u.id
-            WHERE u.role = ?
-            """)
+        SELECT 
+            u.id as user_id,
+            u.name,
+            u.profile_picture,
+            p.id as profile_id,
+            p.description,
+            p.price_per_session,
+            p.career_start_date,
+            p.rating
+        FROM users u
+        JOIN psychologist_profile p ON p.user_id = u.id
+        WHERE u.role = ?
+    """)
 
         val params = mutableListOf<Any>("psycholog")
 
+        // 🔍 search
         if (!search.isNullOrBlank()) {
             sql.append(" AND u.name ILIKE ?")
             params.add("%$search%")
         }
 
-            val orderClauses = mutableListOf<String>()
+        // 🔥 dynamic ORDER BY
+        val orderClauses = mutableListOf<String>()
 
         if (!rate.isNullOrBlank()) {
             orderClauses.add("p.rating ${if (rate.equals("desc", true)) "DESC" else "ASC"}")
@@ -400,15 +384,20 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
             orderClauses.add("p.career_start_date ${if (experience.equals("desc", true)) "DESC" else "ASC"}")
         }
 
+        // default sorting (biar tidak random)
+        if (orderClauses.isEmpty()) {
+            orderClauses.add("p.rating DESC")
+        }
 
         sql.append(" ORDER BY ${orderClauses.joinToString(", ")} ")
 
+        println(sql.toString())
         return jdbcTemplate.query(
             sql.toString(),
             params.toTypedArray()
         ) { rs, _ ->
             GetAllPsychologyResponse(
-                profileId = rs.getInt("id"),
+                profileId = rs.getInt("profile_id"),
                 userId = rs.getInt("user_id"),
                 name = rs.getString("name"),
                 profilePicture = rs.getString("profile_picture"),
@@ -420,25 +409,67 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
         }
     }
 
-    fun getPsychologyRating(psychologyId: Int):List<RatingAppointment>{
+    fun getPsychologyBaseByProfileId(
+        profileId: Int,
+    ): GetAllPsychologyResponse? {
+
+        val sql = StringBuilder("""
+        SELECT 
+            u.id as user_id,
+            u.name,
+            u.profile_picture,
+            p.id as profile_id,
+            p.description,
+            p.price_per_session,
+            p.career_start_date,
+            p.rating
+        FROM users u
+        JOIN psychologist_profile p ON p.user_id = u.id
+        WHERE p.id = ?
+    """)
+
+        val params = mutableListOf<Any>(profileId)
+
+        println(sql.toString())
+        return jdbcTemplate.query(
+            sql.toString(),
+            params.toTypedArray()
+        ) { rs, _ ->
+            GetAllPsychologyResponse(
+                profileId = rs.getInt("profile_id"),
+                userId = rs.getInt("user_id"),
+                name = rs.getString("name"),
+                profilePicture = rs.getString("profile_picture"),
+                rating = rs.getFloat("rating"),
+                careerStartDate = rs.getDate("career_start_date"),
+                description = rs.getString("description"),
+                pricePerSession = rs.getInt("price_per_session")
+            )
+        }.firstOrNull()
+    }
+
+    fun getPsychologyRating(psychologyId: Int):List<RatingResponse>?{
         val sql = """
-            SELECT * from rating where psychologist_id = ?
-        """.trimIndent()
+            SELECT *
+            FROM rating r left join users u on u.id = r.client_user_id 
+            WHERE psychologist_id = ?
+            """.trimIndent()
         return jdbcTemplate.query(
             sql,
             RowMapper { rs, _ ->
-                RatingAppointment(
-                    id = rs.getInt("id"),
-                    psychologyId = rs.getInt("psychologist_id"),
-                    appointmentId = rs.getInt("appointment_id"),
-                    userId = rs.getInt("client_user_id"),
+                RatingResponse(
                     rate = rs.getInt("rate"),
                     description = rs.getString("description"),
+                    userProfilePicture = rs.getString("profile_picture"),
+                    userName = rs.getString("name"),
+                    createdAt = rs.getTimestamp("created_at"),
                 )
             },
             psychologyId
         )
     }
+
+
 
 
 

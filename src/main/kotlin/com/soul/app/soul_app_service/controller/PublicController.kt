@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
     name = "Public Controller ( No Token Needed )",
 )
 class PublicController(
-    val psychologyService: PsychologyService,
+    private val psychologyService: PsychologyService,
     private val appointmentService: AppointmentService,
     private val ratingAppService: RatingAppService
 ) {
@@ -50,7 +50,7 @@ class PublicController(
         @RequestParam(name = "career") career: String?,
         @RequestParam(name = "price") price: String?
     ): ResponseEntity<List<GetAllPsychologyResponse>> {
-        return ResponseEntity.ok(psychologyService.getAllPsychologies(search,rate,career,price))
+        return ResponseEntity.ok(psychologyService.getAllPsychologies(search,rate,price, career ))
     }
 
     @GetMapping("/helper")

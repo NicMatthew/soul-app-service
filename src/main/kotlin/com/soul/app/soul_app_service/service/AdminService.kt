@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service
 class AdminService(
     private val userRepository: UserRepository,
     private val psychologyRepository: PsychologyRepository,
-    private val conventionErrorViewResolver: DefaultErrorViewResolver
 ) {
     fun signUpPyschology(signUpPsychologyRequest: SignUpPsychologyRequest): Psychology{
         val userId = userRepository.saveUser(User(

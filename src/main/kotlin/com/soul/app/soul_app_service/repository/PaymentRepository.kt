@@ -78,7 +78,7 @@ class PaymentRepository(
         return (count ?: 0) > 0
     }
 
-    fun getById(paymentId: Int): Payment? {
+    fun getPaymentById(paymentId: Int): Payment? {
         val sql = """
             SELECT * FROM payments WHERE id = ?
         """.trimIndent()

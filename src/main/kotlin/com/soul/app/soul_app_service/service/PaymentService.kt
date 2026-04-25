@@ -3,7 +3,9 @@ package com.soul.app.soul_app_service.service
 import com.midtrans.httpclient.error.MidtransError
 import com.midtrans.service.MidtransSnapApi
 import com.soul.app.soul_app_service.dto.AppointmentStatus
+import com.soul.app.soul_app_service.dto.NotificationType
 import com.soul.app.soul_app_service.dto.PaymentStatus
+import com.soul.app.soul_app_service.model.Notification
 import com.soul.app.soul_app_service.model.Payment
 import com.soul.app.soul_app_service.repository.AppointmentRepository
 import com.soul.app.soul_app_service.repository.PaymentRepository
@@ -23,7 +25,8 @@ class PaymentService(
     private val snapApi: MidtransSnapApi,
     private val userRepository: UserRepository,
     @Value("\${midtrans.server-key}")
-    private val serverKey: String
+    private val serverKey: String,
+    private val notificationService: NotificationService
 ) {
 
     @Transactional
@@ -133,7 +136,7 @@ class PaymentService(
 
         val paymentId = orderId.removePrefix("PAY-").toInt()
 
-        val payment = paymentRepository.getById(paymentId)
+        val payment = paymentRepository.getPaymentById(paymentId)
             ?: throw IllegalArgumentException("Payment not found")
 
         if (payment.status == PaymentStatus.PAID.name) {
@@ -156,6 +159,30 @@ class PaymentService(
                         payment.appointmentId,
                         AppointmentStatus.PAID.name,
                     )
+                    val appointment = appointmentRepository.getAppointmentSlotByAppointmentId(payment.appointmentId)!!
+
+
+                    val clientId = appointmentRepository.getClientUserIdByAppointmentId(payment.appointmentId)!!
+                    val clientUser = userRepository.getUserById(clientId)!!
+                    val psychologistUserId = appointmentRepository.getPsychologistUserIdByAppointmentId(payment.appointmentId)!!
+                    val psychologistUser = userRepository.getUserById(psychologistUserId)!!
+
+                    notificationService.sendNotification(clientId, Notification(
+                        userId = clientId,
+                        type = NotificationType.APPOINTMENT_REMINDER.name  ,
+                        title = "Pengingat Jadwal",
+                        description = "Jadwal bersama ${psychologistUser.name} di ${appointment.startTime} pada ${appointment.date}",
+                        redirectUrl = "https://soulapp.my.id/consultation/${appointment.id}",
+                    ))
+
+                    notificationService.sendNotification(clientId, Notification(
+                        userId = clientId,
+                        type = NotificationType.APPOINTMENT_REMINDER.name  ,
+                        title = "Pengingat Jadwal",
+                        description = "Jadwal bersama ${clientUser.name} di ${appointment.startTime} pada ${appointment.date}",
+                        redirectUrl = "https://soulapp.my.id/consultation/${appointment.id}",
+                    ))
+
                 }
             }
 

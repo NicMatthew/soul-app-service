@@ -52,7 +52,6 @@ class PsychologyService (
             psychologyRepository.getPsychologyFields(profileId),
             certificates = psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId),
             ratings = psychologyRepository.getPsychologyRating(psychologyRepository.getPsychologyProfileIdFromUserId(userId)!!)
-
         )
     }
 

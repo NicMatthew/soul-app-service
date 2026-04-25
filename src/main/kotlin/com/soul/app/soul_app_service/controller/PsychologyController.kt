@@ -1,10 +1,12 @@
 package com.soul.app.soul_app_service.controller
 
 import com.soul.app.soul_app_service.dto.request.CreatePsychologyAvailabilityRequest
+import com.soul.app.soul_app_service.dto.request.DayOffRequest
 import com.soul.app.soul_app_service.dto.request.UpdateProfilePsychologyRequest
 import com.soul.app.soul_app_service.dto.request.addAppointmentNotesRequest
 import com.soul.app.soul_app_service.dto.response.GetPsychologAppointmentResponse
 import com.soul.app.soul_app_service.model.Appointment
+import com.soul.app.soul_app_service.model.AppointmentSlot
 import com.soul.app.soul_app_service.model.Field
 import com.soul.app.soul_app_service.model.Psychology
 import com.soul.app.soul_app_service.model.PsychologyAvailability
@@ -14,6 +16,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -80,6 +83,41 @@ class PsychologyController(
     ): ResponseEntity<Appointment> {
 
         return ResponseEntity.ok(appointmentService.addAppointmentNotes(request,appointmentId.toInt()))
+    }
+    @PostMapping("/day-off/add")
+    @Operation(
+        summary = "Add day Off for psycholog",
+    )
+    fun addDayOff(
+        @RequestBody request: DayOffRequest
+    ): ResponseEntity<String> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+        appointmentService.addDayOff(userId,request)
+        return ResponseEntity.ok("mantap")
+    }
+    @DeleteMapping("/day-off/delete")
+    @Operation(
+        summary = "Add day Off for psycholog",
+    )
+    fun deleteDayOff(
+        @RequestBody dayoffId: Int
+    ): ResponseEntity<String> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+        appointmentService.deleteDayOff(userId,dayoffId)
+        return ResponseEntity.ok("mantap")
+    }
+    @GetMapping("/day-off")
+    @Operation(
+        summary = "Get day Off for psycholog",
+    )
+    fun getDayOff(
+    ): ResponseEntity<List<AppointmentSlot>?> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+
+        return ResponseEntity.ok(appointmentService.getAllDayoff(userId))
     }
 
     @GetMapping("/appointment")

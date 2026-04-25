@@ -1,10 +1,12 @@
 package com.soul.app.soul_app_service.repository
 
 import com.soul.app.soul_app_service.dto.request.RatingAppRequest
+import com.soul.app.soul_app_service.model.Notification
 import com.soul.app.soul_app_service.model.RatingApp
 import com.soul.app.soul_app_service.model.User
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
+import org.springframework.jdbc.core.queryForObject
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -64,6 +66,22 @@ class UserRepository(
                 )
             },
         )
+    }
+
+    fun getRatingAppByUserId(userId: Int): RatingApp? {
+        val sql = "SELECT * FROM rating_app where client_user_id = ?"
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                RatingApp(
+                    userId = rs.getInt("client_user_id"),
+                    rate = rs.getInt("rate"),
+                    description = rs.getString("description"),
+                )
+            },
+            userId
+        ).firstOrNull()
     }
 
 
@@ -141,6 +159,22 @@ class UserRepository(
         )!!
     }
 
+    fun updateUserOnlineStatus(userId: Int,onlineStatus: Boolean): Int {
+        val sql = """
+            UPDATE users
+            SET is_online = ?
+            WHERE id = ?
+            RETURNING id
+        """.trimIndent()
+
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            onlineStatus,
+            userId,
+        )
+    }
+
     fun deleteUser(id: Int): Int {
         val sql = "DELETE FROM users WHERE id = ? RETURNING id"
 
@@ -150,6 +184,47 @@ class UserRepository(
             id
         )!!
     }
+
+    fun insertNotification(notification: Notification):Int {
+        val sql = """
+            INSERT INTO notifications
+            (user_id,type,title,description,redirect_url)
+            VALUES (?, ?, ?,?,?) returning id
+        """.trimIndent()
+
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            notification.userId,
+            notification.type,
+            notification.title,
+            notification.description,
+            notification.redirectUrl,
+        )
+    }
+
+    fun getUserNotifications(userId: Int): List<Notification> {
+        val sql = "SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC"
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                Notification(
+                    id = rs.getInt("id"),
+                    userId = rs.getInt("user_id"),
+                    type = rs.getString("type"),
+                    title = rs.getString("title"),
+                    description = rs.getString("description"),
+                    redirectUrl = rs.getString("redirect_url"),
+                    isRead = rs.getBoolean("is_read"),
+                    createdAt = rs.getTimestamp("created_at"),
+                )
+            },
+            userId
+        )
+    }
+
+
 
     private fun userRowMapper(): RowMapper<User> =
         RowMapper { rs, _ ->
@@ -164,7 +239,8 @@ class UserRepository(
                 profile_picture = rs.getString("profile_picture"),
                 dob = rs.getDate("dob"),
                 gender = rs.getString("gender"),
-                anonymous = rs.getBoolean("anonymous")
+                anonymous = rs.getBoolean("anonymous"),
+                isOnline = rs.getBoolean("is_online"),
             )
         }
 }

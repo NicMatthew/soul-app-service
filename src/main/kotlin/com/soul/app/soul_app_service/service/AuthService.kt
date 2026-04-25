@@ -15,11 +15,12 @@ class AuthService(
     private val logger = LoggerFactory.getLogger(AuthService::class.java)
 
     fun login(request: LoginRequest): String {
-        val user = userRepository.getUserByEmail(request.email) ?: userRepository.getUserByUsername(request.email)
-        if (user != null && user.password_hash == request.password) {
+        val user = userRepository.getUserByEmail(request.email) ?: userRepository.getUserByUsername(request.email) ?: throw RuntimeException("Email belum terdaftar")
+
+        if (user.password_hash == request.password) {
             return jwtService.generateToken(user.id,user.role)
         } else {
-            throw RuntimeException("Invalid email or password")
+            throw RuntimeException("Password Salah")
         }
 
     }

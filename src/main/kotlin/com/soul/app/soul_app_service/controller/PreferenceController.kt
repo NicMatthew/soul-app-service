@@ -3,6 +3,7 @@ package com.soul.app.soul_app_service.controller
 import com.soul.app.soul_app_service.dto.RecommendationResult
 import com.soul.app.soul_app_service.dto.request.PreferenceAnswerRequest
 import com.soul.app.soul_app_service.dto.response.PreferenceQuestionResponse
+import com.soul.app.soul_app_service.dto.response.RecommendationResultResponse
 import com.soul.app.soul_app_service.service.PreferenceService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -74,7 +75,7 @@ class PreferenceController(
     }
     @GetMapping("/recommendation")
     @Operation(summary = "Get psychologist recommendations for user")
-    fun getRecommendations(): ResponseEntity<List<RecommendationResult>> {
+    fun getRecommendations(): ResponseEntity<List<RecommendationResultResponse>> {
         val userId = SecurityContextHolder.getContext().authentication.principal as Int
         return ResponseEntity.ok(preferenceService.getRecommendations(userId))
     }

@@ -8,6 +8,7 @@ import com.soul.app.soul_app_service.dto.request.UpdateProfileRequest
 import com.soul.app.soul_app_service.dto.response.GetUserAppointmentDetailResponse
 import com.soul.app.soul_app_service.dto.response.GetUserAppointmentResponse
 import com.soul.app.soul_app_service.model.Appointment
+import com.soul.app.soul_app_service.model.Notification
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.service.AppointmentService
 import com.soul.app.soul_app_service.service.UserService
@@ -117,6 +118,27 @@ class UserController (
         val userId = authentication.principal as Int
 
         return ResponseEntity.ok(userService.submitRatingApp(userId,request))
+    }
+
+    @GetMapping("rate-eligible")
+    @Operation(
+        summary = "Check user eligiblity for Rating App",
+    )
+    fun checkEligibilityRatingApp(
+    ): ResponseEntity<String> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+        return ResponseEntity.ok(userService.checkUserEligibility(userId))
+    }
+
+    @GetMapping("notification")
+    @Operation(
+        summary = "Get User's Notification",
+    )
+    fun getNotifications(): ResponseEntity<List<Notification>> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+        return ResponseEntity.ok(userService.getUserNotifications(userId))
     }
 
 

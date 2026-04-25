@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(
     name = "MIDTRANS CALLBACK ( DO NOT USE )",
 )
-class PaymentController(
+    class PaymentController(
     private val paymentService: PaymentService
 ) {
     @PostMapping("/notification")
