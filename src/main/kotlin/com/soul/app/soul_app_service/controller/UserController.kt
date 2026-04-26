@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -80,6 +81,17 @@ class UserController (
     ): ResponseEntity<GetUserAppointmentDetailResponse> {
         val id = appointmentId.toInt()
         return ResponseEntity.ok(appointmentService.getAppointmentDetail(id))
+    }
+    @DeleteMapping("/appointment/cancel/{appointment-id}")
+    @Operation(
+        summary = "Cancel User Appointment",
+    )
+    fun cancelAppointment(
+        @PathVariable("appointment-id") appointmentId: String,
+    ): ResponseEntity<String> {
+        val id = appointmentId.toInt()
+        appointmentService.cancelAppointment(id)
+        return ResponseEntity.ok("kehapus")
     }
 
     @PostMapping("/create-appointment")

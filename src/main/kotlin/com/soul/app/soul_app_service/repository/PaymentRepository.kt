@@ -69,6 +69,24 @@ class PaymentRepository(
         )
     }
 
+    fun updatePaymentStatusByAppointmentId(
+        appointmentId: Int,
+        status: String,
+    ) {
+        val sql = """
+            UPDATE payments
+            SET status = ?,
+                updated_at = NOW()
+            WHERE appointment_id = ?
+        """.trimIndent()
+
+        jdbcTemplate.update(
+            sql,
+            status,
+            appointmentId
+        )
+    }
+
     fun existsByAppointmentId(appointmentId: Int): Boolean {
         val sql = """
             SELECT COUNT(*) FROM payments WHERE appointment_id = ?

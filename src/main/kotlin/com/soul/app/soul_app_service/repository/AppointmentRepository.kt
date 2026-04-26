@@ -241,7 +241,7 @@ class AppointmentRepository(
     }
 
 
-    fun getAppointmentSlotByDate(psychologyId :Int,date: Date): List<AppointmentSlot> {
+    fun getAppointmentSlotByDate(psychologyId :Int,date: Date): List<AppointmentSlot>? {
         val sql = """
             SELECT *
             FROM appointment_slots
@@ -263,6 +263,37 @@ class AppointmentRepository(
             },
             date,
             psychologyId
+        )
+    }
+    fun getAppointmentsByDateRange(
+        psychologyId: Int,
+        startDate: Date,
+        endDate: Date
+    ): List<AppointmentSlot>? {
+
+        val sql = """
+        SELECT *
+        FROM appointment_slots
+        WHERE psychologist_id = ?
+        AND date BETWEEN ? AND ?
+    """.trimIndent()
+
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                AppointmentSlot(
+                    id = rs.getInt("id"),
+                    psychologyId = rs.getInt("psychologist_id"),
+                    date = rs.getDate("date"),
+                    startTime = rs.getString("start_time"),
+                    endTime = rs.getString("end_time"),
+                    status = rs.getString("status"),
+                    createdAt = rs.getTimestamp("created_at"),
+                )
+            },
+            psychologyId,
+            startDate,
+            endDate
         )
     }
 
@@ -362,6 +393,16 @@ class AppointmentRepository(
             request.medicalNotes,
             request.finalDiagnose,
             appointmentId
+        )
+    }
+
+    fun deleteAppointmentSlotbyAppointmentId(appointmentId: Int): Int {
+        val sql = """
+            DELETE FROM appointment_slots where appointment_id = ?
+        """.trimIndent()
+        return jdbcTemplate.update(
+            sql,
+            appointmentId,
         )
     }
 
@@ -472,18 +513,16 @@ class AppointmentRepository(
     }
 
 
-    fun deleteDayOff(profileId: Int,dayOffId: Int): Int {
+    fun deleteDayOff(dayOffId: Int): Int {
         val sql = """
-            DELETE FROM appointment_slots WHERE psychologist_id = ? AND id = ? AND status = ?
+            DELETE FROM appointment_slots WHERE id = ? AND status = ?
         """.trimIndent()
 
-        return jdbcTemplate.queryForObject(
+        return jdbcTemplate.update(
             sql,
-            Int::class.java,
-            profileId,
             dayOffId,
             "DAY_OFF",
-        )!!
+        )
     }
 
     fun getAllDayOff(profileId: Int): List<AppointmentSlot>? {

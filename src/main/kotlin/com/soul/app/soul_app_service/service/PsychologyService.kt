@@ -91,9 +91,6 @@ class PsychologyService (
         return getPsychologyDetailByUserId(userId)!!
     }
 
-    fun getUserIdFromPscyhologProfileId(psycholgProfileId : Int) : Int?{
-        return psychologyRepository.getUserIdFromPscyhologProfileId(psycholgProfileId)
-    }
     fun getAllFields(): List<Field> {
         return psychologyRepository.getAllFields()
     }
@@ -112,8 +109,8 @@ class PsychologyService (
         if (profileId != null){
 
             return Psychology(
-                userRepository.getUserById(psychologyRepository.getUserIdFromPscyhologProfileId(profileId)!!)!!,
-                psychologyRepository.getPsychologyProfilebyUserId(psychologyRepository.getUserIdFromPscyhologProfileId(profileId)!!)!!,
+                userRepository.getUserByPsychologyId(profileId)!!,
+                psychologyRepository.getPsychologyProfileById(profileId)!!,
                 psychologyRepository.getPsychologyFields(profileId),
                 certificates = psychologyRepository.getPsychologyCertificatesByPsychologyProfileId(profileId),
                 ratings = psychologyRepository.getPsychologyRating(profileId)

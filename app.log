@@ -1,31 +1,419 @@
-2026-04-23T00:10:51.451+07:00  INFO 27260 --- [http-nio-0.0.0.0-11001-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-04-23T00:10:51.455+07:00  INFO 27260 --- [http-nio-0.0.0.0-11001-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2026-04-23T00:10:51.457+07:00  INFO 27260 --- [http-nio-0.0.0.0-11001-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2026-04-23T00:13:09.729+07:00  INFO 27260 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-04-23T00:13:09.732+07:00  INFO 27260 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2026-04-23T00:13:14.732+07:00  INFO 19268 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 19268 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
-2026-04-23T00:13:14.733+07:00  INFO 19268 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
-2026-04-23T00:13:15.268+07:00  INFO 19268 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
-2026-04-23T00:13:15.282+07:00  INFO 19268 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
-2026-04-23T00:13:15.523+07:00  INFO 19268 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
-2026-04-23T00:13:15.527+07:00  INFO 19268 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-04-23T00:13:15.528+07:00  INFO 19268 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
-2026-04-23T00:13:15.575+07:00  INFO 19268 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
-2026-04-23T00:13:15.576+07:00  INFO 19268 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 815 ms
-2026-04-23T00:13:15.818+07:00  WARN 19268 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+2026-04-26T00:06:08.439+07:00  INFO 26260 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 26260 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-04-26T00:06:08.445+07:00  INFO 26260 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-04-26T00:06:08.971+07:00  INFO 26260 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-04-26T00:06:08.984+07:00  INFO 26260 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2026-04-26T00:06:09.216+07:00  INFO 26260 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-04-26T00:06:09.221+07:00  INFO 26260 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-26T00:06:09.221+07:00  INFO 26260 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-04-26T00:06:09.271+07:00  INFO 26260 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-04-26T00:06:09.271+07:00  INFO 26260 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 791 ms
+2026-04-26T00:06:09.498+07:00  WARN 26260 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 028cd696-ca42-4347-9192-79b8f6c9f2b5
+Using generated security password: 5e9c5a49-83be-4360-8292-bc9f100fbd86
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2026-04-23T00:13:15.930+07:00  INFO 19268 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e52ed5d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6a96d639, org.springframework.security.web.context.SecurityContextHolderFilter@2035d65b, org.springframework.security.web.header.HeaderWriterFilter@5c53c235, org.springframework.web.filter.CorsFilter@28e94c2, org.springframework.security.web.authentication.logout.LogoutFilter@288728e, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@33d60b7e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4e3283f6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@72224107, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3d40498a, org.springframework.security.web.session.SessionManagementFilter@1883871b, org.springframework.security.web.access.ExceptionTranslationFilter@34cd65ac, org.springframework.security.web.access.intercept.AuthorizationFilter@5170bc02]
-2026-04-23T00:13:16.041+07:00  INFO 19268 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-04-23T00:13:17.205+07:00  INFO 19268 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@29aa4bc9
-2026-04-23T00:13:17.207+07:00  INFO 19268 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-04-23T00:13:17.283+07:00  INFO 19268 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
-2026-04-23T00:13:17.288+07:00  INFO 19268 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 2.77 seconds (process running for 3.094)
-2026-04-23T00:13:19.015+07:00  INFO 19268 --- [http-nio-0.0.0.0-11001-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-04-23T00:13:19.015+07:00  INFO 19268 --- [http-nio-0.0.0.0-11001-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2026-04-23T00:13:19.017+07:00  INFO 19268 --- [http-nio-0.0.0.0-11001-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2026-04-23T00:24:38.231+07:00  INFO 19268 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-04-23T00:24:38.240+07:00  INFO 19268 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-26T00:06:09.616+07:00  INFO 26260 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3bd08435, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3e52ed5d, org.springframework.security.web.context.SecurityContextHolderFilter@52f9e8bb, org.springframework.security.web.header.HeaderWriterFilter@61911947, org.springframework.web.filter.CorsFilter@6a96d639, org.springframework.security.web.authentication.logout.LogoutFilter@f95d64d, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@1fecfaea, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@240a2619, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@28554ac8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@28e94c2, org.springframework.security.web.session.SessionManagementFilter@f2fb225, org.springframework.security.web.access.ExceptionTranslationFilter@1d2d8846, org.springframework.security.web.access.intercept.AuthorizationFilter@640c216b]
+2026-04-26T00:06:09.732+07:00  INFO 26260 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-26T00:06:11.324+07:00  INFO 26260 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6c519e47
+2026-04-26T00:06:11.325+07:00  INFO 26260 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-26T00:06:11.397+07:00  INFO 26260 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-04-26T00:06:11.402+07:00  INFO 26260 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 3.19 seconds (process running for 3.567)
+2026-04-26T00:06:15.912+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-26T00:06:15.912+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-26T00:06:15.913+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-04-26T00:06:16.734+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 631 ms
+2026-04-26T00:06:25.341+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : NOW = 2026-04-26T00:06:25.341320800
+2026-04-26T00:06:25.444+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-04-26 ====
+2026-04-26T00:06:25.444+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : No availability for this date
+2026-04-26T00:06:25.444+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-04-27 ====
+2026-04-26T00:06:25.545+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : APPOINTMENT | start=09:30 end=10:30
+2026-04-26T00:06:25.546+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : APPOINTMENT | start=10:30 end=11:30
+2026-04-26T00:06:25.547+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 01:15 - 01:45
+2026-04-26T00:06:25.547+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 09:30 - 11:30
+2026-04-26T00:06:25.547+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : OVERLAP | slot=09:30 - 10:30 WITH appt=09:30 - 10:30
+2026-04-26T00:06:25.547+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-27 09:30-10:30 | now=00:06:25.341320800 | isPast=false | isBooked=true | status=BOOKED
+2026-04-26T00:06:25.547+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : OVERLAP | slot=10:30 - 11:30 WITH appt=10:30 - 11:30
+2026-04-26T00:06:25.547+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-27 10:30-11:30 | now=00:06:25.341320800 | isPast=false | isBooked=true | status=BOOKED
+2026-04-26T00:06:25.547+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-04-28 ====
+2026-04-26T00:06:25.648+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : APPOINTMENT | start=13:00 end=14:00
+2026-04-26T00:06:25.648+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:25.648+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : OVERLAP | slot=13:00 - 14:00 WITH appt=13:00 - 14:00
+2026-04-26T00:06:25.648+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-28 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=true | status=BOOKED
+2026-04-26T00:06:25.648+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-28 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.648+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-28 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.648+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 10:30 - 11:00
+2026-04-26T00:06:25.648+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-04-29 ====
+2026-04-26T00:06:25.750+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:25.750+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-29 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.750+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-29 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.750+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-29 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.750+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-04-30 ====
+2026-04-26T00:06:25.853+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:25.853+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-30 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.853+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-30 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.853+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-04-30 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.853+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-01 ====
+2026-04-26T00:06:25.955+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:25.955+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-01 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.955+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-01 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.955+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-01 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:25.955+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-02 ====
+2026-04-26T00:06:26.058+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:26.058+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-02 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.058+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-02 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.058+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-02 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.058+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-03 ====
+2026-04-26T00:06:26.058+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : No availability for this date
+2026-04-26T00:06:26.058+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-04 ====
+2026-04-26T00:06:26.160+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 01:15 - 01:45
+2026-04-26T00:06:26.160+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 09:30 - 11:30
+2026-04-26T00:06:26.160+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-04 09:30-10:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.160+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-04 10:30-11:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.160+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-05 ====
+2026-04-26T00:06:26.262+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:26.262+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-05 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.262+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-05 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.262+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-05 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.262+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 10:30 - 11:00
+2026-04-26T00:06:26.262+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-06 ====
+2026-04-26T00:06:26.365+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:26.365+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-06 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.365+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-06 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.365+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-06 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.365+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-07 ====
+2026-04-26T00:06:26.468+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:26.468+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-07 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.468+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-07 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.468+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-07 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.468+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-08 ====
+2026-04-26T00:06:26.569+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:26.569+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-08 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.569+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-08 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.569+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-08 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.569+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-09 ====
+2026-04-26T00:06:26.672+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:26.672+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-09 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.672+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-09 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.672+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-09 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.672+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-10 ====
+2026-04-26T00:06:26.672+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : No availability for this date
+2026-04-26T00:06:26.672+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-11 ====
+2026-04-26T00:06:26.774+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 01:15 - 01:45
+2026-04-26T00:06:26.774+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 09:30 - 11:30
+2026-04-26T00:06:26.774+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-11 09:30-10:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.774+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-11 10:30-11:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.774+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-12 ====
+2026-04-26T00:06:26.877+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:26.877+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-12 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.877+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-12 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.877+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-12 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.877+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 10:30 - 11:00
+2026-04-26T00:06:26.877+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-13 ====
+2026-04-26T00:06:26.979+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:26.979+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-13 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.979+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-13 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.979+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-13 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:26.979+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-14 ====
+2026-04-26T00:06:27.081+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:27.081+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-14 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.081+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-14 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.081+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-14 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.081+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-15 ====
+2026-04-26T00:06:27.184+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:27.184+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-15 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.184+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-15 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.184+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-15 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.184+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-16 ====
+2026-04-26T00:06:27.286+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:27.287+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-16 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.287+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-16 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.287+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-16 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.287+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-17 ====
+2026-04-26T00:06:27.287+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : No availability for this date
+2026-04-26T00:06:27.287+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-18 ====
+2026-04-26T00:06:27.388+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 01:15 - 01:45
+2026-04-26T00:06:27.389+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 09:30 - 11:30
+2026-04-26T00:06:27.389+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-18 09:30-10:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.389+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-18 10:30-11:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.389+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-19 ====
+2026-04-26T00:06:27.491+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:27.491+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-19 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.491+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-19 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.491+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-19 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.491+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 10:30 - 11:00
+2026-04-26T00:06:27.491+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-20 ====
+2026-04-26T00:06:27.593+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:27.593+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-20 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.593+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-20 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.593+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-20 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.593+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-21 ====
+2026-04-26T00:06:27.695+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:27.695+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-21 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.695+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-21 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.695+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-21 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.695+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-22 ====
+2026-04-26T00:06:27.798+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:27.799+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-22 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.799+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-22 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.799+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-22 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.799+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-23 ====
+2026-04-26T00:06:27.901+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:27.901+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-23 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.901+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-23 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.901+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-23 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:27.901+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-24 ====
+2026-04-26T00:06:27.901+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : No availability for this date
+2026-04-26T00:06:27.901+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-25 ====
+2026-04-26T00:06:28.003+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 01:15 - 01:45
+2026-04-26T00:06:28.003+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 09:30 - 11:30
+2026-04-26T00:06:28.003+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-25 09:30-10:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.003+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-25 10:30-11:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.003+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-26 ====
+2026-04-26T00:06:28.106+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:28.106+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-26 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.106+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-26 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.106+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-26 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.106+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 10:30 - 11:00
+2026-04-26T00:06:28.106+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-27 ====
+2026-04-26T00:06:28.208+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:28.208+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-27 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.208+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-27 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.208+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-27 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.208+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-28 ====
+2026-04-26T00:06:28.310+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:28.310+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-28 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.310+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-28 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.310+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-28 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.310+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-29 ====
+2026-04-26T00:06:28.413+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:28.413+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-29 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.413+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-29 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.413+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-29 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.413+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-30 ====
+2026-04-26T00:06:28.515+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:28.515+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-30 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.515+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-30 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.515+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-05-30 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.515+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-05-31 ====
+2026-04-26T00:06:28.515+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : No availability for this date
+2026-04-26T00:06:28.515+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-01 ====
+2026-04-26T00:06:28.617+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 01:15 - 01:45
+2026-04-26T00:06:28.618+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 09:30 - 11:30
+2026-04-26T00:06:28.618+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-01 09:30-10:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.618+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-01 10:30-11:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.618+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-02 ====
+2026-04-26T00:06:28.720+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:28.720+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-02 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.720+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-02 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.720+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-02 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.720+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 10:30 - 11:00
+2026-04-26T00:06:28.720+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-03 ====
+2026-04-26T00:06:28.822+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:28.822+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-03 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.822+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-03 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.822+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-03 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.822+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-04 ====
+2026-04-26T00:06:28.924+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:28.924+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-04 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.924+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-04 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.924+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-04 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:28.924+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-05 ====
+2026-04-26T00:06:29.026+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:29.027+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-05 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.027+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-05 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.027+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-05 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.027+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-06 ====
+2026-04-26T00:06:29.130+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:29.130+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-06 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.130+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-06 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.130+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-06 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.130+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-07 ====
+2026-04-26T00:06:29.130+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : No availability for this date
+2026-04-26T00:06:29.130+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-08 ====
+2026-04-26T00:06:29.231+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 01:15 - 01:45
+2026-04-26T00:06:29.232+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 09:30 - 11:30
+2026-04-26T00:06:29.232+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-08 09:30-10:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.232+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-08 10:30-11:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.232+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-09 ====
+2026-04-26T00:06:29.334+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:29.334+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-09 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.334+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-09 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.334+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-09 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.334+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 10:30 - 11:00
+2026-04-26T00:06:29.334+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-10 ====
+2026-04-26T00:06:29.437+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:29.438+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-10 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.438+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-10 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.438+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-10 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.438+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-11 ====
+2026-04-26T00:06:29.539+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:29.539+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-11 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.539+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-11 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.539+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-11 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.539+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-12 ====
+2026-04-26T00:06:29.642+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:29.642+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-12 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.642+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-12 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.642+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-12 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.642+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-13 ====
+2026-04-26T00:06:29.743+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:29.743+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-13 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.743+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-13 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.743+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-13 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.743+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-14 ====
+2026-04-26T00:06:29.743+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : No availability for this date
+2026-04-26T00:06:29.743+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-15 ====
+2026-04-26T00:06:29.846+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 01:15 - 01:45
+2026-04-26T00:06:29.846+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 09:30 - 11:30
+2026-04-26T00:06:29.846+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-15 09:30-10:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.846+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-15 10:30-11:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.846+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-16 ====
+2026-04-26T00:06:29.949+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:29.949+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-16 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.949+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-16 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.949+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-16 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:29.949+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 10:30 - 11:00
+2026-04-26T00:06:29.949+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-17 ====
+2026-04-26T00:06:30.050+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:30.050+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-17 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.050+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-17 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.050+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-17 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.050+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-18 ====
+2026-04-26T00:06:30.153+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:30.154+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-18 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.154+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-18 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.154+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-18 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.154+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-19 ====
+2026-04-26T00:06:30.255+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:30.255+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-19 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.255+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-19 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.255+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-19 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.255+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-20 ====
+2026-04-26T00:06:30.358+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:30.358+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-20 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.358+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-20 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.358+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-20 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.358+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-21 ====
+2026-04-26T00:06:30.358+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : No availability for this date
+2026-04-26T00:06:30.358+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-22 ====
+2026-04-26T00:06:30.461+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 01:15 - 01:45
+2026-04-26T00:06:30.461+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 09:30 - 11:30
+2026-04-26T00:06:30.461+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-22 09:30-10:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.461+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-22 10:30-11:30 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.461+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-23 ====
+2026-04-26T00:06:30.563+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:30.563+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-23 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.563+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-23 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.563+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-23 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.563+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 10:30 - 11:00
+2026-04-26T00:06:30.563+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : ==== DATE: 2026-06-24 ====
+2026-04-26T00:06:30.665+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : AVAILABILITY | 13:00 - 16:00
+2026-04-26T00:06:30.665+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-24 13:00-14:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.665+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-24 14:00-15:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:06:30.665+07:00  INFO 26260 --- [http-nio-0.0.0.0-11001-exec-10] AvailabilityTrace                        : SLOT | 2026-06-24 15:00-16:00 | now=00:06:25.341320800 | isPast=false | isBooked=false | status=AVAILABLE
+2026-04-26T00:31:52.798+07:00  INFO 26260 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-26T00:31:52.803+07:00  INFO 26260 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-26T00:31:56.406+07:00  INFO 24364 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 24364 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-04-26T00:31:56.407+07:00  INFO 24364 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-04-26T00:31:56.933+07:00  INFO 24364 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-04-26T00:31:56.949+07:00  INFO 24364 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 0 JDBC repository interfaces.
+2026-04-26T00:31:57.197+07:00  INFO 24364 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-04-26T00:31:57.202+07:00  INFO 24364 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-26T00:31:57.203+07:00  INFO 24364 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-04-26T00:31:57.248+07:00  INFO 24364 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-04-26T00:31:57.248+07:00  INFO 24364 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 812 ms
+2026-04-26T00:31:57.469+07:00  WARN 24364 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 293370b9-2c33-4efc-8215-3f8b9a21558a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-26T00:31:57.580+07:00  INFO 24364 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@482a58c7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3e74fd84, org.springframework.security.web.context.SecurityContextHolderFilter@28554ac8, org.springframework.security.web.header.HeaderWriterFilter@1cba0321, org.springframework.web.filter.CorsFilter@147efd9, org.springframework.security.web.authentication.logout.LogoutFilter@66b0e207, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@1fecfaea, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@394fb736, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1689527c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1e120628, org.springframework.security.web.session.SessionManagementFilter@4e3283f6, org.springframework.security.web.access.ExceptionTranslationFilter@1b409a79, org.springframework.security.web.access.intercept.AuthorizationFilter@28e94c2]
+2026-04-26T00:31:57.687+07:00  INFO 24364 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-26T00:31:59.451+07:00  INFO 24364 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6fd7aba8
+2026-04-26T00:31:59.452+07:00  INFO 24364 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-26T00:31:59.520+07:00  INFO 24364 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-04-26T00:31:59.525+07:00  INFO 24364 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 3.323 seconds (process running for 3.661)
+2026-04-26T00:32:03.312+07:00  INFO 24364 --- [http-nio-0.0.0.0-11001-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-26T00:32:03.313+07:00  INFO 24364 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-26T00:32:03.313+07:00  INFO 24364 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-04-26T00:33:00.357+07:00  INFO 24364 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-26T00:33:01.400+07:00  INFO 24364 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-26T00:33:04.580+07:00  INFO 10444 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 10444 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-04-26T00:33:04.581+07:00  INFO 10444 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-04-26T00:33:05.080+07:00  INFO 10444 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-04-26T00:33:05.096+07:00  INFO 10444 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14 ms. Found 0 JDBC repository interfaces.
+2026-04-26T00:33:05.404+07:00  INFO 10444 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-04-26T00:33:05.407+07:00  INFO 10444 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-26T00:33:05.408+07:00  INFO 10444 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-04-26T00:33:05.452+07:00  INFO 10444 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-04-26T00:33:05.452+07:00  INFO 10444 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 845 ms
+2026-04-26T00:33:05.663+07:00  WARN 10444 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: fc216dde-4ca1-42c7-b4f3-a86664364831
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-26T00:33:05.771+07:00  INFO 10444 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@c212536, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7b377a53, org.springframework.security.web.context.SecurityContextHolderFilter@4aa22cc2, org.springframework.security.web.header.HeaderWriterFilter@3271ec2a, org.springframework.web.filter.CorsFilter@1b0e031b, org.springframework.security.web.authentication.logout.LogoutFilter@1de5cc88, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@590765c4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@464aeb09, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@27df5806, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6009cd34, org.springframework.security.web.session.SessionManagementFilter@314b7945, org.springframework.security.web.access.ExceptionTranslationFilter@394fb736, org.springframework.security.web.access.intercept.AuthorizationFilter@d9f5fce]
+2026-04-26T00:33:05.887+07:00  INFO 10444 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-26T00:33:07.640+07:00  INFO 10444 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@e886caf
+2026-04-26T00:33:07.641+07:00  INFO 10444 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-26T00:33:07.707+07:00  INFO 10444 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-04-26T00:33:07.713+07:00  INFO 10444 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 3.338 seconds (process running for 3.659)
+2026-04-26T00:33:25.163+07:00  INFO 10444 --- [http-nio-0.0.0.0-11001-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-26T00:33:25.163+07:00  INFO 10444 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-26T00:33:25.164+07:00  INFO 10444 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-04-26T01:52:26.657+07:00  INFO 10444 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-26T01:52:26.657+07:00  INFO 10444 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-26T01:52:31.189+07:00  INFO 26208 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 26208 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-04-26T01:52:31.190+07:00  INFO 26208 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-04-26T01:52:31.709+07:00  INFO 26208 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-04-26T01:52:31.723+07:00  INFO 26208 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 JDBC repository interfaces.
+2026-04-26T01:52:31.963+07:00  INFO 26208 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-04-26T01:52:31.968+07:00  INFO 26208 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-26T01:52:31.970+07:00  INFO 26208 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-04-26T01:52:32.023+07:00  INFO 26208 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-04-26T01:52:32.023+07:00  INFO 26208 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 806 ms
+2026-04-26T01:52:32.248+07:00  WARN 26208 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: c06d6bde-041a-4efe-bca9-2d6b95b53405
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-26T01:52:32.363+07:00  INFO 26208 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@59262a90, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@78479f2b, org.springframework.security.web.context.SecurityContextHolderFilter@1f7e52d1, org.springframework.security.web.header.HeaderWriterFilter@4e3283f6, org.springframework.web.filter.CorsFilter@2755617b, org.springframework.security.web.authentication.logout.LogoutFilter@3d40498a, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@11d2dd2d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7604198a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@64440065, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@65859b44, org.springframework.security.web.session.SessionManagementFilter@13004dd8, org.springframework.security.web.access.ExceptionTranslationFilter@2035d65b, org.springframework.security.web.access.intercept.AuthorizationFilter@3ef3f661]
+2026-04-26T01:52:32.471+07:00  INFO 26208 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-26T01:52:34.180+07:00  INFO 26208 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2df71be0
+2026-04-26T01:52:34.181+07:00  INFO 26208 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-26T01:52:34.263+07:00  INFO 26208 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-04-26T01:52:34.268+07:00  INFO 26208 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 3.279 seconds (process running for 3.582)
+2026-04-26T01:52:35.772+07:00  INFO 26208 --- [http-nio-0.0.0.0-11001-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-26T01:52:35.772+07:00  INFO 26208 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-26T01:52:35.773+07:00  INFO 26208 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-04-26T01:52:36.523+07:00  INFO 26208 --- [http-nio-0.0.0.0-11001-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 584 ms
+2026-04-26T01:59:12.816+07:00  WARN 26208 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m8s622ms6µs800ns).
+2026-04-26T21:47:05.760+07:00  INFO 21320 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Starting SoulAppServiceApplicationKt using Java 21.0.8 with PID 21320 (C:\Users\Matthew\Documents\code\soul-app-service\target\classes started by Matthew in C:\Users\Matthew\Documents\code\soul-app-service)
+2026-04-26T21:47:05.762+07:00  INFO 21320 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2026-04-26T21:47:06.334+07:00  INFO 21320 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-04-26T21:47:06.352+07:00  INFO 21320 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 15 ms. Found 0 JDBC repository interfaces.
+2026-04-26T21:47:06.630+07:00  INFO 21320 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 11001 (http)
+2026-04-26T21:47:06.635+07:00  INFO 21320 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-26T21:47:06.636+07:00  INFO 21320 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2026-04-26T21:47:06.692+07:00  INFO 21320 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-04-26T21:47:06.694+07:00  INFO 21320 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 897 ms
+2026-04-26T21:47:06.995+07:00  WARN 21320 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 5cba7100-1176-4f0d-a34e-00440cc3a8c2
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-26T21:47:07.140+07:00  INFO 21320 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@e01a26b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7604198a, org.springframework.security.web.context.SecurityContextHolderFilter@684372d0, org.springframework.security.web.header.HeaderWriterFilter@2e45a357, org.springframework.web.filter.CorsFilter@5cce40d7, org.springframework.security.web.authentication.logout.LogoutFilter@5d1a859c, com.soul.app.soul_app_service.filter.JwtTokenAuthenticationFilter@3b0c3951, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@41f964f9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@713999c2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@314b7945, org.springframework.security.web.session.SessionManagementFilter@53cb0bcb, org.springframework.security.web.access.ExceptionTranslationFilter@2bb31455, org.springframework.security.web.access.intercept.AuthorizationFilter@4fc6e776]
+2026-04-26T21:47:07.278+07:00  INFO 21320 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-26T21:47:10.513+07:00  INFO 21320 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@629cbb1
+2026-04-26T21:47:10.514+07:00  INFO 21320 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-26T21:47:10.598+07:00  INFO 21320 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 11001 (http) with context path '/api'
+2026-04-26T21:47:10.604+07:00  INFO 21320 --- [main] c.s.a.s.SoulAppServiceApplicationKt      : Started SoulAppServiceApplicationKt in 5.202 seconds (process running for 5.664)
+2026-04-26T21:47:10.632+07:00  INFO 21320 --- [http-nio-0.0.0.0-11001-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-26T21:47:10.632+07:00  INFO 21320 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-26T21:47:10.633+07:00  INFO 21320 --- [http-nio-0.0.0.0-11001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-04-26T21:47:11.465+07:00  INFO 21320 --- [http-nio-0.0.0.0-11001-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 652 ms

@@ -339,6 +339,56 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
             { rs, _ -> rs.getInt("id") }
         )
     }
+
+    fun getPsychologyProfileById(psychologyId: Int): PsychologyProfile? {
+        val sql = """
+            SELECT * FROM psychologist_profile where id = ?
+        """.trimIndent()
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                PsychologyProfile(
+                    id = rs.getInt("id"),
+                    userId = rs.getInt("user_id"),
+                    alumnus = rs.getString("alumnus"),
+                    sipp = rs.getString("sipp"),
+                    careerStartDate = rs.getDate("career_start_date"),
+                    pricePerSession = rs.getInt("price_per_session"),
+                    education = rs.getString("education"),
+                    clinic = rs.getString("clinic"),
+                    description = rs.getString("description"),
+                    religion = rs.getString("religion"),
+                    rating = rs.getFloat("rating")
+                )
+            },
+            psychologyId
+        ).firstOrNull()
+    }
+
+    fun getUserByPsychologProfileId(psychologyId: Int): PsychologyProfile? {
+        val sql = """
+            SELECT * FROM psychologist_profile where id = ?
+        """.trimIndent()
+        return jdbcTemplate.query(
+            sql,
+            RowMapper { rs, _ ->
+                PsychologyProfile(
+                    id = rs.getInt("id"),
+                    userId = rs.getInt("user_id"),
+                    alumnus = rs.getString("alumnus"),
+                    sipp = rs.getString("sipp"),
+                    careerStartDate = rs.getDate("career_start_date"),
+                    pricePerSession = rs.getInt("price_per_session"),
+                    education = rs.getString("education"),
+                    clinic = rs.getString("clinic"),
+                    description = rs.getString("description"),
+                    religion = rs.getString("religion"),
+                    rating = rs.getFloat("rating")
+                )
+            },
+            psychologyId
+        ).firstOrNull()
+    }
     fun getPsychologyBase(
         search: String?,
         rate: String?,
@@ -430,7 +480,6 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
 
         val params = mutableListOf<Any>(profileId)
 
-        println(sql.toString())
         return jdbcTemplate.query(
             sql.toString(),
             params.toTypedArray()

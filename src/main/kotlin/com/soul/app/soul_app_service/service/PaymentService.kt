@@ -204,6 +204,8 @@ class PaymentService(
                     midtransTransactionId = null,
                     paidAt = null
                 )
+                appointmentRepository.updateAppointmentStatus(payment.appointmentId, AppointmentStatus.CANCELLED.name)
+                appointmentRepository.deleteAppointmentSlotbyAppointmentId(payment.appointmentId)
             }
         }
     }

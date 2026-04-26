@@ -132,6 +132,15 @@ class UserRepository(
         )
     }
 
+    fun getUserByPsychologyId(profileId: Int): User? {
+        val sql = "SELECT * FROM users u left join psychologist_profile p on p.user_id = u.id WHERE p.id = ?"
+
+        return jdbcTemplate.query(
+            sql,
+            userRowMapper(),
+            profileId
+        ).firstOrNull()
+    }
     fun updateUser(user: User): Int {
         val sql = """
             UPDATE users
