@@ -8,6 +8,7 @@ import com.soul.app.soul_app_service.dto.PaymentStatus
 import com.soul.app.soul_app_service.model.Notification
 import com.soul.app.soul_app_service.model.Payment
 import com.soul.app.soul_app_service.repository.AppointmentRepository
+import com.soul.app.soul_app_service.repository.ChatRepository
 import com.soul.app.soul_app_service.repository.PaymentRepository
 import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.security.MessageDigest
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 @Service
 class PaymentService(
@@ -26,11 +30,12 @@ class PaymentService(
     private val userRepository: UserRepository,
     @Value("\${midtrans.server-key}")
     private val serverKey: String,
-    private val notificationService: NotificationService
+    private val notificationService: NotificationService,
+    private val chatRepository: ChatRepository
 ) {
 
     @Transactional
-    fun createPayment(appointmentId: Int, userId: Int): String {
+    fun createPayment(appointmentId: Int, userId: Int): Boolean {
 
         val appointment = appointmentRepository.getAppointmentById(appointmentId)
             ?: throw IllegalArgumentException("No appointment with ID $appointmentId")
@@ -67,27 +72,44 @@ class PaymentService(
         val client = userRepository.getUserById(appointment.clientUserId)
             ?: throw IllegalArgumentException("No user with ID ${appointment.clientUserId}")
 
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")
+
         val params = hashMapOf<String, Any>(
             "transaction_details" to hashMapOf(
                 "order_id" to orderId,
                 "gross_amount" to price
             ),
+
             "customer_details" to hashMapOf(
                 "first_name" to client.name,
                 "email" to client.email
             ),
+
+            "expiry" to hashMapOf(
+                "start_time" to ZonedDateTime.now(ZoneId.of("Asia/Jakarta"))
+                    .format(formatter),
+                "unit" to "hour",
+                "duration" to 24
+            ),
+            "callbacks" to hashMapOf(
+                "finish" to "https://soulapp.my.id/consultation",
+                "pending" to "https://soulapp.my.id/consultation",
+                "error" to "https://soulapp.my.id/consultation"
+            ),
+            "enabled_payments" to listOf(
+                "bca_va"
+            )
         )
 
         try {
             val snapToken = snapApi.createTransactionToken(params)
 
-            // 2️⃣ Update snap token + set PENDING
             paymentRepository.updateSnapToken(
                 paymentId = paymentId,
                 snapToken = snapToken
             )
 
-            return snapToken
+            return true
 
         } catch (e: MidtransError) {
 
@@ -98,8 +120,8 @@ class PaymentService(
                 midtransTransactionId = null,
                 paidAt = null
             )
+            return false
 
-            throw RuntimeException("Midtrans error: ${e.message}")
         }
     }
     private fun generateSignature(
@@ -159,6 +181,7 @@ class PaymentService(
                         payment.appointmentId,
                         AppointmentStatus.PAID.name,
                     )
+                    chatRepository.createConversation(payment.appointmentId)
                     val appointment = appointmentRepository.getAppointmentSlotByAppointmentId(payment.appointmentId)!!
 
 
@@ -172,15 +195,15 @@ class PaymentService(
                         type = NotificationType.APPOINTMENT_REMINDER.name  ,
                         title = "Pengingat Jadwal",
                         description = "Jadwal bersama ${psychologistUser.name} di ${appointment.startTime} pada ${appointment.date}",
-                        redirectUrl = "https://soulapp.my.id/consultation/${appointment.id}",
+                        redirectUrl = "https://soulapp.my.id/consultation/${payment.id}",
                     ))
 
-                    notificationService.sendNotification(clientId, Notification(
-                        userId = clientId,
+                    notificationService.sendNotification(psychologistUserId, Notification(
+                        userId = psychologistUserId,
                         type = NotificationType.APPOINTMENT_REMINDER.name  ,
                         title = "Pengingat Jadwal",
                         description = "Jadwal bersama ${clientUser.name} di ${appointment.startTime} pada ${appointment.date}",
-                        redirectUrl = "https://soulapp.my.id/consultation/${appointment.id}",
+                        redirectUrl = "https://soulapp.my.id/consultation/${payment.id}",
                     ))
 
                 }

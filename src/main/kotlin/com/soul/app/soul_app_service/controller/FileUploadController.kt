@@ -31,10 +31,8 @@ class FileUploadController {
 
         val dest = File("$uploadDir/certificates/$fileName")
 
-        // pastikan folder ada
         dest.parentFile.mkdirs()
 
-        // save file
         file.transferTo(dest)
 
         val fileUrl = "https://soulapp.my.id/assets/certificates/$fileName"

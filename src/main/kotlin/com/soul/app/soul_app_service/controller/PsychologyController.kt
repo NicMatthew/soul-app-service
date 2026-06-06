@@ -103,8 +103,6 @@ class PsychologyController(
     fun deleteDayOff(
         @RequestBody dayoffId: Int
     ): ResponseEntity<String> {
-        val authentication = SecurityContextHolder.getContext().authentication
-        val userId = authentication.principal as Int
         appointmentService.deleteDayOff(dayoffId)
         return ResponseEntity.ok("mantap")
     }

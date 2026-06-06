@@ -4,6 +4,7 @@ import com.soul.app.soul_app_service.dto.NotificationType
 import com.soul.app.soul_app_service.dto.chat.ChatMessageResponse
 import com.soul.app.soul_app_service.dto.chat.ChatSendMessageRequest
 import com.soul.app.soul_app_service.dto.chat.ReadMessageResponse
+import com.soul.app.soul_app_service.dto.response.ConversationDetailResponse
 import com.soul.app.soul_app_service.dto.response.GetAllConversationResponse
 import com.soul.app.soul_app_service.model.Conversation
 import com.soul.app.soul_app_service.model.Message
@@ -11,10 +12,15 @@ import com.soul.app.soul_app_service.model.Notification
 import com.soul.app.soul_app_service.registry.OnlineUserRegistry
 import com.soul.app.soul_app_service.repository.ChatRepository
 import com.soul.app.soul_app_service.repository.UserRepository
+import lombok.extern.java.Log
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.socket.TextMessage
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+
 @Service
 class ChatService(
     private val chatRepository: ChatRepository,
@@ -30,14 +36,33 @@ class ChatService(
 
         val conversation = chatRepository.getConversationById(req.conversationId)
             ?: throw IllegalArgumentException("Conversation not found")
+        log.info("Conversation(id): {}", conversation.id)
+        log.info("Conversation(all): {}", conversation.toString())
 
         val participants = chatRepository.getConversationParticipants(req.conversationId)
             ?: throw IllegalArgumentException("Conversation participants not found")
+        log.info("participant(all): {}", participants.toString())
 
         if (!participants.contains(req.senderId))
-            throw IllegalArgumentException("Sender is not part of this conversation")
+            throw IllegalArgumentException("Sender ${req.senderId} is not part of this conversation")
 
-        val now = LocalDateTime.now()
+        val appointment = chatRepository.getAppointmentByConversationId(req.conversationId)!!
+
+        val localDate = appointment.date.toLocalDate()
+        val startDateTime = LocalDateTime.of(localDate, LocalTime.parse(appointment.startTime))
+        val endDateTime = LocalDateTime.of(localDate, LocalTime.parse(appointment.endTime))
+
+        val now = ZonedDateTime.now(ZoneId.of("Asia/Jakarta")).toLocalDateTime()
+
+        when {
+            now.isBefore(startDateTime) -> {
+                throw IllegalStateException("Chat session has not started yet")
+            }
+            now.isAfter(endDateTime) -> {
+                throw IllegalStateException("Chat session has ended")
+            }
+        }
+
         val savedId = chatRepository.createMessage(
             Message(
                 id = -99,
@@ -113,7 +138,7 @@ class ChatService(
             )
         }
     }
-    fun getConversationMessages(conversationId: Int, userId: Int): List<ChatMessageResponse> {
+    fun getConversationMessages(conversationId: Int, userId: Int): ConversationDetailResponse {
         val participants = chatRepository.getConversationParticipants(conversationId)
             ?: throw IllegalArgumentException("Conversation not found")
 
@@ -121,16 +146,23 @@ class ChatService(
             throw IllegalArgumentException("Unauthorized")
         }
 
-        return chatRepository.getMessagesByConversationId(conversationId).map { message ->
-            ChatMessageResponse(
-                id = message.id,
-                conversationId = message.conversationId,
-                senderId = message.senderUserId,
-                content = message.messageText,
-                createdAt = message.sentAt.toString(),
-                isRead = message.isRead,
-                readAt = message.readAt?.toString()
-            )
-        }
+        val appointment = chatRepository.getAppointmentByConversationId(conversationId)!!
+
+        return ConversationDetailResponse(
+            appointmentDate = appointment.date,
+            startTime = appointment.startTime,
+            endTime = appointment.endTime,
+            messages = chatRepository.getMessagesByConversationId(conversationId).map { message ->
+                ChatMessageResponse(
+                    id = message.id,
+                    conversationId = message.conversationId,
+                    senderId = message.senderUserId,
+                    content = message.messageText,
+                    createdAt = message.sentAt.toString(),
+                    isRead = message.isRead,
+                    readAt = message.readAt?.toString()
+                )
+            }
+        )
     }
 }

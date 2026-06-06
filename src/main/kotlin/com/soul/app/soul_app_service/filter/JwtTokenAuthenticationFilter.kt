@@ -18,6 +18,7 @@ class JwtTokenAuthenticationFilter(
         return path.startsWith("/auth")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
+                || path.startsWith("/api/ws")
     }
 
     override fun doFilterInternal(

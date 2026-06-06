@@ -29,7 +29,7 @@ class PaymentRepository(
             payment.price,
             payment.currency,
             payment.status
-        )!!
+        )
     }
 
     fun updateSnapToken(paymentId: Int, snapToken: String) {
@@ -93,7 +93,7 @@ class PaymentRepository(
         """.trimIndent()
 
         val count = jdbcTemplate.queryForObject(sql, Int::class.java, appointmentId)
-        return (count ?: 0) > 0
+        return (count) > 0
     }
 
     fun getPaymentById(paymentId: Int): Payment? {

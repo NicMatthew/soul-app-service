@@ -84,13 +84,11 @@ class AppointmentRepository(
 
             }
         }
-        // 🔍 FILTER DATE
         if (date != null) {
             sql.append(" AND DATE(a.scheduled_at) = ?")
             params.add(date)
         }
 
-        // 🔃 ORDERING
         if (!order.isNullOrBlank()) {
             when (order.lowercase()) {
                 "asc" -> sql.append(" ORDER BY a.scheduled_at ASC")
@@ -141,13 +139,11 @@ class AppointmentRepository(
 
                 }
             }
-            // 🔍 FILTER DATE
             if (date != null) {
                 sql.append(" AND DATE(a.scheduled_at) = ?")
                 params.add(date)
             }
 
-            // 🔃 ORDERING
             if (!order.isNullOrBlank()) {
                 when (order.lowercase()) {
                     "asc" -> sql.append(" ORDER BY a.scheduled_at ASC")
@@ -237,7 +233,7 @@ class AppointmentRepository(
             appointmentSlot.startTime,
             appointmentSlot.endTime,
             appointmentSlot.appointmentId
-        )!!
+        )
     }
 
 
@@ -485,8 +481,8 @@ class AppointmentRepository(
                 RatingResponse(
                     rate = rs.getInt("rate"),
                     description = rs.getString("description"),
-                    userProfilePicture = rs.getString("profile_picture"),
-                    userName = rs.getString("name"),
+                    userProfilePicture = if (!rs.getBoolean("anonymous"))rs.getString("profile_picture") else null,
+                    userName = if (!rs.getBoolean("anonymous"))rs.getString("name") else "Anonymous",
                     createdAt = rs.getTimestamp("created_at"),
                 )
             },
@@ -509,7 +505,7 @@ class AppointmentRepository(
             "DAY_OFF",
             request.startTime,
             request.endTime,
-        )!!
+        )
     }
 
 

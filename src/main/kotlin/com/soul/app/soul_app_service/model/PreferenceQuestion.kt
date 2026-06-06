@@ -4,5 +4,7 @@ data class PreferenceQuestion(
     val id: Int,
     val code: String,
     val description: String,
-    val weight: Int
+    val weight: Int,
+    val required :Boolean,
+    val multipleAnswer :Boolean,
 )

@@ -27,7 +27,9 @@ class PreferenceRepository(
                     id = rs.getInt("id"),
                     code = rs.getString("code"),
                     description = rs.getString("description"),
-                    weight = rs.getInt("weight")
+                    weight = rs.getInt("weight"),
+                    required = rs.getBoolean("required"),
+                    multipleAnswer = rs.getBoolean("multiple_answer"),
                 )
             },
             target
@@ -162,17 +164,18 @@ class PreferenceRepository(
             FROM psychologist_profile WHERE id = ?
             """.trimIndent(),
             Int::class.java, psychologistId
-        ) ?: 0
+        )
     }
 
      fun getPsychologistFields(psychologistId: Int): List<String> {
         return jdbcTemplate.query(
             """
-            SELECT f.field_name FROM psychologist_field pf
-            JOIN field f ON f.id = pf.field_id
+            SELECT f.code 
+            FROM psychologist_field pf 
+            JOIN field f ON f.id = pf.field_id 
             WHERE pf.psychologist_id = ?
             """.trimIndent(),
-            { rs, _ -> rs.getString("field_name") },
+            { rs, _ -> rs.getString("code") },
             psychologistId
         )
     }

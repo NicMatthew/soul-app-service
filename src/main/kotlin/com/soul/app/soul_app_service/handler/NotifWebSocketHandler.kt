@@ -1,9 +1,14 @@
 package com.soul.app.soul_app_service.handler
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.soul.app.soul_app_service.dto.ChannelType
+import com.soul.app.soul_app_service.dto.chat.ChatSendMessageRequest
+import com.soul.app.soul_app_service.dto.notif.NotificationReadResponse
 import com.soul.app.soul_app_service.model.Notification
 import com.soul.app.soul_app_service.registry.OnlineUserRegistry
+import com.soul.app.soul_app_service.repository.UserRepository
+import com.soul.app.soul_app_service.service.NotificationService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.CloseStatus
@@ -14,8 +19,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler
 @Component
 class NotifWebSocketHandler(
     private val objectMapper: ObjectMapper,
-    private val onlineUserRegistry: OnlineUserRegistry
-) : TextWebSocketHandler() {
+    private val onlineUserRegistry: OnlineUserRegistry,
+    private val userRepository: UserRepository,
+) : TextWebSocketHandler(){
 
     private val log = LoggerFactory.getLogger(NotifWebSocketHandler::class.java)
 
@@ -35,6 +41,22 @@ class NotifWebSocketHandler(
         val userId = session.attributes["userId"] as Int
         onlineUserRegistry.remove(userId,session)
         log.info("Notif WS disconnected | userId={} | sessionId={} | status={}", userId, session.id, status)
+    }
+    override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
+        val req = runCatching {
+            objectMapper.readValue(message.payload, NotificationReadResponse::class.java)
+        }.getOrElse {
+            log.error("Failed to parse | sessionId={} | error={}", session.id, it.message)
+            return
+        }
+
+        if (req.isRead){
+            handleReadAll(session)
+        }
+    }
+    private fun handleReadAll(session: WebSocketSession) {
+        val userId = session.attributes["userId"] as? Int ?: return
+        userRepository.markUserNotificationAllRead(userId)
     }
 
     override fun handleTransportError(session: WebSocketSession, exception: Throwable) {

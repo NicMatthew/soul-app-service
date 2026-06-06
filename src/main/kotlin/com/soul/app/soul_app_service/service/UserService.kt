@@ -7,8 +7,7 @@ import com.soul.app.soul_app_service.dto.response.GetUserAppointmentDetailRespon
 import com.soul.app.soul_app_service.model.Notification
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.repository.AppointmentRepository
-import com.soul.app.soul_app_service.repository.PaymentRepository
-import com.soul.app.soul_app_service.repository.PsychologyRepository
+
 import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Service
 
@@ -80,6 +79,9 @@ class UserService(
 
     fun getUserNotifications(userId: Int): List<Notification> {
         return userRepository.getUserNotifications(userId)
+    }
+    fun clearNotification(userId: Int) {
+        userRepository.clearNotification(userId)
     }
 
 

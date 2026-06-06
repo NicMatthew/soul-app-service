@@ -10,8 +10,6 @@ data class SignUpPsychologyRequest(
     val dob: Date,
     val gender: String,
     val religion: String,
-
-
     val alumnus : String,
     val sipp: String,
     val careerStartDate: Date,

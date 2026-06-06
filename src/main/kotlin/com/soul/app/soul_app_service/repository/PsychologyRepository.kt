@@ -26,7 +26,7 @@ class PsychologyRepository(
         val sql = """
             INSERT INTO psychologist_profile
             (user_id, alumnus, sipp, career_start_date, price_per_session, education, clinic, description, religion)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             RETURNING id
         """.trimIndent()
 
@@ -85,7 +85,7 @@ class PsychologyRepository(
             Int::class.java,
             psychologyId,
             fieldId
-        )!!
+        )
     }
 
     fun getPsychologyProfilebyUserId(userId: Int): PsychologyProfile? {
@@ -413,13 +413,11 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
 
         val params = mutableListOf<Any>("psycholog")
 
-        // 🔍 search
         if (!search.isNullOrBlank()) {
             sql.append(" AND u.name ILIKE ?")
             params.add("%$search%")
         }
 
-        // 🔥 dynamic ORDER BY
         val orderClauses = mutableListOf<String>()
 
         if (!rate.isNullOrBlank()) {
@@ -434,7 +432,6 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
             orderClauses.add("p.career_start_date ${if (experience.equals("desc", true)) "DESC" else "ASC"}")
         }
 
-        // default sorting (biar tidak random)
         if (orderClauses.isEmpty()) {
             orderClauses.add("p.rating DESC")
         }
@@ -509,8 +506,8 @@ fun deleteAllPsychologyAvailability(psychologyId: Int): Int {
                 RatingResponse(
                     rate = rs.getInt("rate"),
                     description = rs.getString("description"),
-                    userProfilePicture = rs.getString("profile_picture"),
-                    userName = rs.getString("name"),
+                    userProfilePicture = if (!rs.getBoolean("anonymous"))rs.getString("profile_picture") else null,
+                    userName = if (!rs.getBoolean("anonymous"))rs.getString("name") else "Anonymous",
                     createdAt = rs.getTimestamp("created_at"),
                 )
             },

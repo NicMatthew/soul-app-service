@@ -1,5 +1,6 @@
 package com.soul.app.soul_app_service.repository
 
+import com.soul.app.soul_app_service.model.Appointment
 import com.soul.app.soul_app_service.model.Conversation
 import com.soul.app.soul_app_service.model.Message
 import org.springframework.jdbc.core.JdbcTemplate
@@ -13,9 +14,6 @@ class ChatRepository(
     private val jdbcTemplate: JdbcTemplate
 ) {
 
-    // =========================
-    // CONVERSATIONS
-    // =========================
 
     fun getConversationById(conversationId: Int): Conversation? {
         val sql = """
@@ -71,6 +69,34 @@ class ChatRepository(
         ).firstOrNull()
     }
 
+    fun getAppointmentByConversationId(conversationId: Int): Appointment? {
+        val sql = StringBuilder( """
+        SELECT *
+        FROM appointments a left join conversations c on c.appointment_id = a.id
+        WHERE c.id = ?
+        """)
+
+
+        return jdbcTemplate.query(
+            sql.toString(),
+            { rs, _ ->
+                Appointment(
+                    id = rs.getInt("id"),
+                    clientUserId = rs.getInt("client_user_id"),
+                    psychologyId = rs.getInt("psychologist_id"),
+                    scheduledAt = rs.getString("scheduled_at"),
+                    startTime = rs.getString("start_time"),
+                    endTime = rs.getString("end_time"),
+                    status = rs.getString("status"),
+                    medicalNotes = rs.getString("medical_notes"),
+                    finalDiagnose = rs.getString("final_diagnose"),
+                    date = rs.getDate("date"),
+                )
+            },
+            conversationId
+        ).firstOrNull()
+    }
+
     fun createMessage(message: Message): Int {
         val sql = """
             INSERT INTO messages
@@ -86,7 +112,21 @@ class ChatRepository(
             message.senderUserId,
             message.messageText,
             message.sentAt
-        )!!
+        )
+    }
+    fun createConversation(appointmentId : Int): Int {
+        val sql = """
+            INSERT INTO conversations
+            (appointment_id, created_at)
+            VALUES (?, NOW())
+            RETURNING id
+        """.trimIndent()
+
+        return jdbcTemplate.queryForObject(
+            sql,
+            Int::class.java,
+            appointmentId
+        )
     }
 
     fun getMessagesByConversationId(conversationId: Int): List<Message> {
@@ -111,6 +151,8 @@ class ChatRepository(
             conversationId
         )
     }
+
+
     fun markMessagesAsRead(conversationId: Int, readerUserId: Int): Int {
         val sql = """
         UPDATE messages 
@@ -129,7 +171,7 @@ class ChatRepository(
           AND sender_user_id != ?
           AND is_read = FALSE
     """
-        return jdbcTemplate.queryForObject(sql, Int::class.java, conversationId, userId) ?: 0
+        return jdbcTemplate.queryForObject(sql, Int::class.java, conversationId, userId)
     }
     fun getConversationsByUserId(userId: Int): List<Conversation> {
         val sql = """

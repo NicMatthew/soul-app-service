@@ -35,6 +35,8 @@ class PreferenceService(
             PreferenceQuestionResponse(
                 id = question.id,
                 question = question.description,
+                required = question.required,
+                multipleAnswer = question.multipleAnswer,
                 options = options
             )
         }
@@ -66,6 +68,8 @@ class PreferenceService(
             PreferenceQuestionResponse(
                 id = question.id,
                 question = question.description,
+                required = question.required,
+                multipleAnswer = question.multipleAnswer,
                 options = options
             )
         }
@@ -73,7 +77,7 @@ class PreferenceService(
     fun getRecommendations(userId: Int): List<RecommendationResultResponse> {
         val recommendation = preferenceRepository.getUserRecommendation(userId)
         if (!recommendation.isNullOrEmpty()) {
-            var response = mutableListOf<RecommendationResultResponse>()
+            val response = mutableListOf<RecommendationResultResponse>()
             recommendation.forEach { recommendation ->
                 val base = psychologyRepository.getPsychologyBaseByProfileId(recommendation.psychologistId)!!
                 response.add(RecommendationResultResponse(
@@ -104,121 +108,148 @@ class PreferenceService(
         val psychologists = psychologyRepository.getAllPsychologyProfileId()
         if (psychologists.isEmpty()) return emptyList()
 
-        // 3. Hitung skor tiap psikolog
         val scores = mutableMapOf<Int, Pair<Double, String>>()
         psychologists.forEach { psychologistId ->
-            val result = calculateScore(userId, psychologistId, userAnswers)
+            val result = calculateScore( psychologistId, userAnswers)
             scores[psychologistId] = Pair(result.first, result.second)
         }
 
-        val maxScore = scores.values.maxOfOrNull { it.first } ?: 1.0
-        val normalizedScores = scores.mapValues { (_, value) ->
-            Pair((value.first / maxScore) * 100, value.second)
-        }
 
-        preferenceRepository.saveRecommendation(userId, normalizedScores)
-        return getRecommendations(userId)!!
+        preferenceRepository.saveRecommendation(userId, scores)
+        return getRecommendations(userId)
     }
 
     private fun calculateScore(
-        userId: Int,
         psychologistId: Int,
         userAnswers: List<UserAnswer>
     ): Pair<Double, String> {
+
         var totalScore = 0.0
-        val matchedReasons = mutableListOf<String>()
+        var maxScore = 0.0
+
+        val matchedReasons = mutableSetOf<String>()
+
+        val psychGender =
+            preferenceRepository.getPsychologistGender(psychologistId)?.uppercase()
+
+        val psychReligion =
+            preferenceRepository.getPsychologistReligion(psychologistId)
+
+        val psychExperience =
+            preferenceRepository.getPsychologistExperienceYears(psychologistId)
+
+        val psychFields =
+            preferenceRepository.getPsychologistFields(psychologistId)
+                .map { it.uppercase() }
+                .toSet()
+
+        val psychLgbt =
+            preferenceRepository.getPsychologistPreferenceAnswer(
+                psychologistId,
+                "psychologist_lgbt"
+            )
+
+        val psychMedical =
+            preferenceRepository.getPsychologistPreferenceAnswers(
+                psychologistId,
+                "psychologist_medical"
+            ).toSet()
+
+        val psychSeverity =
+            preferenceRepository.getPsychologistPreferenceAnswer(
+                psychologistId,
+                "psychologist_severity"
+            )
 
         userAnswers.forEach { answer ->
+
+            val score = answer.questionWeight * answer.optionWeight
+
+            if (answer.optionCode != "NO_PREFERENCE") {
+                maxScore += score
+            }
+
             when (answer.questionCode) {
-
-                // Match: gender
                 "psychologist_gender" -> {
-                    val psychGender = preferenceRepository.getPsychologistGender(psychologistId)
-                    if (answer.optionCode == "NO_PREFERENCE" ||
-                        psychGender?.uppercase() == answer.optionCode.uppercase()) {
-                        totalScore += answer.questionWeight * answer.optionWeight
-                        if (answer.optionCode != "NO_PREFERENCE")
-                            matchedReasons.add("Gender sesuai preferensi")
+                    if (answer.optionCode != "NO_PREFERENCE" && psychGender == answer.optionCode.uppercase()
+                    ) {
+                        totalScore += score
+                        matchedReasons.add("Gender sesuai preferensi")
                     }
                 }
-
-                // Match: religion
                 "religion_preference" -> {
-                    val psychReligion = preferenceRepository.getPsychologistReligion(psychologistId)
-                    if (answer.optionCode == "NO_PREFERENCE" ||
-                        psychReligion == answer.optionCode) {
-                        totalScore += answer.questionWeight * answer.optionWeight
-                        if (answer.optionCode != "NO_PREFERENCE")
-                            matchedReasons.add("Agama sesuai preferensi")
+                    if (answer.optionCode != "NO_PREFERENCE" && psychReligion == answer.optionCode) {
+                        totalScore += score
+                        matchedReasons.add("Agama sesuai preferensi")
                     }
                 }
-
-                // Match: experience (career_start_date)
                 "experience_preference" -> {
-                    val yearsExp = preferenceRepository.getPsychologistExperienceYears(psychologistId)
+
                     val match = when (answer.optionCode) {
-                        "EXP_1_3"       -> yearsExp in 1..3
-                        "EXP_3_5"       -> yearsExp in 3..5
-                        "EXP_5_PLUS"    -> yearsExp > 5
-                        "NO_PREFERENCE" -> true
+                        "EXP_1_3" -> psychExperience in 1..3
+                        "EXP_3_5" -> psychExperience in 3..5
+                        "EXP_5_PLUS" -> psychExperience > 5
                         else -> false
                     }
+
                     if (match) {
-                        totalScore += answer.questionWeight * answer.optionWeight
-                        if (answer.optionCode != "NO_PREFERENCE")
-                            matchedReasons.add("Pengalaman sesuai preferensi")
+                        totalScore += score
+                        matchedReasons.add("Pengalaman sesuai preferensi")
                     }
                 }
 
-                // Match: problem_area → field psikolog
                 "problem_area" -> {
-                    val psychFields = preferenceRepository.getPsychologistFields(psychologistId)
-                    if (psychFields.any { it.uppercase() == answer.optionCode.uppercase() }) {
-                        totalScore += answer.questionWeight * answer.optionWeight
+                    if (psychFields.contains(answer.optionCode)) {
+                        totalScore += score
                         matchedReasons.add("Spesialisasi sesuai masalah")
                     }
                 }
-
-                // Match: lgbt
                 "client_lgbt" -> {
-                    val psychLgbt = preferenceRepository.getPsychologistPreferenceAnswer(psychologistId, "psychologist_lgbt")
-                    if (answer.optionCode == "NO_PREFERENCE" || answer.optionCode == "NO") {
-                        totalScore += answer.questionWeight * answer.optionWeight
-                    } else if (answer.optionCode == "YES" && psychLgbt == "YES") {
-                        totalScore += answer.questionWeight * answer.optionWeight
+                    if (answer.optionCode == "YES" && psychLgbt == "YES") {
+                        totalScore += score
                         matchedReasons.add("Psikolog terbuka terhadap LGBT")
                     }
                 }
 
-                // Match: medical_condition
                 "medical_condition" -> {
-                    if (answer.optionCode == "NONE") {
-                        totalScore += answer.questionWeight * answer.optionWeight
-                    } else {
-                        val psychMedical = preferenceRepository.getPsychologistPreferenceAnswers(psychologistId, "psychologist_medical")
-                        if (psychMedical.contains(answer.optionCode)) {
-                            totalScore += answer.questionWeight * answer.optionWeight
-                            matchedReasons.add("Psikolog bisa menangani kondisi medis kamu")
-                        }
+
+                    if (answer.optionCode != "NONE" && psychMedical.contains(answer.optionCode)) {
+                        totalScore += score
+                        matchedReasons.add("Psikolog dapat menangani kondisi medis")
                     }
                 }
 
                 "severity_level" -> {
-                    val psychSeverity = preferenceRepository.getPsychologistPreferenceAnswer(psychologistId, "psychologist_severity")
+
                     val match = when (answer.optionCode) {
-                        "MILD", "MODERATE" -> true // semua psikolog bisa handle
+                        "MILD" -> psychSeverity == "NO"
                         "SEVERE" -> psychSeverity == "YES"
                         else -> false
                     }
+
                     if (match) {
-                        totalScore += answer.questionWeight * answer.optionWeight
-                        if (answer.optionCode == "SEVERE" && psychSeverity == "YES")
-                            matchedReasons.add("Psikolog berpengalaman menangani kasus berat")
+                        totalScore += score
+
+                        if (
+                            answer.optionCode == "SEVERE" &&
+                            psychSeverity == "YES"
+                        ) {
+                            matchedReasons.add("Berpengalaman menangani kasus berat")
+                        }
                     }
                 }
             }
         }
 
-        return Pair(totalScore, matchedReasons.joinToString(", "))
+        val normalizedScore =
+            if (maxScore > 0)
+                (totalScore / maxScore) * 100
+            else
+                0.0
+
+        return Pair(
+            normalizedScore,
+            matchedReasons.joinToString(", ")
+        )
     }
 }

@@ -152,6 +152,14 @@ class UserController (
         val userId = authentication.principal as Int
         return ResponseEntity.ok(userService.getUserNotifications(userId))
     }
+    @DeleteMapping("/notification/clear")
+    fun clearNotifications(): ResponseEntity<String> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userId = authentication.principal as Int
+        userService.clearNotification(userId)
+        return ResponseEntity.ok("Notification Cleared")
+
+    }
 
 
 }

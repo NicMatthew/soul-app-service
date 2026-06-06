@@ -1,6 +1,7 @@
 package com.soul.app.soul_app_service.controller
 
 import com.soul.app.soul_app_service.dto.chat.ChatMessageResponse
+import com.soul.app.soul_app_service.dto.response.ConversationDetailResponse
 import com.soul.app.soul_app_service.dto.response.GetAllConversationResponse
 import com.soul.app.soul_app_service.model.Psychology
 import com.soul.app.soul_app_service.service.ChatService
@@ -35,7 +36,7 @@ class ChatController(private val chatService: ChatService) {
     )
     fun getConversationMessages(
         @PathVariable conversationId: Int
-    ): ResponseEntity<List<ChatMessageResponse>> {
+    ): ResponseEntity<ConversationDetailResponse> {
         val authentication = SecurityContextHolder.getContext().authentication
         val userId = authentication.principal as Int
         return ResponseEntity.ok(chatService.getConversationMessages(conversationId, userId))

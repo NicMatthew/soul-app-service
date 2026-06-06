@@ -165,7 +165,7 @@ class UserRepository(
             user.profile_picture,
             user.anonymous,
             user.id
-        )!!
+        )
     }
 
     fun updateUserOnlineStatus(userId: Int,onlineStatus: Boolean): Int {
@@ -191,7 +191,7 @@ class UserRepository(
             sql,
             Int::class.java,
             id
-        )!!
+        )
     }
 
     fun insertNotification(notification: Notification):Int {
@@ -209,6 +209,20 @@ class UserRepository(
             notification.title,
             notification.description,
             notification.redirectUrl,
+        )
+    }
+
+    fun markUserNotificationAllRead(userId: Int): Int {
+        val sql = """
+            UPDATE notifications
+            SET is_read = ?
+            WHERE user_id = ?
+        """.trimIndent()
+
+        return jdbcTemplate.update(
+            sql,
+            true,
+            userId
         )
     }
 
@@ -232,8 +246,15 @@ class UserRepository(
             userId
         )
     }
+    fun clearNotification(userId: Int): Int {
+        val sql = "DELETE FROM notifications WHERE user_id = ?"
 
-
+        return jdbcTemplate.update(
+            sql,
+            userId
+        )
+    }
+    
 
     private fun userRowMapper(): RowMapper<User> =
         RowMapper { rs, _ ->

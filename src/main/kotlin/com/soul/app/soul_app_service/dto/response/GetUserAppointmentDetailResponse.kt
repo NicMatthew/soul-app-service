@@ -7,5 +7,6 @@ data class GetUserAppointmentDetailResponse(
     val appointment: Appointment,
     val payment : Payment,
     val psychologName : String,
+    val psychologProfilePicture : String?,
     val rating : RatingResponse? = null
 )

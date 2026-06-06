@@ -21,10 +21,13 @@ import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.sql.Date
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.collections.emptyList
 
@@ -38,6 +41,7 @@ class AppointmentService(
     private val psychologyRepository: PsychologyRepository,
     private val notificationService: NotificationService,
 ) {
+    @Transactional
     fun createAppointment(
         userId: Int,
         request: CreateAppointmentRequest
@@ -75,28 +79,34 @@ class AppointmentService(
             request = request,
             status = AppointmentStatus.WAITING_PAYMENT.name,
         )
-        appointmentRepository.createAppointmentSlot(
-            AppointmentSlot(
-                id = -99,
-                psychologyId = request.psychologyId,
-                date = request.date,
-                startTime = request.startTime,
-                endTime = request.endTime,
-                status = "BOOKED",
-                appointmentId = appointmentId,
+
+        if(paymentService.createPayment(appointmentId,userId)){
+            appointmentRepository.createAppointmentSlot(
+                AppointmentSlot(
+                    id = -99,
+                    psychologyId = request.psychologyId,
+                    date = request.date,
+                    startTime = request.startTime,
+                    endTime = request.endTime,
+                    status = "BOOKED",
+                    appointmentId = appointmentId,
+                )
             )
-        )
-        paymentService.createPayment(appointmentId,userId)
-        val psychologistUserId = appointmentRepository.getPsychologistUserIdByAppointmentId(appointmentId)!!
-        val psychologistUser = userRepository.getUserById(psychologistUserId)!!
-        notificationService.sendNotification(userId, Notification(
-            userId = userId,
-            type = NotificationType.PAYMENT_REMINDER.name  ,
-            title = "Pengingat Pembayaran",
-            description = " Pembayaran untuk Jadwal bersama ${psychologistUser.name} di ${request.date}",
-            redirectUrl = "https://soulapp.my.id/payment/${appointmentId}",
-        ))
-        return appointmentRepository.getAppointmentById(appointmentId)!!
+            val psychologistUserId = appointmentRepository.getPsychologistUserIdByAppointmentId(appointmentId)!!
+            val psychologistUser = userRepository.getUserById(psychologistUserId)!!
+            notificationService.sendNotification(userId, Notification(
+                userId = userId,
+                type = NotificationType.PAYMENT_REMINDER.name  ,
+                title = "Pengingat Pembayaran",
+                description = " Pembayaran untuk Jadwal bersama ${psychologistUser.name} di ${request.date}",
+                redirectUrl = "https://soulapp.my.id/payment/${appointmentId}",
+            ))
+            return appointmentRepository.getAppointmentById(appointmentId)!!
+        }else{
+            appointmentRepository.updateAppointmentStatus(appointmentId, AppointmentStatus.CANCELLED.name)
+            paymentRepository.updatePaymentStatusByAppointmentId(appointmentId, PaymentStatus.FAILED.name)
+            throw RuntimeException("Error creating payment for appointment ${appointmentId}")
+        }
     }
     fun getAvailableSlots(
         psychologistId: Int,
@@ -138,7 +148,6 @@ class AppointmentService(
                 val slotStart = cursor
                 val slotEnd = cursor.plusHours(1)
 
-                // 🔥 no parsing di dalam loop
                 val isBooked = appointments.any { (apptStart, apptEnd) ->
                     slotStart < apptEnd && slotEnd > apptStart
                 }
@@ -162,13 +171,11 @@ class AppointmentService(
         userId: Int
     ): Map<LocalDate, List<TimeSlotWithStatus>> {
 
-        val log = LoggerFactory.getLogger("AvailabilityTrace")
-
         val psychology = psychologyService.getPsychologyDetailByUserId(userId)
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
-
-        val today = LocalDate.now()
-        val now = LocalDateTime.now()
+        val zone = ZoneId.of("Asia/Jakarta")
+        val today = LocalDate.now(zone)
+        val now = ZonedDateTime.now(zone)
 
         val availabilities =
             appointmentRepository.getPsychologyAvailability(psychology!!.psychologyProfile.id)
@@ -186,20 +193,20 @@ class AppointmentService(
             it.date.toLocalDate()
         }.mapValues { entry ->
             entry.value.map {
-                val start = LocalTime.parse(it.startTime, formatter)
-                val end = LocalTime.parse(it.endTime, formatter)
-                start to end
+                mapOf(
+                    "start" to LocalTime.parse(it.startTime, formatter),
+                    "end" to LocalTime.parse(it.endTime, formatter),
+                    "status" to it.status
+                )
             }
         }
-
         val result = linkedMapOf<LocalDate, List<TimeSlotWithStatus>>()
 
         for (i in 0..59) {
             val date = today.plusDays(i.toLong())
             val dayOfWeek = date.dayOfWeek.value
 
-            val dailyAvailabilities =
-                availabilities.filter { it.dayOfWeek == dayOfWeek }
+            val dailyAvailabilities = availabilities.filter { it.dayOfWeek == dayOfWeek }
 
             if (dailyAvailabilities.isEmpty()) {
                 result[date] = emptyList()
@@ -207,37 +214,50 @@ class AppointmentService(
             }
 
             val dayAppointments = appointmentMap[date] ?: emptyList()
-
             val slots = mutableListOf<TimeSlotWithStatus>()
 
             dailyAvailabilities.forEach { availability ->
+                val slotStart = LocalTime.parse(availability.startTime, formatter)
+                val slotEnd = LocalTime.parse(availability.endTime, formatter)
 
-                var cursor = LocalTime.parse(availability.startTime, formatter)
-                val availabilityEnd = LocalTime.parse(availability.endTime, formatter)
+                val durationHours = if (slotEnd <= slotStart) {
+                    (24 - slotStart.hour) + slotEnd.hour
+                } else {
+                    slotEnd.hour - slotStart.hour
+                }
 
-                while (cursor.plusHours(1) <= availabilityEnd) {
+                if (durationHours <= 0) return@forEach
 
-                    val slotStart = cursor
-                    val slotEnd = cursor.plusHours(1)
+                var cursor = slotStart
 
-                    val slotEndDT = LocalDateTime.of(date, slotEnd)
-                    val isPast = slotEndDT.isBefore(now)
+                repeat(durationHours) {
+                    val currentStart = cursor
+                    val currentEnd = cursor.plusHours(1)
 
-                    // 🔥 lebih ringan (no parsing di sini)
-                    val isBooked = dayAppointments.any { (apptStart, apptEnd) ->
-                        slotStart < apptEnd && slotEnd > apptStart
+                    val startZoned = ZonedDateTime.of(date, currentStart, zone)
+                    val isPast = startZoned.isBefore(now)
+
+                    val bookedAppointment = dayAppointments.find {
+                        val apptStart = it["start"] as LocalTime
+                        val apptEnd = it["end"] as LocalTime
+
+                        currentStart < apptEnd &&
+                                currentEnd > apptStart
                     }
 
                     val status = when {
-                        isBooked -> "BOOKED"
-                        isPast -> "UNAVAILABLE"
-                        else -> "AVAILABLE"
+                        bookedAppointment != null -> { if (bookedAppointment["status"] as String == "DAY_OFF")"UNAVAILABLE" else {"BOOKED"} }
+                        isPast ->
+                            "UNAVAILABLE"
+
+                        else ->
+                            "AVAILABLE"
                     }
 
                     slots.add(
                         TimeSlotWithStatus(
-                            startTime = slotStart.format(formatter),
-                            endTime = slotEnd.format(formatter),
+                            startTime = currentStart.format(formatter),
+                            endTime = currentEnd.format(formatter),
                             status = status
                         )
                     )
@@ -270,18 +290,15 @@ class AppointmentService(
         val appointments = appointmentRepository.getAppointmentsByUserId(userId, null, null, null)
         if (appointments.isNullOrEmpty()) return
 
-        val now = LocalDateTime.now()
+        val zone = ZoneId.of("Asia/Jakarta")
+        val now = LocalDateTime.now(zone)
 
         appointments.forEach { appointment ->
-
-
             val localDate = appointment!!.date.toLocalDate()
-
             val startTime = LocalTime.parse(appointment.startTime)
             val endTime = LocalTime.parse(appointment.endTime)
 
             val startDateTime = LocalDateTime.of(localDate, startTime)
-
             val endDateTime = if (endTime.isBefore(startTime)) {
                 LocalDateTime.of(localDate.plusDays(1), endTime)
             } else {
@@ -296,11 +313,10 @@ class AppointmentService(
                             AppointmentStatus.ONGOING.name
                         )
                     }
-
                 }
-
                 now.isAfter(endDateTime) -> {
-                    if (appointment.status == AppointmentStatus.ONGOING.name || appointment.status ==AppointmentStatus.PAID.name) {
+                    if (appointment.status == AppointmentStatus.ONGOING.name ||
+                        appointment.status == AppointmentStatus.PAID.name) {
                         appointmentRepository.updateAppointmentStatus(
                             appointment.id,
                             AppointmentStatus.FINISHED.name
@@ -317,6 +333,7 @@ class AppointmentService(
             response.add(GetUserAppointmentResponse(
                 appointment!!,
                 userRepository.getUserByPsychologyId(appointment.psychologyId)!!.name,
+                userRepository.getUserByPsychologyId(appointment.psychologyId)!!.profile_picture,
                 appointmentRepository.getRatingAppointmentByUserIdAndAppointmentId(userId,appointment.id)
             ))
         }
@@ -329,6 +346,7 @@ class AppointmentService(
             appointment = appointment,
             payment = payment,
             userRepository.getUserByPsychologyId(appointment.psychologyId)!!.name,
+            userRepository.getUserByPsychologyId(appointment.psychologyId)!!.profile_picture,
             rating = appointmentRepository.getRatingAppointmentByAppointmentId(appointmentId)
         )
     }

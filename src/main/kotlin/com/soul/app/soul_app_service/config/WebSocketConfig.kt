@@ -21,7 +21,7 @@ class WebSocketConfig(
 ) : WebSocketConfigurer {
 
     override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
-        registry.addHandler(chatHandler, "/ws")
+        registry.addHandler(chatHandler, "/ws/chat")
             .addInterceptors(jwtHandshakeInterceptor)
             .setAllowedOriginPatterns("*")
 

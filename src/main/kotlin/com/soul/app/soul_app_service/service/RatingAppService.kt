@@ -10,12 +10,13 @@ class RatingAppService(private val userRepository: UserRepository) {
         val rating = userRepository.getAllRatingApp()
         val response = mutableListOf<RatingAppResponse>()
         rating.forEach {
+            val user = userRepository.getUserById(it.userId)!!
             response.add(
                 RatingAppResponse(
                     rate = it.rate,
                     description = it.description,
-                    userName = userRepository.getUserById(it.userId)?.name!!,
-                    userProfile = userRepository.getUserById(it.userId)?.profile_picture,
+                    userName = if(!user.anonymous) user.name else "Anonymous",
+                    userProfile = if(!user.anonymous) user.profile_picture else null,
                 )
             )
         }

@@ -10,8 +10,6 @@ import com.soul.app.soul_app_service.model.PsychologyProfile
 import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.repository.PsychologyRepository
 import com.soul.app.soul_app_service.repository.UserRepository
-import org.springframework.boot.autoconfigure.web.servlet.error.DefaultErrorViewResolver
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
@@ -30,7 +28,7 @@ class AdminService(
             role = "psycholog",
             username = signUpPsychologyRequest.username,
             password_hash = "password",
-            anonymous = false //todo generate password
+            anonymous = false
         ))
         val profileId = psychologyRepository.savePsychologyProfile(PsychologyProfile(
             id = -99,
@@ -65,17 +63,18 @@ class AdminService(
 
     fun deletePsychologyAccount(userId: Int): String {
         userRepository.deleteUser(userId)
-        return "Psychology with id ${userId} deleted successfully"
+        return "Psychology with id $userId deleted successfully"
     }
 
     fun addCertificate(certificate: AddPsychologyCertificateRequest): PsychologyCertificate {
+        certificate.psychologyId = psychologyRepository.getPsychologyProfileIdFromUserId(certificate.psychologyId)!!
         val id = psychologyRepository.savePsychologyCertificate(certificate)
 
         return psychologyRepository.getPsychologyCertificatesByPsychologyCertificateId(id)!!
     }
     fun deleteCertificate(certificate: DeletePsychologyCertificateRequest): String {
 
-        psychologyRepository.deletePsychologyCertificate(certificate.psychologyId, certificate.certificateId)
+        psychologyRepository.deletePsychologyCertificate(psychologyRepository.getPsychologyProfileIdFromUserId(certificate.psychologyId)!!, certificate.certificateId)
         return "Psychology deleted successfully"
     }
 }
