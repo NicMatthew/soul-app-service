@@ -162,9 +162,7 @@ class PreferenceService(
             )
 
         userAnswers.forEach { answer ->
-
             val score = answer.questionWeight * answer.optionWeight
-
             if (answer.optionCode != "NO_PREFERENCE") {
                 maxScore += score
             }
@@ -184,20 +182,17 @@ class PreferenceService(
                     }
                 }
                 "experience_preference" -> {
-
                     val match = when (answer.optionCode) {
-                        "EXP_1_3" -> psychExperience in 1..3
-                        "EXP_3_5" -> psychExperience in 3..5
-                        "EXP_5_PLUS" -> psychExperience > 5
+                        "EXP_1_3" -> psychExperience >= 1
+                        "EXP_3_5" -> psychExperience >= 3
+                        "EXP_5_PLUS" -> psychExperience >= 5
                         else -> false
                     }
-
                     if (match) {
                         totalScore += score
                         matchedReasons.add("Pengalaman sesuai preferensi")
                     }
                 }
-
                 "problem_area" -> {
                     if (psychFields.contains(answer.optionCode)) {
                         totalScore += score
@@ -210,9 +205,7 @@ class PreferenceService(
                         matchedReasons.add("Psikolog terbuka terhadap LGBT")
                     }
                 }
-
                 "medical_condition" -> {
-
                     if (answer.optionCode != "NONE" && psychMedical.contains(answer.optionCode)) {
                         totalScore += score
                         matchedReasons.add("Psikolog dapat menangani kondisi medis")
