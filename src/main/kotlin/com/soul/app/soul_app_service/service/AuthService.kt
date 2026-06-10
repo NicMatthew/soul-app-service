@@ -6,18 +6,20 @@ import com.soul.app.soul_app_service.model.User
 import com.soul.app.soul_app_service.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.slf4j.LoggerFactory
+import org.springframework.security.crypto.password.PasswordEncoder
 
 @Service
 class AuthService(
     private val userRepository: UserRepository,
     private val jwtService: JwtService,
+    private val passwordEncoder: PasswordEncoder
     ) {
     private val logger = LoggerFactory.getLogger(AuthService::class.java)
 
     fun login(request: LoginRequest): String {
         val user = userRepository.getUserByEmail(request.email) ?: userRepository.getUserByUsername(request.email) ?: throw RuntimeException("Email atau username belum terdaftar")
 
-        if (user.password_hash == request.password) {
+        if (passwordEncoder.matches(request.password,user.password_hash)) {
             return jwtService.generateToken(user.id,user.role)
         } else {
             throw RuntimeException("Password Salah")
@@ -30,7 +32,7 @@ class AuthService(
             id = -99,
             name = request.name,
             email = request.email,
-            password_hash = request.password_hash,
+            password_hash = hashPassword(request.password_hash),
             username = request.username,
             phone = request.phone,
             role = "user",
@@ -41,5 +43,8 @@ class AuthService(
         val userId = userRepository.saveUser(user)
         return userRepository.getUserById(userId)!!
 
+    }
+    fun hashPassword(password: String): String {
+        return passwordEncoder.encode(password)
     }
 }
